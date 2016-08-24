@@ -32,9 +32,9 @@ def read_file(filename, field_list):
         for i, row in enumerate(file_reader):
             if i == 0:
 
-                for j, item in enumerate(row):
-                    print(j, item)
-
+                # for j, item in enumerate(row):
+                #     print(j, item)
+                #
                 # first line of the file are fieldnames
                 for item in field_list:
                     field_index.append(row.index(item))
