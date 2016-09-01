@@ -1,11 +1,13 @@
 #!/usr/bin/python
 import csv
+import subprocess
 
 # Constants
 ## Path and File
-DEFAULT_PATH = '/Users/James/Desktop/Master_Project'
+DEFAULT_PATH = '/Users/James/Desktop/master_project'
 TEST_OUTPUT_FILE = DEFAULT_PATH + '/Data/test_output_file.csv'
 TRIAL_INPUT_DATA_FILE = DEFAULT_PATH + '/Data/data_set1_200.csv'
+TEST_R_SCRIPT_FILE = DEFAULT_PATH + '/research_scripts/test_r.r'
 
 ## Fields list
 FIELD_LIST = ['ID', 'WT', 'NUMSTOP', 'stop']
@@ -77,5 +79,9 @@ results = read_file(TRIAL_INPUT_DATA_FILE, FIELD_LIST)
 
 # write the file
 write_file(TEST_OUTPUT_FILE, results)
+
+
+subprocess.call(['Rscript --vanilla /Users/James/Desktop/master_project/research_scripts/test_r.r arg1 arg2 arg3'], shell=True)
+# subprocess.call("Rscript --vanilla {test_r_file} arg1 arg2 arg3".format(test_r_file=TEST_R_SCRIPT_FILE))
 
 
