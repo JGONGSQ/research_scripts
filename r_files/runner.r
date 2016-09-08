@@ -5,9 +5,11 @@ if (length(args)==0) {
   stop("At least one argument must be supplied", call.=FALSE)
 }
 
+
+source("../r_files/MDCEV.r");
+
 # define the input file path with argus
 input_file_path = args[1]
-sprintf("-----> path %s",input_file_path)
 num_of_outside_goods = strtoi(args[2])
 num_of_alternatives = strtoi(args[3])
 case_config = strtoi(args[4])
