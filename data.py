@@ -4,9 +4,6 @@
 import csv
 
 
-
-
-
 def read_file(filename, field_list, number_of_data=1000000):
     """
         Read the source file
@@ -31,7 +28,7 @@ def read_file(filename, field_list, number_of_data=1000000):
 
                 # for j, item in enumerate(row):
                 #     print(j, item)
-                #
+
                 # first line of the file are fieldnames
                 for item in field_list:
                     field_index.append(row.index(item))
@@ -39,8 +36,9 @@ def read_file(filename, field_list, number_of_data=1000000):
                 # append it to the results
                 results.append(field_list)
 
-            elif i >= number_of_data:
+            elif i > number_of_data:
                 break
+
             else:
                 # get the row trim with its index number
                 row_trim = map(row.__getitem__, field_index)
