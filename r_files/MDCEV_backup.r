@@ -30,12 +30,12 @@ rm(list = ls())
 print("Reading data")
 Data <<- read.table("/Users/James/Desktop/master_project/r_resources/Model_Estimation/az_hhld_vfc_cleaned_final.csv", header=T, sep=",") 
 
-print("Setting Variables")
 nobs <- 4262     #Number of observations in the dataset
 numout <<- 1     #Number of outside goods (i.e., always consumed goods)
 config <- 4      #Utility specification configuration, possible values: 1,4,5,6,7
 alp0to1 <<- 1    #1 if you want the Alpha values to be constrained between 0 and 1, 0 otherwise
                  #putting _alp0to1 = 1 is recommended practice and can provide estimation stability
+
 price <- 0       #1 if there is price variation across goods, 0 otherwise
 nc <<- 14        #Number of alternatives (in the universal choice set) including outside goods
 po <<- 7
