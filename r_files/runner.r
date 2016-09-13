@@ -1,3 +1,16 @@
+print("-----> Loading Packages <-------")
+library("utils")   # to use csv read function
+library("foreign") # to use spss read function
+library("pastecs") # to use descriptive statistics function
+library("mlogit")
+library("graphics")
+library("VGAM")
+library("ZeligChoice") # This package is for actual mlogit function
+library("aod")
+library("plotrix")
+rm(list = ls())
+print("-----> Finished Loading Packages <-----")
+
 # Get the args from the line
 args <- commandArgs(trailingOnly = TRUE)
 
@@ -77,7 +90,7 @@ ivm <<- c(ivmt1, ivmt2, ivmt3, ivmt4, ivmt5, ivmt6, ivmt7, ivmt8, ivmt9, ivmt10,
 ivd = generate_ivd_matrix(nc, ivsero, ivuno)
 ivg = generate_ivg_matrix(nc, ivsero, ivuno)
 
-nvarm = nc
+nvarm = length(ivmt1)
 nvardel = nc
 nvargam = nc
 
@@ -93,17 +106,7 @@ flagprcm = fp
 # print(ivmt)
 
 ###### DANGER PARTS #####
-print("-----> Loading Packages <-------")
-library("utils")   # to use csv read function
-library("foreign") # to use spss read function
-library("pastecs") # to use descriptive statistics function
-library("mlogit")
-library("graphics")
-library("VGAM")
-library("ZeligChoice") # This package is for actual mlogit function
-library("aod")
-library("plotrix")
-print("-----> Finished Loading Packages")
+
 
 hh <<- cbind(matrix(c(rep.int(0,numout)),ncol=numout), matrix(c(rep.int(1,(nc-numout))),ncol=nc-numout))
 
