@@ -1,4 +1,3 @@
-#!/usr/bin/python
 
 # python package
 import csv

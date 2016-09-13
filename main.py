@@ -1,11 +1,11 @@
 #!/usr/bin/python
 
 # Imports of python package
-from data import read_file, write_file
+from py_files.data import read_file, write_file
 import subprocess
 
 # All constants are import from settings file
-from settings import *
+from py_files.settings import *
 
 # This would be a variable for different case, but leave 14 for testing purpose
 local_number_of_alternatives = 14
@@ -18,8 +18,6 @@ results = read_file(INPUT_DATA_FILE, FIELD_LIST, NUMBER_OF_DATA_NEEDED)
 
 # write the file
 write_file(TEST_OUTPUT_FILE, results)
-
-
 
 
 subprocess.call(

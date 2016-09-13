@@ -6,7 +6,7 @@ if (length(args)==0) {
 }
 
 
-source("../r_files/MDCEV.r");
+source("r_files/MDCEV.r");
 
 # define the input file path with argus
 input_file_path = args[1]
@@ -46,6 +46,17 @@ sprintf('ivuno: %i, ivsero: %i, number of alternatives: %i, po: %i', ivuno, ivse
 if (po == 0 || ivuno ==0 || ivsero == 0 ){
   stop("One of the po, ivuno or ivsero is 0, please check your data table" ,call.=FALSE)
 }
+
+fp = fp_ind(ivuno, nc)
+# sprintf('fp: %i', fp)
+print(fp)
+
+# This variable will be modifyed later on
+# nvarm = length(ivtm1)
+
+nvardel = nc
+nvargam = nc
+
 
 
 
