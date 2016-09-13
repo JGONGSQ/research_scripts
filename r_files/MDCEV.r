@@ -1,4 +1,4 @@
-fp_ind <- function(index, nc) {
+fp_index <- function(index, nc) {
   # index: parameter, the index number
   # nc: parameter, the number of alternatives
   
@@ -13,48 +13,111 @@ fp_ind <- function(index, nc) {
   return (list);
 }
 
+f_index <- function(po, nc, index_of_outside_good){
 
-parameter_ind <- function(ivgt, ind, nc, sero, ncoeffs) {
-  
-  i <- 1;
-  while (i <= nc) {
-    j <- 1;
-    while (j <= ncoeffs[i]) {
-      if (i > ind) {
-        ivgt <- c(ivgt, sero);
-      }
-      if (i < ind) {
-        ivgt <- c(sero, ivgt);
-      }
-      j <- j+1;
+    list <- c()
+    i <- 1;
+
+    while(i <= nc){
+
+        if (i == 1){
+            list <- c(list, index_of_outside_good)
+        }
+        else {
+            list <- c(list, (po - 1 + i))
+        }
+        i = i + 1
     }
-    i <- i+1;
-  }
-  
-  return (ivgt);
+
+    return(list)
 }
 
-
-
-generate_ivdt_matrix <- function(list_index, nc, ivsero, ivuno){
+generate_ivdt_list <- function(index, nc, ivsero, ivuno){
   
+  # initial the list
   list <- c();
   i = 1;
   
   while (i <= nc) {
-    if (i == (list_index -1)){
+    if (i == index){
       list <- c(list, ivuno)
     }
     else {
       list <- c(list, ivsero)
     }
+    i = i + 1
   }
   
   return (list)
 }
 
+generate_ivd_matrix <- function(nc, ivsero, ivuno){
+
+    # initial the list
+    list <- c();
+    i = 1;
+
+    while(i <= nc) {
+        temp = generate_ivdt_list(i, nc, ivsero, ivuno)
+        list <- c(list, temp)
+        i = i + 1
+    }
+
+    return (list)
+}
 
 
+generate_ivgt_list <- function(index, nc, ivsero, ivuno){
+
+  # initial the list
+  list <- c();
+  i = 1;
+
+  while (i <= nc) {
+    if (i == index && i != 1){
+      list <- c(list, ivuno)
+    }
+    else {
+      list <- c(list, ivsero)
+    }
+    i = i + 1
+  }
+  return (list)
+}
+
+generate_ivg_matrix <- function(nc, ivsero, ivuno){
+
+    # initial the list
+    list <- c();
+    i = 1;
+
+    while(i <= nc) {
+        temp = generate_ivgt_list(i, nc, ivsero, ivuno)
+        list <- c(list, temp)
+        i = i + 1
+    }
+
+    return (list)
+}
+
+generate_ivmt_list <- function(){
+
+}
+
+
+generate_ivm_matrix <- function(nc, ivsero){
+
+    # initial the list
+    list <- c();
+    i = 1
+
+    while(i <= nc){
+        temp = generate_ivmt_list()
+        list <- c(list, temp)
+        i = i + 1
+    }
+    return(list)
+}
 
 
 
