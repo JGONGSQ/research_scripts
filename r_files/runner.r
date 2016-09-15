@@ -3,11 +3,19 @@ repos = "http://cran.rstudio.com/"
 list_of_packages = c("utils","foreign","pastecs","mlogit","graphics","VGAM","ZeligChoice","aod","plotrix")
 
 new_packages <- list_of_packages[!(list_of_packages %in% installed.packages()[,"Package"])]
-print(new_packages)
-
-if(length(new.packages)) {
+if(length(new_packages) > 0) {
 	install.packages(new_packages, repos="http://cran.rstudio.com/")
 }
+
+library("utils")   # to use csv read function
+library("foreign") # to use spss read function
+library("pastecs") # to use descriptive statistics function
+library("mlogit")
+library("graphics")
+library("VGAM")
+library("ZeligChoice") # This package is for actual mlogit function
+library("aod")
+library("plotrix")
 
 rm(list = ls())
 print("-----> Finished Loading Packages <-----")
