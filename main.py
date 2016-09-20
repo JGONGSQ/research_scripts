@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 # Imports of python package
-from py_files.data import read_file, write_file
+from py_files.data import read_file, write_file, read_file_by_city
 from datetime import datetime
 import subprocess
 
@@ -18,12 +18,13 @@ index_of_outside_goods = 167
 start_time = datetime.now()
 
 # read the file
-results = read_file(INPUT_DATA_FILE, FIELD_LIST, NUMBER_OF_DATA_NEEDED)
+# results = read_file(INPUT_DATA_FILE, FIELD_LIST, NUMBER_OF_DATA_NEEDED)
+results = read_file_by_city(INPUT_DATA_FILE, FIELD_LIST, NUMBER_OF_DATA_NEEDED)
 
 # write the file
 write_file(TEST_OUTPUT_FILE, results)
 
-
+""" Need it for later time, need to fix the data filter first
 command_line_output = subprocess.call(
     ['Rscript --vanilla {r_script_file} '
      '{input_file_path} {number_of_outside_goods} {number_of_alternatives} {case_config} {index_of_outside_goods}'.format(
@@ -37,3 +38,4 @@ command_line_output = subprocess.call(
     , shell=True)
 
 print(datetime.now() - start_time)
+"""

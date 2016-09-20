@@ -49,6 +49,36 @@ def read_file(filename, field_list, number_of_data=1000000):
     return results
 
 
+def read_file_by_city(filename, field_list, capital_city_code, number_of_data=1000000):
+    results = list()
+    field_index = list()
+
+    with open(filename, 'rb') as csvfile:
+        file_reader = csv.reader(csvfile, delimiter=',')
+
+        for i, row in enumerate(file_reader):
+            if i == 0:
+                if field_list == 'ALL':
+                    field_list = row
+
+                for item in field_list:
+                    field_index.append(row.index(item))
+
+                results.append(field_list)
+
+            elif i > number_of_data:
+                break
+
+            else:
+                # TODO: need to check the capital code and change the total number of days in each the city
+                row_trim = map(row.__getitem__, field_index)
+                results.append(row_trim)
+                # print(row_trim)
+                # break
+
+    return results
+
+
 def write_file(filename, results):
     """
         Write the results list to generate a new data file
@@ -67,6 +97,9 @@ def write_file(filename, results):
             writer.writerow(item)
 
     return True
+
+
+
 
 
 

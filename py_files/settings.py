@@ -16,4 +16,10 @@ NUMBER_OF_DATA_NEEDED = 200
 NUMBER_OF_OUTSIDE_GOODS = 1
 
 # Fields list
-FIELD_LIST = ['ID', 'WT', 'NUMSTOP', 'stop']
+# FIELD_LIST = ['id', 'uno', 'sero', 'WT', 'NUMSTOP', 'stop']
+FIELD_LIST = 'ALL'
+FIELD_LIST = ['id', 'uno', 'sero', 'NUMSTOP', 'HOMESLA', 'HOUSEHOLD', 'GENDER', '' 'stop']
+# ALTERNATIVE_FIELDS = []
+
+PREFIX = ['REGN', 'NITES']
+CITY_LOCATIONS = ['Sydney', 'Melbourne', 'Brisbane', 'Adelaide', 'Perth', 'Hobart', 'Darwin']
