@@ -74,6 +74,16 @@ def read_file(filename, field_list, number_of_data=1000000):
 
 
 def read_file_by_city(filename, compulsory_fields, city_lists, city_codes, utility_parameters, number_of_data=1000000):
+    """
+    :param filename: the input file name as path
+    :param compulsory_fields: example in the settings file, should be list of fileds
+    :param city_lists: list of city names
+    :param city_codes: list of city codes
+    :param utility_parameters: list of utility parameters for the model
+    :param number_of_data: maximum number going to read, if not given, would be 1 million.
+    :return: results as list
+    """
+
     results = list()
     output_field_list = compulsory_fields + city_lists + utility_parameters
     input_field_list = None
