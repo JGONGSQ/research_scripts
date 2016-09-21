@@ -19,7 +19,11 @@ start_time = datetime.now()
 
 # read the file
 # results = read_file(INPUT_DATA_FILE, FIELD_LIST, NUMBER_OF_DATA_NEEDED)
-results = read_file_by_city(INPUT_DATA_FILE, FIELD_LIST, NUMBER_OF_DATA_NEEDED)
+results = read_file_by_city(INPUT_DATA_FILE,
+                            COMPULSORY_FIELDS,
+                            CITY_LISTS, CITY_CODES,
+                            UTILITY_PARAMETERS,
+                            NUMBER_OF_DATA_NEEDED)
 
 # write the file
 write_file(TEST_OUTPUT_FILE, results)

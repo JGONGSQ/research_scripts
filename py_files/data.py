@@ -3,6 +3,23 @@
 import csv
 
 
+def get_the_city_data(input_field_list, row, city_codes):
+    city_data = [0] * city_codes.__len__()
+    # need to be careful here to get the total number of stops
+    number_of_stops = row.__getitem__(input_field_list.index('NUMSTOP'))
+
+    # for each stop do the check
+    # TODO might need to check the days as_well
+    for i in range(int(number_of_stops)):
+        location = row.__getitem__(input_field_list.index('REGN%s' % str(i + 1)))
+        # print(location)
+        if location in city_codes:
+            city_data.__setitem__(city_codes.index(location), 1)
+
+    # print(city_data)
+    return city_data
+
+
 def read_file(filename, field_list, number_of_data=1000000):
     """
         Read the source file
@@ -25,9 +42,6 @@ def read_file(filename, field_list, number_of_data=1000000):
         for i, row in enumerate(file_reader):
             if i == 0:
 
-                # for j, item in enumerate(row):
-                #     print(j, item)
-
                 # first line of the file are fieldnames
                 for item in field_list:
                     field_index.append(row.index(item))
@@ -49,32 +63,45 @@ def read_file(filename, field_list, number_of_data=1000000):
     return results
 
 
-def read_file_by_city(filename, field_list, capital_city_code, number_of_data=1000000):
+def read_file_by_city(filename, compulsory_fields, city_lists, city_codes, utility_parameters, number_of_data=1000000):
     results = list()
-    field_index = list()
+    output_field_list = compulsory_fields + city_lists + utility_parameters
+    input_field_list = None
 
     with open(filename, 'rb') as csvfile:
         file_reader = csv.reader(csvfile, delimiter=',')
 
         for i, row in enumerate(file_reader):
             if i == 0:
-                if field_list == 'ALL':
-                    field_list = row
-
-                for item in field_list:
-                    field_index.append(row.index(item))
-
-                results.append(field_list)
+                input_field_list = row
+                # print(output_field_list)
+                results.append(output_field_list)
 
             elif i > number_of_data:
                 break
 
             else:
-                # TODO: need to check the capital code and change the total number of days in each the city
-                row_trim = map(row.__getitem__, field_index)
-                results.append(row_trim)
-                # print(row_trim)
-                # break
+                city_data = get_the_city_data(input_field_list, row, city_codes)
+
+                # to see uf visited the major city
+                if all(value is 0 for value in city_data) is False:
+
+                    # initial the row for each line with all zeros
+                    output_row = [0] * output_field_list.__len__()
+
+                    # getting the value of the compulsory part
+                    compulosry_data = map(row.__getitem__, map(input_field_list.index, compulsory_fields))
+
+                    # getting the value of the utility parameters
+                    utility_data = map(row.__getitem__, map(input_field_list.index, utility_parameters))
+
+                    # setting the values according to the index number
+                    data_set = compulosry_data + city_data + utility_data
+                    map(output_row.__setitem__, map(output_field_list.index, output_field_list), data_set)
+
+                    print(output_row)
+
+                    results.append(output_row)
 
     return results
 

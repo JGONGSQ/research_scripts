@@ -12,14 +12,19 @@ TEST_R_SCRIPT_FILE = 'r_files/runner.r'
 R_MDCEV_SCRIPT = 'r_files/MDCEV.r'
 
 # Constants
-NUMBER_OF_DATA_NEEDED = 200
+# NUMBER_OF_DATA_NEEDED = 200
+NUMBER_OF_DATA_NEEDED = 40000
 NUMBER_OF_OUTSIDE_GOODS = 1
 
 # Fields list
 # FIELD_LIST = ['id', 'uno', 'sero', 'WT', 'NUMSTOP', 'stop']
-FIELD_LIST = 'ALL'
-FIELD_LIST = ['id', 'uno', 'sero', 'NUMSTOP', 'HOMESLA', 'HOUSEHOLD', 'GENDER', '' 'stop']
-# ALTERNATIVE_FIELDS = []
-
 PREFIX = ['REGN', 'NITES']
-CITY_LOCATIONS = ['Sydney', 'Melbourne', 'Brisbane', 'Adelaide', 'Perth', 'Hobart', 'Darwin']
+
+COMPULSORY_FIELDS = ['id', 'uno', 'sero', 'NUMSTOP']
+
+CITY_LISTS = ['Sydney', 'Melbourne', 'Brisbane', 'Adelaide', 'Perth', 'Hobart', 'Darwin']
+CITY_CODES = ['104', '201', '302', '404', '507', '601', '801']
+
+UTILITY_PARAMETERS = ['HOMESLA', 'HOUSEHOLD', 'GENDER', 'stop']
+
+# FIELD_LIST = COMPULSORY_FIELDS + CITY_LISTS + UTILITY_PARAMETERS
