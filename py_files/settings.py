@@ -11,6 +11,8 @@ TEST_INPUT_FILE_PATH = '../r_resources/Model_Estimation/az_hhld_vfc_cleaned_fina
 TEST_R_SCRIPT_FILE = 'r_files/runner.r'
 R_MDCEV_SCRIPT = 'r_files/MDCEV.r'
 
+RUNNER_MDCEV = 'r_files/runner_mdcev_nooutside.r'
+
 # Constants
 # NUMBER_OF_DATA_NEEDED = 200
 NUMBER_OF_DATA_NEEDED = 40000

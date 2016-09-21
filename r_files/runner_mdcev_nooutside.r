@@ -1,19 +1,35 @@
+args <- commandArgs(trailingOnly = TRUE)
 
 
-source("/Users/James/Desktop/master_project/mdcev_nooutsidegoodestimation/mdcev_nooutside.r");
+if (length(args)==0) {
+  stop("At least one argument must be supplied", call.=FALSE)
+}
 
-Data <<- read.table("/Users/James/Desktop/master_project/mdcev_nooutsidegoodestimation/testnout.csv", header=T, sep=",");
 
-config <- 1;     # Utility specification configuration, possible values: 1,4,7
+input_file_path = args[1]
+number_of_alternatives = args[2]
+case_config = args[3]
+
+source("r_files/mdcev_nooutside.r");
+
+Data <<- read.table(input_file_path, header=T, sep=",");
+
+table_headers = names(Data)
+
+config <- case_config;     # Utility specification configuration, possible values: 1,4,7
 alp0to1 <- 1;    # 1 if you want the Alpha values to be constrained between 0 and 1, 0 otherwise
                  # putting _alp0to1 = 1 is recommended practice and can provide estimation stability
 price <- 0;      # 1 if there is price variation across goods, 0 otherwise
-nc <- 3;         # Number of alternatives (in the universal choice set) including outside goods
-po <- 1;         # Index number of ID column in input data
+nc <- number_of_alternatives;         # Number of alternatives (in the universal choice set) including outside goods
+po <- match("id", table_headers, 0);         # Index number of ID column in input data
 
-ivuno <- "uno";  # Position of UNO variable (i.e., the column of ones) in data set
-ivsero <- "sero";# Position of SERO variable (i.e., the column of zeros) in data set
-wtind <<- "uno"; # Position of WEIGHT variable (i.e., the column of weights) in data set
+ivuno <- match("uno", table_headers, 0);  # Position of UNO variable (i.e., the column of ones) in data set
+ivsero <- match("sero", table_headers, 0);# Position of SERO variable (i.e., the column of zeros) in data set
+wtind <<- match("uno", table_headers, 0); # Position of WEIGHT variable (i.e., the column of weights) in data set
+
+if (po == 0 || ivuno ==0 || ivsero == 0 ){
+  stop("One of the po, ivuno or ivsero is 0, please check your data", call.=FALSE)
+}
 
 maxlikmethod1 <- "BHHH"; # Method of maximum likelihood for initial estimation ("BHHH" or "BFGS") 
 maxlikmethod2 <- "BFGS"; # Method of maximum likelihood for final estimation ("BHHH" or "BFGS") 

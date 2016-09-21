@@ -28,6 +28,17 @@ results = read_file_by_city(INPUT_DATA_FILE,
 # write the file
 write_file(TEST_OUTPUT_FILE, results)
 
+
+subprocess.call(
+    ['Rscript --vanilla {r_script_file} {number_of_alternatives} {case_config}'.format(
+        r_script_file=RUNNER_MDCEV,
+        number_of_alternatives=CITY_LISTS.__len__(),
+        case_config=local_case_config)
+    ]
+    , shell=True)
+
+
+
 """ Need it for later time, need to fix the data filter first
 command_line_output = subprocess.call(
     ['Rscript --vanilla {r_script_file} '
