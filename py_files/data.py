@@ -4,20 +4,30 @@ import csv
 
 
 def get_the_city_data(input_field_list, row, city_codes):
+    """
+    :param input_field_list: the first line of the input file
+    :param row: data for each line
+    :param city_codes: capital city codes
+    :return: binary matrix if the person visited the capital city
+    """
     city_data = [0] * city_codes.__len__()
+    nites_data = [0] * city_codes.__len__()
     # need to be careful here to get the total number of stops
     number_of_stops = row.__getitem__(input_field_list.index('NUMSTOP'))
 
     # for each stop do the check
-    # TODO might need to check the days as_well
     for i in range(int(number_of_stops)):
         location = row.__getitem__(input_field_list.index('REGN%s' % str(i + 1)))
         # print(location)
         if location in city_codes:
             city_data.__setitem__(city_codes.index(location), 1)
 
+            # get the nites data, the number of days in the city
+            nites = row.__getitem__(input_field_list.index('NITES%s' % str(i + 1)))
+            nites_data.__setitem__(city_codes.index(location), int(nites))
+
     # print(city_data)
-    return city_data
+    return city_data, nites_data
 
 
 def read_file(filename, field_list, number_of_data=1000000):
@@ -81,7 +91,7 @@ def read_file_by_city(filename, compulsory_fields, city_lists, city_codes, utili
                 break
 
             else:
-                city_data = get_the_city_data(input_field_list, row, city_codes)
+                city_data, nites_data = get_the_city_data(input_field_list, row, city_codes)
 
                 # to see uf visited the major city
                 if all(value is 0 for value in city_data) is False:
@@ -120,8 +130,8 @@ def write_file(filename, results):
         writer = csv.writer(csvfile, delimiter=',')
 
         # write each row
-        for item in results:
-            writer.writerow(item)
+        for row in results:
+            writer.writerow(row)
 
     return True
 
