@@ -1,6 +1,7 @@
 list_of_packages = c("utils","foreign","pastecs","mlogit","graphics","VGAM","ZeligChoice","aod","plotrix", "maxLik", "miscTools")
 
 new_packages <- list_of_packages[!(list_of_packages %in% installed.packages()[,"Package"])]
+
 if(length(new_packages) > 0) {
   install.packages(new_packages, repos="http://cran.rstudio.com/")
 }
@@ -9,9 +10,9 @@ if(length(new_packages) > 0) {
 args <- commandArgs(trailingOnly = TRUE)
 
 
-# if (length(args)==0) {
-#  stop("At least one argument must be supplied", call.=FALSE)
-# }
+if (length(args)==0) {
+  stop("At least one argument must be supplied", call.=FALSE)
+}
 
 input_file_path = args[1]
 number_of_alternatives = strtoi(args[2])
@@ -20,19 +21,13 @@ case_config = strtoi(args[3])
 # number_of_alternatives = 7
 
 
-sprintf('input_file_path: %s',input_file_path)
-
 print("-----> Start Loading Packages <-----")
 source("r_files/mdcev_nooutside.r");
-# source("/Users/James/Desktop/master_project/research_scripts/r_files/mdcev_nooutside.r");
 
 print("-----> Reading Table <-----")
-
-#Data <<- read.table('/Users/James/Desktop/master_project/Data/test_output_file.csv', header=T, sep=",");
 Data <<- read.table(input_file_path, header=T, sep=",");
 
 table_headers = names(Data)
-# print("=============>>>>table headers %s", table_headers)
 
 config <- case_config;     # Utility specification configuration, possible values: 1,4,7
 alp0to1 <- 1;    # 1 if you want the Alpha values to be constrained between 0 and 1, 0 otherwise
@@ -44,15 +39,6 @@ po <- match("id", table_headers, 0);         # Index number of ID column in inpu
 ivuno <- "uno"
 ivsero <-'sero'
 wtind <<- "uno"
-# ivuno <- match("uno", table_headers, 0);  # Position of UNO variable (i.e., the column of ones) in data set
-# ivsero <- match("sero", table_headers, 0);# Position of SERO variable (i.e., the column of zeros) in data set
-# wtind <<- match("uno", table_headers, 0); # Position of WEIGHT variable (i.e., the column of weights) in data set
-
-# sprintf('ivuno: %i, ivsero: %i, number of alternatives: %i, po: %i', ivuno, ivsero, number_of_alternatives, po)
-# if (po == 0 || ivuno == 0 || ivsero == 0 ){
-#  stop("One of the po, ivuno or ivsero is 0, please check your data", call.=FALSE)
-#}
-
 
 maxlikmethod1 <- "BHHH"; # Method of maximum likelihood for initial estimation ("BHHH" or "BFGS") 
 maxlikmethod2 <- "BFGS"; # Method of maximum likelihood for final estimation ("BHHH" or "BFGS") 
@@ -74,13 +60,12 @@ fp <- c(ivuno, ivuno, ivuno, ivuno, ivuno, ivuno, ivuno);
 # Number of columns = Number of variables including alternative specific constants; consider first alternative as base
 ivmt <- list();
 ivmt[[1]] <- c("");   # Base alternative
-ivmt[[2]] <- c("uno","HOMESLA");
-ivmt[[3]] <- c("uno","HOMESLA");
-ivmt[[4]] <- c("uno","HOMESLA");
-ivmt[[5]] <- c("uno","HOMESLA");
-ivmt[[6]] <- c("uno","HOMESLA");
-ivmt[[7]] <- c("uno","HOMESLA");
-
+ivmt[[2]] <- c("uno","HOUSEHOLD");
+ivmt[[3]] <- c("uno","HOUSEHOLD");
+ivmt[[4]] <- c("uno","HOUSEHOLD");
+ivmt[[5]] <- c("uno","HOUSEHOLD");
+ivmt[[6]] <- c("uno","HOUSEHOLD");
+ivmt[[7]] <- c("uno","HOUSEHOLD");
 
 
 # In the following specification, ivdts[[1]], ivdts[[2]], ivdts[[3]] contain input data specifications (on right hand side) for satiation parameters (Alphas) 

@@ -19,7 +19,6 @@ NUMBER_OF_DATA_NEEDED = 40000
 NUMBER_OF_OUTSIDE_GOODS = 1
 
 # Fields list
-# FIELD_LIST = ['id', 'uno', 'sero', 'WT', 'NUMSTOP', 'stop']
 PREFIX = ['REGN', 'NITES']
 
 COMPULSORY_FIELDS = ['id', 'uno', 'sero', 'NUMSTOP']
@@ -28,5 +27,3 @@ CITY_LISTS = ['Sydney', 'Melbourne', 'Brisbane', 'Adelaide', 'Perth', 'Hobart', 
 CITY_CODES = ['104', '201', '302', '404', '507', '601', '801']
 
 UTILITY_PARAMETERS = ['HOMESLA', 'HOUSEHOLD', 'GENDER', 'stop']
-
-# FIELD_LIST = COMPULSORY_FIELDS + CITY_LISTS + UTILITY_PARAMETERS
