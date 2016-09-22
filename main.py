@@ -30,14 +30,15 @@ write_file(TEST_OUTPUT_FILE, results)
 
 
 subprocess.call(
-    ['Rscript --vanilla {r_script_file} {number_of_alternatives} {case_config}'.format(
+    ['Rscript --vanilla {r_script_file} {input_file} {number_of_alternatives} {case_config}'.format(
         r_script_file=RUNNER_MDCEV,
+        input_file=TEST_OUTPUT_FILE,
         number_of_alternatives=CITY_LISTS.__len__(),
         case_config=local_case_config)
     ]
     , shell=True)
 
-
+print(datetime.now() - start_time)
 
 """ Need it for later time, need to fix the data filter first
 command_line_output = subprocess.call(

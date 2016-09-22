@@ -20,11 +20,12 @@ def get_the_city_data(input_field_list, row, city_codes):
         location = row.__getitem__(input_field_list.index('REGN%s' % str(i + 1)))
         # print(location)
         if location in city_codes:
-            city_data.__setitem__(city_codes.index(location), 1)
+            # city_data.__setitem__(city_codes.index(location), 1)
 
             # get the nites data, the number of days in the city
             nites = row.__getitem__(input_field_list.index('NITES%s' % str(i + 1)))
             nites_data.__setitem__(city_codes.index(location), int(nites))
+            city_data.__setitem__(city_codes.index(location), int(nites))
 
     # print(city_data)
     return city_data, nites_data
@@ -87,7 +88,7 @@ def read_file_by_city(filename, compulsory_fields, city_lists, city_codes, utili
     results = list()
     output_field_list = compulsory_fields + city_lists + utility_parameters
     input_field_list = None
-
+    j = 1
     with open(filename, 'rb') as csvfile:
         file_reader = csv.reader(csvfile, delimiter=',')
 
@@ -111,7 +112,7 @@ def read_file_by_city(filename, compulsory_fields, city_lists, city_codes, utili
 
                     # getting the value of the compulsory part
                     compulosry_data = map(row.__getitem__, map(input_field_list.index, compulsory_fields))
-
+                    compulosry_data[0] = j
                     # getting the value of the utility parameters
                     utility_data = map(row.__getitem__, map(input_field_list.index, utility_parameters))
 
@@ -122,6 +123,7 @@ def read_file_by_city(filename, compulsory_fields, city_lists, city_codes, utili
                     print(output_row)
 
                     results.append(output_row)
+                    j += 1
 
     return results
 
