@@ -23,7 +23,8 @@ PREFIX = ['REGN', 'NITES']
 
 COMPULSORY_FIELDS = ['id', 'uno', 'sero', 'NUMSTOP']
 
-CITY_LISTS = ['Sydney', 'Melbourne', 'Brisbane', 'Adelaide', 'Perth', 'Hobart', 'Darwin']
-CITY_CODES = ['104', '201', '302', '404', '507', '601', '801']
+CITY_LISTS = ['Sydney', 'Melbourne', 'Brisbane', 'Adelaide', 'Hobart', 'Darwin']
+CITY_CODES = ['104', '201', '302', '404', '601', '801']
 
-UTILITY_PARAMETERS = ['HOMESLA', 'HOUSEHOLD', 'GENDER', 'stop']
+UTILITY_PARAMETERS = ['HOMESUPP']
+ALL_PARAMETERS = ['HOMESUPP', 'HOMESLA', 'HOMEREGEN', 'ORIGIN', 'HOUSEHOLD', 'UNSER15', 'OVER15', 'PARENT', 'YOUNGEST',	'AGEGROUP',	'CH15TO24',	'GENDER', 'MARITAL', 'EMPLOYMENT', 'HOUSINC', 'LIFCYCLE']

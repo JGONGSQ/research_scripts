@@ -45,13 +45,13 @@ maxlikmethod2 <- "BFGS"; # Method of maximum likelihood for final estimation ("B
 
 # Position of the DEPENDENT variables (i.e., the consumption quantities for each alternative - NOT consumption expenditures for each alternative).
 # Number of labels = number of alternatives. 
-def <- c("Sydney","Melbourne","Brisbane", "Adelaide", "Perth", "Hobart", "Darwin");
+def <- c("Sydney","Melbourne","Brisbane", "Adelaide","Hobart", "Darwin");
 
 
 # Positions of PRICE variables
 # Provide labels of price variables (one label in each double-quote). Number of labels = number of alternatives.
 # Provide all UNO variables if there is no price variation 
-fp <- c(ivuno, ivuno, ivuno, ivuno, ivuno, ivuno, ivuno);
+fp <- c(ivuno, ivuno, ivuno, ivuno, ivuno, ivuno);
 
 # In the following specification, ivm1, ivm2, ivm3 contain independent variable specifications (on right hand side) for baseline utility (PSI) 
 # for alternatives 1, 2, and 3;
@@ -60,12 +60,12 @@ fp <- c(ivuno, ivuno, ivuno, ivuno, ivuno, ivuno, ivuno);
 # Number of columns = Number of variables including alternative specific constants; consider first alternative as base
 ivmt <- list();
 ivmt[[1]] <- c("");   # Base alternative
-ivmt[[2]] <- c("uno","HOUSEHOLD");
-ivmt[[3]] <- c("uno","HOUSEHOLD");
-ivmt[[4]] <- c("uno","HOUSEHOLD");
-ivmt[[5]] <- c("uno","HOUSEHOLD");
-ivmt[[6]] <- c("uno","HOUSEHOLD");
-ivmt[[7]] <- c("uno","HOUSEHOLD");
+ivmt[[2]] <- c("uno", "HOMESUPP");
+ivmt[[3]] <- c("uno", "HOMESUPP");
+ivmt[[4]] <- c("uno", "HOMESUPP");
+ivmt[[5]] <- c("uno", "HOMESUPP");
+ivmt[[6]] <- c("uno", "HOMESUPP");
+
 
 
 # In the following specification, ivdts[[1]], ivdts[[2]], ivdts[[3]] contain input data specifications (on right hand side) for satiation parameters (Alphas) 
@@ -82,7 +82,7 @@ ivdts[[3]] <- c("uno");
 ivdts[[4]] <- c("uno");
 ivdts[[5]] <- c("uno");
 ivdts[[6]] <- c("uno");
-ivdts[[7]] <- c("uno");
+
 
 
 # In the following specification, ivgts[[1]], ivgts[[2]], ivgts[[3]] contain input data specifications (on the right hand side) for translation parameters (Gammas) 
@@ -99,13 +99,13 @@ ivgts[[3]] <- c("uno");
 ivgts[[4]] <- c("uno");
 ivgts[[5]] <- c("uno");
 ivgts[[6]] <- c("uno");
-ivgts[[7]] <- c("uno");
+
 
 
 # Add variable names for translation and satiation variables
 # The number of names for both translation and satiation should be equal to the number of alternatives
-alpha_names <- c("D01","D02","D03","D04","D05","D06","D07");
-gamma_names <- c("G01","G02","G03","G04","G05","G06","G07");
+alpha_names <- c("D01","D02","D03","D04","D05","D06");
+gamma_names <- c("G01","G02","G03","G04","G05","G06");
 
 ########################################################################################################
 #  Do Not Modify Next Three Lines
