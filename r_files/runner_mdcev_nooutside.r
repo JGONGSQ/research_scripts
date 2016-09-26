@@ -60,11 +60,11 @@ fp <- c(ivuno, ivuno, ivuno, ivuno, ivuno, ivuno);
 # Number of columns = Number of variables including alternative specific constants; consider first alternative as base
 ivmt <- list();
 ivmt[[1]] <- c("");   # Base alternative
-ivmt[[2]] <- c("uno", "HOMESUPP");
-ivmt[[3]] <- c("uno", "HOMESUPP");
-ivmt[[4]] <- c("uno", "HOMESUPP");
-ivmt[[5]] <- c("uno", "HOMESUPP");
-ivmt[[6]] <- c("uno", "HOMESUPP");
+ivmt[[2]] <- c("uno", "HOMEREGN");
+ivmt[[3]] <- c("uno", "HOMEREGN");
+ivmt[[4]] <- c("uno", "HOMEREGN");
+ivmt[[5]] <- c("uno", "HOMEREGN");
+ivmt[[6]] <- c("uno", "HOMEREGN");
 
 
 
