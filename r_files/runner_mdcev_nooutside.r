@@ -2,10 +2,12 @@ list_of_packages = c("utils","foreign","pastecs","mlogit","graphics","VGAM","Zel
 
 new_packages <- list_of_packages[!(list_of_packages %in% installed.packages()[,"Package"])]
 
+print("-----> Start Loading Packages <-----")
+source("r_files/mdcev_nooutside.r");
+
 if(length(new_packages) > 0) {
   install.packages(new_packages, repos="http://cran.rstudio.com/")
 }
-
 
 args <- commandArgs(trailingOnly = TRUE)
 
@@ -17,12 +19,15 @@ if (length(args)==0) {
 input_file_path = args[1]
 number_of_alternatives = strtoi(args[2])
 case_config = strtoi(args[3])
+utility_variables = args[4]
+city_variables =args[5]
+output_results_path = args[6]
+
+print("###### This is the utility variables")
+variable_list = list_creator(strsplit(utility_variables, ",") )
+print(variable_list)
 # case_config = 4
 # number_of_alternatives = 7
-
-
-print("-----> Start Loading Packages <-----")
-source("r_files/mdcev_nooutside.r");
 
 print("-----> Reading Table <-----")
 Data <<- read.table(input_file_path, header=T, sep=",");
@@ -45,13 +50,17 @@ maxlikmethod2 <- "BFGS"; # Method of maximum likelihood for final estimation ("B
 
 # Position of the DEPENDENT variables (i.e., the consumption quantities for each alternative - NOT consumption expenditures for each alternative).
 # Number of labels = number of alternatives. 
-def <- c("Sydney","Melbourne","Brisbane", "Adelaide","Hobart", "Darwin");
+def <- list_creator(strsplit(city_variables, ","))
 
 
 # Positions of PRICE variables
 # Provide labels of price variables (one label in each double-quote). Number of labels = number of alternatives.
 # Provide all UNO variables if there is no price variation 
-fp <- c(ivuno, ivuno, ivuno, ivuno, ivuno, ivuno);
+fp_list = c()
+for (i in 1:nc){
+  fp_list = c(ivuno, fp_list)
+}
+fp <- fp_list
 
 # In the following specification, ivm1, ivm2, ivm3 contain independent variable specifications (on right hand side) for baseline utility (PSI) 
 # for alternatives 1, 2, and 3;
@@ -59,12 +68,21 @@ fp <- c(ivuno, ivuno, ivuno, ivuno, ivuno, ivuno);
 # (number of rows = number of alternatives);
 # Number of columns = Number of variables including alternative specific constants; consider first alternative as base
 ivmt <- list();
-ivmt[[1]] <- c("");   # Base alternative
-ivmt[[2]] <- c("uno", "HOMEREGN");
-ivmt[[3]] <- c("uno", "HOMEREGN");
-ivmt[[4]] <- c("uno", "HOMEREGN");
-ivmt[[5]] <- c("uno", "HOMEREGN");
-ivmt[[6]] <- c("uno", "HOMEREGN");
+# ivmt[[1]] <- c("");   # Base alternative
+# ivmt[[2]] <- c("uno", variable_list);
+# ivmt[[3]] <- c("uno", "ORIGIN");
+# ivmt[[4]] <- c("uno", "ORIGIN");
+# ivmt[[5]] <- c("uno", "ORIGIN");
+# ivmt[[6]] <- c("uno", "ORIGIN");
+
+for (i in 1:nc){
+  if (i == 1){
+    ivmt[[i]] <- c("") # Base alternative
+  }
+  else {
+    ivmt[[i]] <- c("uno", variable_list)
+  }
+}
 
 
 
@@ -76,12 +94,16 @@ ivmt[[6]] <- c("uno", "HOMEREGN");
 # However, you will then have to translate outputs to compute actual alpha parameters; 
 # This code is written to provide you with the alpha parameters directly for the case when there is no variation in alpha across individuals
 ivdts <- list();
-ivdts[[1]] <- c("uno");
-ivdts[[2]] <- c("uno");
-ivdts[[3]] <- c("uno");
-ivdts[[4]] <- c("uno");
-ivdts[[5]] <- c("uno");
-ivdts[[6]] <- c("uno");
+# ivdts[[1]] <- c("uno");
+# ivdts[[2]] <- c("uno");
+# ivdts[[3]] <- c("uno");
+# ivdts[[4]] <- c("uno");
+# ivdts[[5]] <- c("uno");
+# ivdts[[6]] <- c("uno");
+
+for (i in 1:nc){
+  ivdts[[i]] <- c("uno")
+}
 
 
 
@@ -93,19 +115,33 @@ ivdts[[6]] <- c("uno");
 # However, you will then have to translate outputs to compute actual gamma parameters; 
 # This code is written to provide you with the gamma parameters directly for the case when there is no variation in gamma across individuals 
 ivgts <- list();
-ivgts[[1]] <- c("uno");
-ivgts[[2]] <- c("uno");
-ivgts[[3]] <- c("uno");
-ivgts[[4]] <- c("uno");
-ivgts[[5]] <- c("uno");
-ivgts[[6]] <- c("uno");
+# ivgts[[1]] <- c("uno");
+# ivgts[[2]] <- c("uno");
+# ivgts[[3]] <- c("uno");
+# ivgts[[4]] <- c("uno");
+# ivgts[[5]] <- c("uno");
+# ivgts[[6]] <- c("uno");
 
+for (i in 1:nc){
+  ivgts[[i]] <- c("uno")
+}
 
 
 # Add variable names for translation and satiation variables
 # The number of names for both translation and satiation should be equal to the number of alternatives
-alpha_names <- c("D01","D02","D03","D04","D05","D06");
-gamma_names <- c("G01","G02","G03","G04","G05","G06");
+alpha_name_list = c()
+for (i in 1:nc){
+  variable_name = paste('D', i, sep = "")
+  alpha_name_list = c(alpha_name_list, variable_name)
+}
+alpha_names <- alpha_name_list
+
+gamma_name_list = c()
+for (i in 1:nc){
+  variable_name = paste('G', i, sep = "")
+  gamma_name_list = c(gamma_name_list, variable_name)
+}
+gamma_names <- gamma_name_list
 
 ########################################################################################################
 #  Do Not Modify Next Three Lines
@@ -116,4 +152,6 @@ result <- mdcev_nooutgood(Data, arg_inds, arg_vars, def, fp, ivmt, ivdts, ivgts,
 ########################################################################################################
 
 summary(result); # Show results from the MDCEV model with no outside good
+write.table(result$estimate,file=output_results_path, sep=',')
+
 

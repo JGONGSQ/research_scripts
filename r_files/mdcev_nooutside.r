@@ -10,6 +10,14 @@
 library(miscTools)
 library(maxLik)
 
+list_creator <- function(parameter_list) {
+  list = c()
+  for (item in parameter_list) {
+    list = c(list, item)
+  }
+  return(list)
+}
+
 
 fp_ind <- function(ind, nc) {
   

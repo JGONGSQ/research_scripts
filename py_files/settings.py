@@ -2,12 +2,13 @@
 # DEFAULT_PATH = '/Users/James/Desktop/master_project'
 
 # File
-### csv
+### csv ###
 INPUT_DATA_FILE = '../Data/NVS2007unit.csv'
 TEST_OUTPUT_FILE = '../Data/test_output_file.csv'
 TEST_INPUT_FILE_PATH = '../r_resources/Model_Estimation/az_hhld_vfc_cleaned_final.csv'
+TEST_RESULTS_FILE = '../Data/results/results'
 
-### R scripts
+### R scripts ###
 TEST_R_SCRIPT_FILE = 'r_files/runner.r'
 R_MDCEV_SCRIPT = 'r_files/MDCEV.r'
 
@@ -26,5 +27,5 @@ COMPULSORY_FIELDS = ['id', 'uno', 'sero', 'NUMSTOP']
 CITY_LISTS = ['Sydney', 'Melbourne', 'Brisbane', 'Adelaide', 'Hobart', 'Darwin']
 CITY_CODES = ['104', '201', '302', '404', '601', '801']
 
-UTILITY_PARAMETERS = ['HOMEREGN']
-ALL_PARAMETERS = ['HOMESUPP', 'HOMESLA', 'HOMEREGN', 'ORIGIN', 'HOUSEHOLD', 'UNSER15', 'OVER15', 'PARENT', 'YOUNGEST',	'AGEGROUP',	'CH15TO24',	'GENDER', 'MARITAL', 'EMPLOYMENT', 'HOUSINC', 'LIFCYCLE']
+# UTILITY_VARIABLES = ['ORIGIN']
+ALL_VARIABLES = ['HOMESUPP', 'HOMESLA', 'HOMEREGN', 'ORIGIN', 'HOUSEHOLD', 'UNDER15', 'OVER15', 'AGEGROUP',	'GENDER', 'MARITAL', 'EMPLOYMENT', 'HOUSINC', 'LIFECYCLE']

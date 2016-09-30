@@ -84,7 +84,7 @@ def read_file_by_city(filename, compulsory_fields, city_lists, city_codes, utili
     :param number_of_data: maximum number going to read, if not given, would be 1 million.
     :return: results as list
     """
-
+    print utility_parameters
     results = list()
     output_field_list = compulsory_fields + city_lists + utility_parameters
     input_field_list = None
@@ -148,7 +148,15 @@ def write_file(filename, results):
     return True
 
 
+def convert_list_to_str(input_list):
+    output_string = ''
 
+    for i, item in enumerate(input_list):
+        output_string = output_string + item
+        if i != len(input_list) - 1:
+            output_string += ','
+
+    return output_string
 
 
 
