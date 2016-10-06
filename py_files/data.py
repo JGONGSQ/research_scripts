@@ -102,28 +102,32 @@ def read_file_by_city(filename, compulsory_fields, city_lists, city_codes, utili
                 break
 
             else:
-                city_data, nites_data = get_the_city_data(input_field_list, row, city_codes)
+                # getting the value of the utility parameters
+                utility_data = map(row.__getitem__, map(input_field_list.index, utility_parameters))
 
-                # to see uf visited the major city
-                if all(value is 0 for value in city_data) is False:
+                # To check the utility data is empty or not
+                if ' ' not in utility_data:
 
-                    # initial the row for each line with all zeros
-                    output_row = [0] * output_field_list.__len__()
+                    city_data, nites_data = get_the_city_data(input_field_list, row, city_codes)
 
-                    # getting the value of the compulsory part
-                    compulosry_data = map(row.__getitem__, map(input_field_list.index, compulsory_fields))
-                    compulosry_data[0] = j
-                    # getting the value of the utility parameters
-                    utility_data = map(row.__getitem__, map(input_field_list.index, utility_parameters))
+                    # to see uf visited the major city
+                    if all(value is 0 for value in city_data) is False:
 
-                    # setting the values according to the index number
-                    data_set = compulosry_data + city_data + utility_data
-                    map(output_row.__setitem__, map(output_field_list.index, output_field_list), data_set)
+                        # initial the row for each line with all zeros
+                        output_row = [0] * output_field_list.__len__()
 
-                    print(output_row)
+                        # getting the value of the compulsory part
+                        compulosry_data = map(row.__getitem__, map(input_field_list.index, compulsory_fields))
+                        compulosry_data[0] = j
 
-                    results.append(output_row)
-                    j += 1
+                        # setting the values according to the index number
+                        data_set = compulosry_data + city_data + utility_data
+                        map(output_row.__setitem__, map(output_field_list.index, output_field_list), data_set)
+
+                        print(output_row)
+
+                        results.append(output_row)
+                        j += 1
 
     return results
 
