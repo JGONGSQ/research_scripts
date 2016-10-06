@@ -11,7 +11,7 @@ from py_files.settings import *
 # This would be a variable for different case, but leave 14 for testing purpose
 local_number_of_alternatives = 14
 # Same as previous example, leave 4 for testing purpose
-case_config_list = [4]
+case_config_list = [1, 4, 7]
 index_of_outside_goods = 167
 
 
