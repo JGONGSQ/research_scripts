@@ -3,25 +3,25 @@ list_of_packages = c("utils","foreign","pastecs","mlogit","graphics","VGAM","Zel
 new_packages <- list_of_packages[!(list_of_packages %in% installed.packages()[,"Package"])]
 
 print("-----> Start Loading Packages <-----")
-source("r_files/mdcev_nooutside.r");
+source("/Users/James/Desktop/master_project/research_scripts/r_files/mdcev_nooutside.r");
 
 if(length(new_packages) > 0) {
   install.packages(new_packages, repos="http://cran.rstudio.com/")
 }
 
-args <- commandArgs(trailingOnly = TRUE)
+#args <- commandArgs(trailingOnly = TRUE)
 
 
-if (length(args)==0) {
-  stop("At least one argument must be supplied", call.=FALSE)
-}
+#if (length(args)==0) {
+#  stop("At least one argument must be supplied", call.=FALSE)
+#}
 
-input_file_path = args[1]
-number_of_alternatives = strtoi(args[2])
-case_config = strtoi(args[3])
-utility_variables = args[4]
-city_variables =args[5]
-output_results_path = args[6]
+input_file_path = "/Users/James/Desktop/master_project/Data/test_output_file.csv"
+number_of_alternatives = 6
+case_config = 4
+utility_variables = "ORIGIN"
+city_variables = 'Sydney,Melbourne,Brisbane,Adelaide,Hobart,Darwin'
+output_results_path = "/Users/James/Desktop/master_project/Data/results/1111.csv"
 
 print("###### This is the utility variables")
 variable_list = list_creator(strsplit(utility_variables, ",") )
@@ -150,9 +150,13 @@ arg_inds <- list(config, alp0to1, price, nc, po);
 arg_vars <- list(ivuno, ivsero, wtind, maxlikmethod1, maxlikmethod2);           
 result <- mdcev_nooutgood(Data, arg_inds, arg_vars, def, fp, ivmt, ivdts, ivgts, alpha_names, gamma_names);
 ########################################################################################################
-sink(output_results_path)
-summary(result); # Show results from the MDCEV model with no outside good
+
+test_1 = summary(result); # Show results from the MDCEV model with no outside good
+output_results_txt_path = "/Users/James/Desktop/master_project/Data/results/1111.txt"
+sink(output_results_txt_path)
+summary(result);
 sink()
+# write.table(test_1,file=output_results_path, sep='\t', row.names = F)
 # write.table(result$estimate,file=output_results_path, sep=',')
 
 

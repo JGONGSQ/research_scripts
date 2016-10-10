@@ -36,7 +36,7 @@ for case_config in case_config_list:
 
         # write the file
         write_file(TEST_OUTPUT_FILE, results)
-        output_file_path = TEST_RESULTS_FILE + '_{}'.format(case_config) + '_{}'.format(item) + '.csv'
+        output_file_path = TEST_RESULTS_FILE + '_{}'.format(case_config) + '_{}'.format(item) + '.txt'
         print output_file_path
         process = subprocess.call(
             ['Rscript --vanilla {r_script_file} {input_file} {number_of_alternatives} {case_config} {utility_parameter} {city_list} {results_file}'.format(
@@ -58,7 +58,7 @@ for case_config in case_config_list:
 
 # Starts #
 
-# case_config = 1
+# case_config = 4
 # results = read_file_by_city(INPUT_DATA_FILE,
 #                             COMPULSORY_FIELDS,
 #                             CITY_LISTS,
@@ -68,7 +68,7 @@ for case_config in case_config_list:
 #
 # # write the file
 # write_file(TEST_OUTPUT_FILE, results)
-# output_file_path = TEST_RESULTS_FILE + '_{}'.format(case_config) + '_{}'.format(UTILITY_VARIABLES[0]) + '.csv'
+# output_file_path = TEST_RESULTS_FILE + '_{}'.format(case_config) + '_{}'.format(UTILITY_VARIABLES[0]) + '.txt'
 # print output_file_path
 #
 # process = subprocess.call(
