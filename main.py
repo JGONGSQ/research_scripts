@@ -1,9 +1,10 @@
 #!/usr/bin/python
 
 # Imports of python package
-from py_files.data import read_file, write_file, read_file_by_city, convert_list_to_str
+from py_files.data import read_file, write_file, read_file_by_city, convert_list_to_str, convert_tuple_to_list
 from datetime import datetime
 import subprocess
+import itertools
 
 # All constants are import from settings file
 from py_files.settings import *
@@ -23,10 +24,14 @@ start_time = datetime.now()
 ### Multiple Variable Method ###
 ### Starts ###
 
+
 for case_config in case_config_list:
-    for item in ALL_VARIABLES:
-        variable = list()
-        variable.append(item)
+    all_combinations = itertools.combinations(ALL_VARIABLES, 2)
+
+    for variable in all_combinations:
+        # variable = list()
+        # TODO, need a better name
+        variable = convert_tuple_to_list(variable)
         results = read_file_by_city(INPUT_DATA_FILE,
                                     COMPULSORY_FIELDS,
                                     CITY_LISTS,
@@ -36,7 +41,14 @@ for case_config in case_config_list:
 
         # write the file
         write_file(TEST_OUTPUT_FILE, results)
-        output_file_path = TEST_RESULTS_FILE + '_{}'.format(case_config) + '_{}'.format(item) + '.txt'
+
+        variable_in_names = ''
+        for i, item in enumerate(variable):
+            variable_in_names += str(item)
+            if i != len(variable)-1:
+                variable_in_names += '-'
+
+        output_file_path = TEST_RESULTS_FILE + '_{}'.format(case_config) + '_{}'.format(variable_in_names) + '.txt'
         print output_file_path
         process = subprocess.call(
             ['Rscript --vanilla {r_script_file} {input_file} {number_of_alternatives} {case_config} {utility_parameter} {city_list} {results_file}'.format(

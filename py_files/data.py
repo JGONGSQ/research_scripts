@@ -163,6 +163,14 @@ def convert_list_to_str(input_list):
     return output_string
 
 
+def convert_tuple_to_list(tuple_object):
+    list_object = list()
+
+    for item in tuple_object:
+        list_object.append(item)
+
+    return list_object
+
 
 
 
