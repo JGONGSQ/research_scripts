@@ -46,6 +46,7 @@ def cal_estimation(case_config, input_file, results_file, utility_parameter):
 
 list_of_estimations = list()
 
+# Generate all names and files required for estimation
 for case_config in case_config_list:
     # To exclude the parameter
     list_of_variables = case_config_excluding_variables(case_config)
@@ -71,6 +72,7 @@ for case_config in case_config_list:
         output_file_path = RESULTS_PATH + '/results' + '_{}'.format(case_config) + '_{}'.format(variable_in_names) + '.txt'
         list_of_estimations.append((case_config, input_file_path, output_file_path, convert_list_to_str(variable_combination)))
 
+# multiprocessing CAREFUL, DANGEROURS !!!!!! Monster !!!!!
 pool = Pool()
 for item in list_of_estimations:
     pool.apply_async(cal_estimation, (item[0], item[1], item[2], item[3]))
