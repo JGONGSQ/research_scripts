@@ -1,6 +1,8 @@
 
 # python package
 import csv
+import os
+from settings import ALL_VARIABLES, EXECLUDE_VARIABLE_4, EXECLUDE_VARIABLE_1, EXECLUDE_VARIABLE_7
 
 
 def get_the_city_data(input_field_list, row, city_codes):
@@ -172,6 +174,32 @@ def convert_tuple_to_list(tuple_object):
     return list_object
 
 
+def case_config_excluding_variables(case_config):
+    list_of_variables = ALL_VARIABLES
+
+    if case_config == 1:
+        list_of_variables = list(set(ALL_VARIABLES).difference(set(EXECLUDE_VARIABLE_1)))
+
+    if case_config == 4:
+        list_of_variables = list(set(ALL_VARIABLES).difference(set(EXECLUDE_VARIABLE_4)))
+
+    if case_config == 7:
+        list_of_variables = list(set(ALL_VARIABLES).difference(set(EXECLUDE_VARIABLE_7)))
+
+    return list_of_variables
 
 
+def filter_files(dirpath):
+    files = os.listdir(dirpath)
 
+    for file in files:
+        if is_file_converge(dirpath + '/' + file):
+            print file
+
+    return
+
+
+def is_file_converge(filepath):
+    if 'Inf' in open(filepath, 'r').read():
+        return True
+    return False

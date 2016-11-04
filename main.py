@@ -1,10 +1,12 @@
 #!/usr/bin/python
 
 # Imports of python package
-from py_files.data import read_file, write_file, read_file_by_city, convert_list_to_str, convert_tuple_to_list
+from py_files.data import read_file, write_file, read_file_by_city, convert_list_to_str, \
+    convert_tuple_to_list, case_config_excluding_variables
 from datetime import datetime
 import subprocess
 import itertools
+
 
 # All constants are import from settings file
 from py_files.settings import *
@@ -26,29 +28,27 @@ start_time = datetime.now()
 
 
 for case_config in case_config_list:
-    all_combinations = itertools.combinations(ALL_VARIABLES, 2)
+    # To exclude the parameter
+    list_of_variables = case_config_excluding_variables(case_config)
 
-    for variable in all_combinations:
-        # variable = list()
-        # TODO, need a better name
-        variable = convert_tuple_to_list(variable)
-        results = read_file_by_city(INPUT_DATA_FILE,
-                                    COMPULSORY_FIELDS,
-                                    CITY_LISTS,
-                                    CITY_CODES,
-                                    variable,
-                                    NUMBER_OF_DATA_NEEDED)
+    # generate the combination of the lists
+    variable_combinations = itertools.combinations(list_of_variables, 2)
+
+    for variable_combination in variable_combinations:
+        variable_combination = convert_tuple_to_list(variable_combination)
+        results = read_file_by_city(INPUT_DATA_FILE, COMPULSORY_FIELDS, CITY_LISTS,
+                                    CITY_CODES, variable_combination, NUMBER_OF_DATA_NEEDED)
 
         # write the file
         write_file(TEST_OUTPUT_FILE, results)
 
         variable_in_names = ''
-        for i, item in enumerate(variable):
+        for i, item in enumerate(variable_combination):
             variable_in_names += str(item)
-            if i != len(variable)-1:
+            if i != len(variable_combination)-1:
                 variable_in_names += '-'
 
-        output_file_path = TEST_RESULTS_FILE + '_{}'.format(case_config) + '_{}'.format(variable_in_names) + '.txt'
+        output_file_path = RESULTS_PATH + '/results' + '_{}'.format(case_config) + '_{}'.format(variable_in_names) + '.txt'
         print output_file_path
         process = subprocess.call(
             ['Rscript --vanilla {r_script_file} {input_file} {number_of_alternatives} {case_config} {utility_parameter} {city_list} {results_file}'.format(
@@ -56,7 +56,7 @@ for case_config in case_config_list:
                 input_file=TEST_OUTPUT_FILE,
                 number_of_alternatives=CITY_LISTS.__len__(),
                 case_config=case_config,
-                utility_parameter=convert_list_to_str(variable),
+                utility_parameter=convert_list_to_str(variable_combination),
                 city_list=convert_list_to_str(CITY_LISTS),
                 results_file=output_file_path)
             ]
@@ -80,7 +80,7 @@ for case_config in case_config_list:
 #
 # # write the file
 # write_file(TEST_OUTPUT_FILE, results)
-# output_file_path = TEST_RESULTS_FILE + '_{}'.format(case_config) + '_{}'.format(UTILITY_VARIABLES[0]) + '.txt'
+# output_file_path = RESULTS_PATH + '/results' + '_{}'.format(case_config) + '_{}'.format(UTILITY_VARIABLES[0]) + '.txt'
 # print output_file_path
 #
 # process = subprocess.call(

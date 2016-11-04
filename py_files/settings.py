@@ -6,7 +6,8 @@
 INPUT_DATA_FILE = '../Data/NVS2007unit.csv'
 TEST_OUTPUT_FILE = '../Data/test_output_file.csv'
 TEST_INPUT_FILE_PATH = '../r_resources/Model_Estimation/az_hhld_vfc_cleaned_final.csv'
-TEST_RESULTS_FILE = '../Data/results/results'
+
+RESULTS_PATH = '../Data/results'
 
 ### R scripts ###
 TEST_R_SCRIPT_FILE = 'r_files/runner.r'
@@ -30,3 +31,7 @@ CITY_CODES = ['104', '201', '302', '404', '601', '801']
 UTILITY_VARIABLES = ['ORIGIN']
 ALL_VARIABLES = ['HOMESUPP', 'HOMESLA', 'HOMEREGN', 'ORIGIN', 'HOUSEHOLD', 'UNDER15', 'OVER15', 'PARENT', 'YOUNGEST',
                  'AGEGROUP', 'CH15TO24', 'GENDER', 'MARITAL', 'EMPLOYMENT', 'HOUSINC', 'LIFECYCLE']
+
+EXECLUDE_VARIABLE_1 = []
+EXECLUDE_VARIABLE_4 = ['YOUNGEST', 'PARENT', 'HOMESUPP', 'HOMESLA', 'HOMEREGN']
+EXECLUDE_VARIABLE_7 = []
