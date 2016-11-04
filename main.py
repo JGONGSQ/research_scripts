@@ -52,7 +52,7 @@ for case_config in case_config_list:
     list_of_variables = case_config_excluding_variables(case_config)
 
     # generate the combination of the lists
-    variable_combinations = itertools.combinations(list_of_variables, 5)
+    variable_combinations = itertools.combinations(list_of_variables, 4)
 
     for variable_combination in variable_combinations:
         variable_combination = convert_tuple_to_list(variable_combination)
@@ -75,8 +75,10 @@ for case_config in case_config_list:
 # multiprocessing CAREFUL, DANGEROURS !!!!!! Monster !!!!!
 pool = Pool()
 for item in list_of_estimations:
+    print item
     pool.apply_async(cal_estimation, (item[0], item[1], item[2], item[3]))
-# pool.close()
+pool.close()
+pool.join()
 
 
 
