@@ -4,25 +4,22 @@
 from py_files.data import read_file, write_file, read_file_by_city, convert_list_to_str, \
     convert_tuple_to_list, case_config_excluding_variables
 from datetime import datetime
+from multiprocessing import Pool
 import subprocess
 import itertools
-from multiprocessing import Pool
+
 
 
 # All constants are import from settings file
 from py_files.settings import *
 
-# This would be a variable for different case, but leave 14 for testing purpose
-local_number_of_alternatives = 14
+
 # Same as previous example, leave 4 for testing purpose
 case_config_list = [1, 4, 7]
 index_of_outside_goods = 167
 
 
 start_time = datetime.now()
-
-# read the file
-# results = read_file(INPUT_DATA_FILE, FIELD_LIST, NUMBER_OF_DATA_NEEDED)
 
 ### Multiple Variable Method ###
 ### Starts ###
