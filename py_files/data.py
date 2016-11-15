@@ -193,13 +193,22 @@ def filter_files(dirpath):
     files = os.listdir(dirpath)
 
     for file in files:
-        if is_file_converge(dirpath + '/' + file):
-            print file
-
+        if os.path.isdir(dirpath + '/' + file):
+            pass
+        else:
+            if is_file_converge(dirpath + '/' + file):
+                os.rename(dirpath + '/' + file, dirpath + '/converge/' + file)
+            else:
+                os.rename(dirpath + '/' + file, dirpath + '/notconverge/' + file)
     return
 
 
 def is_file_converge(filepath):
-    if 'Inf' in open(filepath, 'r').read():
-        return True
-    return False
+    try:
+        with open(filepath, 'r') as fp:
+            if 'Inf' in fp.read():
+                return False
+            else:
+                return True
+    except Exception:
+        return False
