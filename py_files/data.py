@@ -200,6 +200,12 @@ def filter_files(dirpath):
 
 
 def is_file_converge(filepath):
-    if 'Inf' in open(filepath, 'r').read():
-        return True
-    return False
+    try:
+        with open(filepath, 'r') as fp:
+            if 'Inf' in fp.read():
+                return True
+            else:
+                return False
+    except Exception:
+        pass
+        return False

@@ -9,6 +9,7 @@ import subprocess
 # Constants import from settings file
 from py_files.settings import *
 
+UTILITY_VARIABLES = ['HOMESUPP', 'HOMESLA', 'HOMEREGN', 'ORIGIN', 'HOUSEHOLD', 'UNDER15',  'EMPLOYMENT', 'AGEGROUP', 'HOUSINC', 'LIFECYCLE', 'OVER15']
 
 case_config_list = [1, 4, 7]
 
