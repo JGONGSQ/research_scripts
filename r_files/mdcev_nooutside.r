@@ -440,12 +440,14 @@ mdcev_nooutgood <- function(Data, arg_inds, arg_vars, dep, fp1, ivmts, ivdts, iv
     
     return(wt*z1);
   }
-    
+  print("#############   This is b")
+  print(b)
   
   ptm <- proc.time()
   temp <- maxLik(lpr,lgd,start=b,method=arg_vars[[4]],fixed=!max_active)
   k <- coef(temp)
-  
+  print("################ This is first K ")
+  print(k)
   
   if (alp0to1 == 0){
     k[(nvarm+1):(nvarm+nrow(eqmatdel)),] <- 1-exp(k[(nvarm+1):(nvarm+nrow(eqmatdel)),])
@@ -455,9 +457,12 @@ mdcev_nooutgood <- function(Data, arg_inds, arg_vars, dep, fp1, ivmts, ivdts, iv
     k[(nvarm+nrow(eqmatdel)+1):(nvarm+nrow(eqmatdel)+nrow(eqmatgam)),] <- exp(k[(nvarm+nrow(eqmatdel)+1):(nvarm+nrow(eqmatdel)+nrow(eqmatgam)),])
   }
   
+  print(!max_active)
   
   temp1 <- maxLik(lpr1,start=k,method=arg_vars[[5]],fixed=!max_active,iterlim=0,finalHessian="BHHH")
+  
   row.names(temp1$estimate) <- Variable_names;
+  
   #summary(temp1)
   #print(proc.time() - ptm)
   
