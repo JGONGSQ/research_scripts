@@ -271,7 +271,7 @@ def is_file_converge(filepath):
         return False
 
 
-def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes, utility_parameters, number_of_data=200):
+def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes, utility_parameters, number_of_data=2000):
 
     print utility_parameters
     data = list()

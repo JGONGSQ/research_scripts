@@ -1,12 +1,10 @@
 #!/usr/bin/python
 
 # local imports
-from py_files.data import trim_data, find_index_in_list
+from py_files.data import trim_data
 from py_files.settings import *
 
-
-output_list = COMPULSORY_FIELDS + CITY_LISTS + ORIGIN_LIST
-utility_variable = ['ORIGIN']
+utility_variables = ['ORIGIN']
 
 results = trim_data(
     input_file=TEST_INPUT_DATA_PATH,
@@ -14,7 +12,7 @@ results = trim_data(
     compulsory_fields=COMPULSORY_FIELDS,
     city_lists=CITY_LISTS,
     city_codes=CITY_CODES,
-    utility_parameters=utility_variable
+    utility_parameters=utility_variables
 )
 
 print results
