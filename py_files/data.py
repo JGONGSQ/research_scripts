@@ -256,6 +256,7 @@ def is_file_converge(filepath):
 
 def get_utility_parameters_list(utility_parameters):
     utility_parameters_list = list()
+
     for variable in utility_parameters:
         variable_list = get_the_vairable_list(variable)
         if variable_list:
@@ -265,6 +266,24 @@ def get_utility_parameters_list(utility_parameters):
 
     return utility_parameters_list
 
+
+def get_utility_parameters_value(input_field_list, utility_parameters, row):
+    value_list = list()
+
+    for variable in utility_parameters:
+        variable_codes = get_the_variable_codes(variable)
+        if variable_codes:
+            variable_data = get_the_utility_variable_data(
+                input_field_list=input_field_list,
+                row=row,
+                variable=variable,
+                variable_codes=variable_codes
+            )
+            value_list += variable_data
+        else:
+            value_list.append(map(row.__getitem__, map(input_field_list.index, variable)))
+
+    return value_list
 
 
 def get_the_variable_codes(variable):
@@ -330,26 +349,14 @@ def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes
                         output_row = [0] * output_fields_list.__len__()
 
                         # getting the value of the compulsory part
-                        compulosry_data = map(row.__getitem__, map(input_field_list.index, compulsory_fields))
-                        compulosry_data[0] = index_number
+                        compulsory_data = map(row.__getitem__, map(input_field_list.index, compulsory_fields))
+                        compulsory_data[0] = index_number
 
-                        all_variable_data = list()
-                        # TODO make this as a function would be much easier to follow in the future
-                        for variable in utility_parameters:
-                            variable_codes = get_the_variable_codes(variable)
-                            if variable_codes:
-                                variable_data = get_the_utility_variable_data(
-                                    input_field_list=input_field_list,
-                                    row=row,
-                                    variable=variable,
-                                    variable_codes=variable_codes
-                                )
-                                all_variable_data += variable_data
-                            else:
-                                all_variable_data.append(map(row.__getitem__, map(input_field_list.index, variable)))
+                        # getting the utility parameters data according to the utility parameters
+                        utility_variable_data = get_utility_parameters_value(input_field_list, utility_parameters, row)
 
                         # setting the values according to the index number
-                        data_set = compulosry_data + city_data + all_variable_data
+                        data_set = compulsory_data + city_data + utility_variable_data
                         map(output_row.__setitem__, map(output_fields_list.index, output_fields_list), data_set)
 
                         print(output_row)
@@ -357,6 +364,5 @@ def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes
                         index_number += 1
 
     # write the data to the output file
-    result = write_file(filename=output_file, data=data)
-
-    return result
+    is_successful = write_file(filename=output_file, data=data)
+    return is_successful
