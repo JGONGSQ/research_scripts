@@ -272,7 +272,16 @@ def is_file_converge(filepath):
 
 
 def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes, utility_parameters, number_of_data=2000):
-
+    """
+    :param input_file: the path of the input file
+    :param output_file: the path of the output file
+    :param compulsory_fields: compulsory fields for the R package
+    :param city_lists: list of city names
+    :param city_codes: list tof city codes
+    :param utility_parameters: list of utility parameters for the model
+    :param number_of_data: maximum number of data going to be read, if not givem the default value is 2000
+    :return: Boolean value
+    """
     print utility_parameters
     data = list()
     input_field_list = None
