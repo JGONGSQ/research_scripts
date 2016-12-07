@@ -7,6 +7,10 @@ INPUT_DATA_FILE = '../Data/NVS2007unit.csv'
 INPUT_DIR_PATH = '../Data/input_files'
 TEST_INPUT_FILE_PATH = '../r_resources/Model_Estimation/az_hhld_vfc_cleaned_final.csv'
 
+# NEW ADDED DATA FILE
+TEST_INPUT_DATA_PATH = '../Data/data_set1_200.csv'
+TEST_OUTPUT_DATA_PATH = '../Data/test_output_file.csv'
+
 RESULTS_PATH = '../Data/results'
 
 ### R scripts ###
@@ -41,3 +45,7 @@ Removed_list = ['PARENT', 'GENDER']
 EXECLUDE_VARIABLE_1 = []
 EXECLUDE_VARIABLE_4 = ['YOUNGEST', 'PARENT', 'HOMESUPP', 'HOMESLA', 'HOMEREGN']
 EXECLUDE_VARIABLE_7 = []
+
+# ORIGIN GROUP
+ORIGIN_LIST = ['ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_QLD', 'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS', 'ORIGIN_NT', 'ORIGIN_ACT']
+ORIGIN_CODE = [['1', '2'], ['3', '4'], ['5', '6'], ['7', '8'], ['9', '10'], ['11'], ['12'], ['13']]

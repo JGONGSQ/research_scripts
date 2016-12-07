@@ -1,26 +1,13 @@
 #!/usr/bin/python
 
-
-UTILITY_VARIABLES_ALL = [
-    ["HOMESUPP", "HOMESLA", "HOMEREGN", "ORIGIN"],
-    ["HOMESUPP", "HOMESLA", "HOMEREGN", "ORIGIN"],
-    ["HOMESUPP", "HOMESLA", "HOMEREGN", "ORIGIN", "HOUSEHOLD", "YOUNGEST", "EMPLOYMENT", "LIFECYCLE"],
-    ["HOMESUPP", "HOMEREGN", "UNDER15", "OVER15", "AGEGROUP", "CH15TO24", "EMPLOYMENT", "LIFECYCLE"],
-    ["HOMESUPP", "HOMESLA", "ORIGIN", "YOUNGEST", "MARITAL", "EMPLOYMENT"]
-]
+# local imports
+from py_files.data import trim_data, find_index_in_list
+from py_files.settings import *
 
 
-def get_utility_variables(alternatives):
-    utility_variable = list()
+output_list = COMPULSORY_FIELDS + CITY_LISTS + ORIGIN_LIST
+utility_variable = ['ORIGIN']
 
-    for alternative in alternatives:
+results = trim_data(input_file=TEST_INPUT_DATA_PATH, output_file=TEST_OUTPUT_DATA_PATH, output_list=output_list, utility_parameter=utility_variable)
 
-        for item in alternative:
-            if item not in utility_variable:
-                utility_variable.append(item)
-
-    return utility_variable
-
-
-
-get_utility_variables(UTILITY_VARIABLES_ALL)
+print results

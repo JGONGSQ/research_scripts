@@ -2,7 +2,16 @@
 # python package
 import csv
 import os
-from settings import ALL_VARIABLES, EXECLUDE_VARIABLE_4, EXECLUDE_VARIABLE_1, EXECLUDE_VARIABLE_7
+from settings import ALL_VARIABLES, EXECLUDE_VARIABLE_4, EXECLUDE_VARIABLE_1, EXECLUDE_VARIABLE_7, ORIGIN_CODE
+
+
+def find_index_in_list(list, value):
+    index = None
+    for i, sub_list in enumerate(list):
+        for item in sub_list:
+            if item == value:
+                index = i
+    return index
 
 
 def get_the_city_data(input_field_list, row, city_codes):
@@ -31,6 +40,32 @@ def get_the_city_data(input_field_list, row, city_codes):
 
     # print(city_data)
     return city_data, nites_data
+
+
+def get_the_utility_variable_data(input_field_list, row, variable, variable_codes):
+    """
+    :param input_field_list:
+    :param row:
+    :param variable:
+    :param variable_codes:
+    :return:
+    """
+    variable_data = [0] * variable_codes.__len__()
+    value = row.__getitem__(input_field_list.index(variable))
+    if value:
+        variable_data.__setitem__(find_index_in_list(list=variable_codes, value=value), 1)
+
+    return variable_data
+
+
+def get_the_variable_codes(variable):
+    variable_codes = None
+
+    if variable == 'ORIGIN':
+        variable_codes = ORIGIN_CODE
+
+
+    return variable_codes
 
 
 def read_file(filename, field_list, number_of_data=1000000):
@@ -134,11 +169,11 @@ def read_file_by_city(filename, compulsory_fields, city_lists, city_codes, utili
     return results
 
 
-def write_file(filename, results):
+def write_file(filename, data):
     """
         Write the results list to generate a new data file
     :param filename: the name of the output file with its path
-    :param results: resuls in a list
+    :param data: its a two-dimensional array
     :return: True if success
     """
 
@@ -148,7 +183,7 @@ def write_file(filename, results):
         writer = csv.writer(csvfile, delimiter=',')
 
         # write each row
-        for row in results:
+        for row in data:
             writer.writerow(row)
 
     return True
@@ -225,3 +260,44 @@ def is_file_converge(filepath):
                 return True
     except Exception:
         return False
+
+
+def trim_data(input_file, output_file, output_list, utility_parameter, number_of_data=10000):
+
+    print utility_parameter
+    data = list()
+    input_field_list = None
+
+    with open(input_file, 'rb') as input_csv:
+        file_reader = csv.reader(input_csv, delimiter=',')
+
+        # For each line
+        # The first line getting the variable names
+        # Then trim on datas with
+        for i, row in enumerate(file_reader):
+            if i == 0:
+                input_field_list = row
+                # print(row)
+
+            elif i > number_of_data:
+                break
+            else:
+                # TODO make this as a function would be much easier to follow in the future
+                for variable in utility_parameter:
+                    variable_codes = get_the_variable_codes(variable)
+                    if variable_codes:
+                        variable_data = get_the_utility_variable_data(
+                            input_field_list=input_field_list,
+                            row=row,
+                            variable=variable,
+                            variable_codes=variable_codes
+                        )
+                    # TODO need to consider the continuous part such as salary or or time
+                    # else:
+
+                        print variable_data
+
+    # write the data to the output file
+    result = write_file(filename=output_file, data=data)
+
+    return result
