@@ -8,7 +8,7 @@ INPUT_DIR_PATH = '../Data/input_files'
 TEST_INPUT_FILE_PATH = '../r_resources/Model_Estimation/az_hhld_vfc_cleaned_final.csv'
 
 # NEW ADDED DATA FILE
-TEST_INPUT_DATA_PATH = '../Data/data_set1_200.csv'
+TEST_INPUT_DATA_PATH = '../Data/NVS2007unit.csv'
 TEST_OUTPUT_DATA_PATH = '../Data/test_output_file.csv'
 
 RESULTS_PATH = '../Data/results'

@@ -2,7 +2,8 @@
 # python package
 import csv
 import os
-from settings import ALL_VARIABLES, EXECLUDE_VARIABLE_4, EXECLUDE_VARIABLE_1, EXECLUDE_VARIABLE_7, ORIGIN_CODE
+from settings import ALL_VARIABLES, EXECLUDE_VARIABLE_4, EXECLUDE_VARIABLE_1, EXECLUDE_VARIABLE_7, ORIGIN_CODE, \
+    ORIGIN_LIST
 
 
 def find_index_in_list(list, value):
@@ -52,6 +53,7 @@ def get_the_utility_variable_data(input_field_list, row, variable, variable_code
     """
     variable_data = [0] * variable_codes.__len__()
     value = row.__getitem__(input_field_list.index(variable))
+    # print("### This is the value in the line:", value)
     if value:
         variable_data.__setitem__(find_index_in_list(list=variable_codes, value=value), 1)
 
@@ -64,8 +66,15 @@ def get_the_variable_codes(variable):
     if variable == 'ORIGIN':
         variable_codes = ORIGIN_CODE
 
-
     return variable_codes
+
+
+def get_the_vairable_list(variable):
+    variable_list = None
+    if variable == 'ORIGIN':
+        variable_list = ORIGIN_LIST
+
+    return variable_list
 
 
 def read_file(filename, field_list, number_of_data=1000000):
@@ -262,18 +271,29 @@ def is_file_converge(filepath):
         return False
 
 
-def trim_data(input_file, output_file, output_list, utility_parameter, number_of_data=10000):
+def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes, utility_parameters, number_of_data=200):
 
-    print utility_parameter
+    print utility_parameters
     data = list()
     input_field_list = None
+    output_fields_list = compulsory_fields + city_lists
+
+    # TODO make as a function
+    for variable in utility_parameters:
+        variable_list = get_the_vairable_list(variable)
+        if variable_list:
+            output_fields_list = output_fields_list + variable_list
+        else:
+            output_fields_list.append(variable)
+
+    # append headings here
+    data.append(output_fields_list)
+    index_number = 1
 
     with open(input_file, 'rb') as input_csv:
         file_reader = csv.reader(input_csv, delimiter=',')
 
-        # For each line
-        # The first line getting the variable names
-        # Then trim on datas with
+        # process the data line by line
         for i, row in enumerate(file_reader):
             if i == 0:
                 input_field_list = row
@@ -282,20 +302,43 @@ def trim_data(input_file, output_file, output_list, utility_parameter, number_of
             elif i > number_of_data:
                 break
             else:
-                # TODO make this as a function would be much easier to follow in the future
-                for variable in utility_parameter:
-                    variable_codes = get_the_variable_codes(variable)
-                    if variable_codes:
-                        variable_data = get_the_utility_variable_data(
-                            input_field_list=input_field_list,
-                            row=row,
-                            variable=variable,
-                            variable_codes=variable_codes
-                        )
-                    # TODO need to consider the continuous part such as salary or or time
-                    # else:
+                # getting the value of the utility parameters
+                utility_data = map(row.__getitem__, map(input_field_list.index, utility_parameters))
 
-                        print variable_data
+                if ' ' not in utility_data:
+                    city_data, nites_data = get_the_city_data(input_field_list, row, city_codes)
+
+                    if all(value is 0 for value in city_data) is False:
+
+                        # initial the row for each line with all zeros
+                        output_row = [0] * output_fields_list.__len__()
+
+                        # getting the value of the compulsory part
+                        compulosry_data = map(row.__getitem__, map(input_field_list.index, compulsory_fields))
+                        compulosry_data[0] = index_number
+
+                        all_variable_data = list()
+                        # TODO make this as a function would be much easier to follow in the future
+                        for variable in utility_parameters:
+                            variable_codes = get_the_variable_codes(variable)
+                            if variable_codes:
+                                variable_data = get_the_utility_variable_data(
+                                    input_field_list=input_field_list,
+                                    row=row,
+                                    variable=variable,
+                                    variable_codes=variable_codes
+                                )
+                                all_variable_data += variable_data
+                            else:
+                                all_variable_data.append(map(row.__getitem__, map(input_field_list.index, variable)))
+
+                        # setting the values according to the index number
+                        data_set = compulosry_data + city_data + all_variable_data
+                        map(output_row.__setitem__, map(output_fields_list.index, output_fields_list), data_set)
+
+                        print(output_row)
+                        data.append(output_row)
+                        index_number += 1
 
     # write the data to the output file
     result = write_file(filename=output_file, data=data)
