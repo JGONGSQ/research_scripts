@@ -60,23 +60,6 @@ def get_the_utility_variable_data(input_field_list, row, variable, variable_code
     return variable_data
 
 
-def get_the_variable_codes(variable):
-    variable_codes = None
-
-    if variable == 'ORIGIN':
-        variable_codes = ORIGIN_CODE
-
-    return variable_codes
-
-
-def get_the_vairable_list(variable):
-    variable_list = None
-    if variable == 'ORIGIN':
-        variable_list = ORIGIN_LIST
-
-    return variable_list
-
-
 def read_file(filename, field_list, number_of_data=1000000):
     """
         Read the source file
@@ -271,6 +254,36 @@ def is_file_converge(filepath):
         return False
 
 
+def get_utility_parameters_list(utility_parameters):
+    utility_parameters_list = list()
+    for variable in utility_parameters:
+        variable_list = get_the_vairable_list(variable)
+        if variable_list:
+            utility_parameters_list += variable_list
+        else:
+            utility_parameters_list.append(variable)
+
+    return utility_parameters_list
+
+
+
+def get_the_variable_codes(variable):
+    variable_codes = None
+
+    if variable == 'ORIGIN':
+        variable_codes = ORIGIN_CODE
+
+    return variable_codes
+
+
+def get_the_vairable_list(variable):
+    variable_list = None
+    if variable == 'ORIGIN':
+        variable_list = ORIGIN_LIST
+
+    return variable_list
+
+
 def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes, utility_parameters, number_of_data=2000):
     """
     :param input_file: the path of the input file
@@ -283,21 +296,16 @@ def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes
     :return: Boolean value
     """
     print utility_parameters
+    # initials
     data = list()
     input_field_list = None
-    output_fields_list = compulsory_fields + city_lists
+    index_number = 1
 
-    # TODO make as a function
-    for variable in utility_parameters:
-        variable_list = get_the_vairable_list(variable)
-        if variable_list:
-            output_fields_list = output_fields_list + variable_list
-        else:
-            output_fields_list.append(variable)
+    utility_parameters_list = get_utility_parameters_list(utility_parameters)
+    output_fields_list = compulsory_fields + city_lists + utility_parameters_list
 
     # append headings here
     data.append(output_fields_list)
-    index_number = 1
 
     with open(input_file, 'rb') as input_csv:
         file_reader = csv.reader(input_csv, delimiter=',')
@@ -306,7 +314,6 @@ def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes
         for i, row in enumerate(file_reader):
             if i == 0:
                 input_field_list = row
-                # print(row)
 
             elif i > number_of_data:
                 break
