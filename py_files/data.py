@@ -3,7 +3,7 @@
 import csv
 import os
 from settings import ALL_VARIABLES, EXECLUDE_VARIABLE_4, EXECLUDE_VARIABLE_1, EXECLUDE_VARIABLE_7, ORIGIN_CODE, \
-    ORIGIN_LIST
+    ORIGIN_LIST, CITY_LISTS
 
 
 def find_index_in_list(list, value):
@@ -41,6 +41,39 @@ def get_the_city_data(input_field_list, row, city_codes):
 
     # print(city_data)
     return city_data, nites_data
+
+
+def get_the_city_data_in_orders(input_field_list, row, city_codes):
+    """
+    :param input_field_list: the first line of the input file
+    :param row: data for each line
+    :param city_codes: capital city codes
+    :return: binary matrix if the person visited the capital city
+    """
+    city_data = [0] * city_codes.__len__()
+    nites_data = [0] * city_codes.__len__()
+    # need to be careful here to get the total number of stops
+    number_of_stops = row.__getitem__(input_field_list.index('NUMSTOP'))
+    order_data = ''
+    # for each stop do the check
+    for i in range(int(number_of_stops)):
+        location = row.__getitem__(input_field_list.index('REGN%s' % str(i + 1)))
+        # print(location)
+        if location in city_codes:
+            # city_data.__setitem__(city_codes.index(location), 1)
+
+            # get the nites data, the number of days in the city
+            nites = row.__getitem__(input_field_list.index('NITES%s' % str(i + 1)))
+            nites_data.__setitem__(city_codes.index(location), int(nites))
+            city_data.__setitem__(city_codes.index(location), int(nites))
+            city_name = CITY_LISTS.__getitem__(city_codes.index(location))
+            if order_data == '':
+                order_data += city_name
+            else:
+                order_data = order_data + '-' + city_name
+
+    print(order_data)
+    return city_data, order_data
 
 
 def get_the_utility_variable_data(input_field_list, row, variable, variable_codes):
@@ -364,5 +397,40 @@ def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes
                         index_number += 1
 
     # write the data to the output file
+    is_successful = write_file(filename=output_file, data=data)
+    return is_successful
+
+
+def read_combinations(input_file, output_file, compulsory_fields, city_lists, city_codes, number_of_data=40000):
+    input_field_list = None
+    index_number = 1
+    data = list()
+    output_fields_list = compulsory_fields + city_lists
+
+    data.append(output_fields_list)
+    with open(input_file, 'rb') as input_csv:
+        file_reader = csv.reader(input_csv, delimiter=',')
+
+        for i , row in enumerate(file_reader):
+            if i == 0:
+                input_field_list = row
+            elif i > number_of_data:
+                break
+            else:
+
+                city_data, order_data = get_the_city_data_in_orders(input_field_list, row, city_codes)
+
+                if all(value is 0 for value in city_data) is False:
+                    output_row = [0] * output_fields_list.__len__()
+                    compulsory_data = map(row.__getitem__, map(input_field_list.index, compulsory_fields))
+                    compulsory_data[0] = index_number
+                    compulsory_data[3] = order_data
+
+                    data_set = compulsory_data + city_data
+                    map(output_row.__setitem__, map(output_fields_list.index, output_fields_list), data_set)
+                    print(output_row)
+                    data.append(output_row)
+                    index_number += 1
+
     is_successful = write_file(filename=output_file, data=data)
     return is_successful
