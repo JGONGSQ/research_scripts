@@ -2,7 +2,17 @@
 # python package
 import csv
 import os
-from settings import ALL_VARIABLES, EXECLUDE_VARIABLE_4, EXECLUDE_VARIABLE_1, EXECLUDE_VARIABLE_7
+from settings import ALL_VARIABLES, EXECLUDE_VARIABLE_4, EXECLUDE_VARIABLE_1, EXECLUDE_VARIABLE_7, ORIGIN_CODE, \
+    ORIGIN_LIST
+
+
+def find_index_in_list(list, value):
+    index = None
+    for i, sub_list in enumerate(list):
+        for item in sub_list:
+            if item == value:
+                index = i
+    return index
 
 
 def get_the_city_data(input_field_list, row, city_codes):
@@ -31,6 +41,23 @@ def get_the_city_data(input_field_list, row, city_codes):
 
     # print(city_data)
     return city_data, nites_data
+
+
+def get_the_utility_variable_data(input_field_list, row, variable, variable_codes):
+    """
+    :param input_field_list:
+    :param row:
+    :param variable:
+    :param variable_codes:
+    :return:
+    """
+    variable_data = [0] * variable_codes.__len__()
+    value = row.__getitem__(input_field_list.index(variable))
+    # print("### This is the value in the line:", value)
+    if value:
+        variable_data.__setitem__(find_index_in_list(list=variable_codes, value=value), 1)
+
+    return variable_data
 
 
 def read_file(filename, field_list, number_of_data=1000000):
@@ -134,11 +161,11 @@ def read_file_by_city(filename, compulsory_fields, city_lists, city_codes, utili
     return results
 
 
-def write_file(filename, results):
+def write_file(filename, data):
     """
         Write the results list to generate a new data file
     :param filename: the name of the output file with its path
-    :param results: resuls in a list
+    :param data: its a two-dimensional array
     :return: True if success
     """
 
@@ -148,7 +175,7 @@ def write_file(filename, results):
         writer = csv.writer(csvfile, delimiter=',')
 
         # write each row
-        for row in results:
+        for row in data:
             writer.writerow(row)
 
     return True
@@ -193,19 +220,149 @@ def filter_files(dirpath):
     files = os.listdir(dirpath)
 
     for file in files:
-        if is_file_converge(dirpath + '/' + file):
-            print file
-
+        if os.path.isdir(dirpath + '/' + file):
+            pass
+        else:
+            if is_file_converge(dirpath + '/' + file):
+                os.rename(dirpath + '/' + file, dirpath + '/converge/' + file)
+            else:
+                os.rename(dirpath + '/' + file, dirpath + '/notconverge/' + file)
     return
+
+
+def get_utility_variables(alternatives):
+    utility_variable = list()
+
+    # in each alternative may have the different variable
+    for alternative in alternatives:
+
+        for item in alternative:
+            if item not in utility_variable:
+                utility_variable.append(item)
+
+    return utility_variable
 
 
 def is_file_converge(filepath):
     try:
         with open(filepath, 'r') as fp:
             if 'Inf' in fp.read():
-                return True
-            else:
                 return False
+            else:
+                return True
     except Exception:
-        pass
         return False
+
+
+def get_utility_parameters_list(utility_parameters):
+    utility_parameters_list = list()
+
+    for variable in utility_parameters:
+        variable_list = get_the_vairable_list(variable)
+        if variable_list:
+            utility_parameters_list += variable_list
+        else:
+            utility_parameters_list.append(variable)
+
+    return utility_parameters_list
+
+
+def get_utility_parameters_value(input_field_list, utility_parameters, row):
+    value_list = list()
+
+    for variable in utility_parameters:
+        variable_codes = get_the_variable_codes(variable)
+        if variable_codes:
+            variable_data = get_the_utility_variable_data(
+                input_field_list=input_field_list,
+                row=row,
+                variable=variable,
+                variable_codes=variable_codes
+            )
+            value_list += variable_data
+        else:
+            value_list.append(map(row.__getitem__, map(input_field_list.index, variable)))
+
+    return value_list
+
+
+def get_the_variable_codes(variable):
+    variable_codes = None
+
+    if variable == 'ORIGIN':
+        variable_codes = ORIGIN_CODE
+
+    return variable_codes
+
+
+def get_the_vairable_list(variable):
+    variable_list = None
+    if variable == 'ORIGIN':
+        variable_list = ORIGIN_LIST
+
+    return variable_list
+
+
+def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes, utility_parameters, number_of_data=2000):
+    """
+    :param input_file: the path of the input file
+    :param output_file: the path of the output file
+    :param compulsory_fields: compulsory fields for the R package
+    :param city_lists: list of city names
+    :param city_codes: list tof city codes
+    :param utility_parameters: list of utility parameters for the model
+    :param number_of_data: maximum number of data going to be read, if not givem the default value is 2000
+    :return: Boolean value
+    """
+    print utility_parameters
+    # initials
+    data = list()
+    input_field_list = None
+    index_number = 1
+
+    utility_parameters_list = get_utility_parameters_list(utility_parameters)
+    output_fields_list = compulsory_fields + city_lists + utility_parameters_list
+
+    # append headings here
+    data.append(output_fields_list)
+
+    with open(input_file, 'rb') as input_csv:
+        file_reader = csv.reader(input_csv, delimiter=',')
+
+        # process the data line by line
+        for i, row in enumerate(file_reader):
+            if i == 0:
+                input_field_list = row
+
+            elif i > number_of_data:
+                break
+            else:
+                # getting the value of the utility parameters
+                utility_data = map(row.__getitem__, map(input_field_list.index, utility_parameters))
+
+                if ' ' not in utility_data:
+                    city_data, nites_data = get_the_city_data(input_field_list, row, city_codes)
+
+                    if all(value is 0 for value in city_data) is False:
+
+                        # initial the row for each line with all zeros
+                        output_row = [0] * output_fields_list.__len__()
+
+                        # getting the value of the compulsory part
+                        compulsory_data = map(row.__getitem__, map(input_field_list.index, compulsory_fields))
+                        compulsory_data[0] = index_number
+
+                        # getting the utility parameters data according to the utility parameters
+                        utility_variable_data = get_utility_parameters_value(input_field_list, utility_parameters, row)
+
+                        # setting the values according to the index number
+                        data_set = compulsory_data + city_data + utility_variable_data
+                        map(output_row.__setitem__, map(output_fields_list.index, output_fields_list), data_set)
+
+                        print(output_row)
+                        data.append(output_row)
+                        index_number += 1
+
+    # write the data to the output file
+    is_successful = write_file(filename=output_file, data=data)
+    return is_successful
