@@ -427,11 +427,9 @@ def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes
                 if ' ' not in utility_data:
                     city_data, nites_data = get_the_city_data(input_field_list, row, city_codes)
 
-                    # temp_number = city_data.__len__() - 2
-                    # print('####', count_zero(city_data), temp_number)
+                    if city_data.__len__() - 2 >= count_zero(city_data):
+                    # if all(value is 0 for value in city_data) is False:
 
-                    # if temp_number >= count_zero(data):
-                    if all(value is 0 for value in city_data) is False:
 
                         # initial the row for each line with all zeros
                         output_row = [0] * output_fields_list.__len__()
