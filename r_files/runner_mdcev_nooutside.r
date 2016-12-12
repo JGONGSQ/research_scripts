@@ -22,12 +22,28 @@ case_config = strtoi(args[3])
 utility_variables = args[4]
 city_variables =args[5]
 output_results_path = args[6]
+alternative_2 = args[7]
+alternative_3 = args[8]
+alternative_4 = args[9]
+alternative_5 = args[10]
+alternative_6 = args[11]
+
+alternative_variable_2 = list_creator(strsplit(alternative_2, ",") )
+alternative_variable_3 = list_creator(strsplit(alternative_3, ",") )
+alternative_variable_4 = list_creator(strsplit(alternative_4, ",") )
+alternative_variable_5 = list_creator(strsplit(alternative_5, ",") )
+alternative_variable_6 = list_creator(strsplit(alternative_6, ",") )
+
+print("#######################")
+print(alternative_variable_2)
+print(alternative_variable_3)
+print(alternative_variable_4)
+print(alternative_variable_5)
+print(alternative_variable_6)
 
 print("###### This is the utility variables")
 variable_list = list_creator(strsplit(utility_variables, ",") )
 print(variable_list)
-# case_config = 4
-# number_of_alternatives = 7
 
 print("-----> Reading Table <-----")
 Data <<- read.table(input_file_path, header=T, sep=",");
@@ -42,7 +58,7 @@ nc <- number_of_alternatives;         # Number of alternatives (in the universal
 po <- match("id", table_headers, 0);         # Index number of ID column in input data
 
 ivuno <- "uno"
-ivsero <-'sero'
+ivsero <-"sero"
 wtind <<- "uno"
 
 maxlikmethod1 <- "BHHH"; # Method of maximum likelihood for initial estimation ("BHHH" or "BFGS") 
@@ -68,21 +84,28 @@ fp <- fp_list
 # (number of rows = number of alternatives);
 # Number of columns = Number of variables including alternative specific constants; consider first alternative as base
 ivmt <- list();
-# ivmt[[1]] <- c("");   # Base alternative
-# ivmt[[2]] <- c("uno", variable_list);
-# ivmt[[3]] <- c("uno", "ORIGIN");
-# ivmt[[4]] <- c("uno", "ORIGIN");
-# ivmt[[5]] <- c("uno", "ORIGIN");
-# ivmt[[6]] <- c("uno", "ORIGIN");
+ivmt[[1]] <- c("");   # Base alternative
+ivmt[[2]] <- c("uno", alternative_variable_2);
+ivmt[[3]] <- c("uno", alternative_variable_3);
+ivmt[[4]] <- c("uno", alternative_variable_4);
+ivmt[[5]] <- c("uno", alternative_variable_5);
+ivmt[[6]] <- c("uno", alternative_variable_6);
 
-for (i in 1:nc){
-  if (i == 1){
-    ivmt[[i]] <- c("") # Base alternative
-  }
-  else {
-    ivmt[[i]] <- c("uno", variable_list)
-  }
-}
+print(ivmt[[2]])
+print(ivmt[[3]])
+print(ivmt[[4]])
+print(ivmt[[5]])
+print(ivmt[[6]])
+
+
+#for (i in 1:nc){
+#  if (i == 1){
+#    ivmt[[i]] <- c("") # Base alternative
+#  }
+#  else {
+#    ivmt[[i]] <- c("uno", variable_list)
+#  }
+#}
 
 
 
@@ -148,6 +171,8 @@ gamma_names <- gamma_name_list
 ########################################################################################################
 arg_inds <- list(config, alp0to1, price, nc, po); 
 arg_vars <- list(ivuno, ivsero, wtind, maxlikmethod1, maxlikmethod2);           
+
+
 result <- mdcev_nooutgood(Data, arg_inds, arg_vars, def, fp, ivmt, ivdts, ivgts, alpha_names, gamma_names);
 ########################################################################################################
 sink(output_results_path)
