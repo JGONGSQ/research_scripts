@@ -4,7 +4,9 @@
 from py_files.data import trim_data
 from py_files.settings import *
 
-utility_variables = ['ORIGIN']
+# utility_variables = ['HOMESLA', 'ORIGIN', 'HOUSEHOLD', 'UNDER15', 'OVER15', 'PARENT', 'YOUNGEST', 'AGEGROUP', 'CH15TO24', 'GENDER', 'MARITAL', 'EMPLOYMENT', 'HOUSINC', 'LIFECYCLE']
+
+utility_variables = ['ORIGIN', 'HOMESLA']
 
 results = trim_data(
     input_file=TEST_INPUT_DATA_PATH,

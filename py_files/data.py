@@ -2,8 +2,7 @@
 # python package
 import csv
 import os
-from settings import ALL_VARIABLES, EXECLUDE_VARIABLE_4, EXECLUDE_VARIABLE_1, EXECLUDE_VARIABLE_7, ORIGIN_CODE, \
-    ORIGIN_LIST
+from settings import *
 
 
 def find_index_in_list(list, value):
@@ -53,7 +52,7 @@ def get_the_utility_variable_data(input_field_list, row, variable, variable_code
     """
     variable_data = [0] * variable_codes.__len__()
     value = row.__getitem__(input_field_list.index(variable))
-    # print("### This is the value in the line:", value)
+    # print("### This is the value in the line:", value, variable_codes)
     if value:
         variable_data.__setitem__(find_index_in_list(list=variable_codes, value=value), 1)
 
@@ -258,6 +257,7 @@ def get_utility_parameters_list(utility_parameters):
     utility_parameters_list = list()
 
     for variable in utility_parameters:
+
         variable_list = get_the_vairable_list(variable)
         if variable_list:
             utility_parameters_list += variable_list
@@ -269,7 +269,7 @@ def get_utility_parameters_list(utility_parameters):
 
 def get_utility_parameters_value(input_field_list, utility_parameters, row):
     value_list = list()
-
+    # print utility_parameters
     for variable in utility_parameters:
         variable_codes = get_the_variable_codes(variable)
         if variable_codes:
@@ -281,7 +281,8 @@ def get_utility_parameters_value(input_field_list, utility_parameters, row):
             )
             value_list += variable_data
         else:
-            value_list.append(map(row.__getitem__, map(input_field_list.index, variable)))
+            # print input_field_list.index(variable)
+            value_list.append(row.__getitem__(int(input_field_list.index(variable))))
 
     return value_list
 
@@ -292,6 +293,27 @@ def get_the_variable_codes(variable):
     if variable == 'ORIGIN':
         variable_codes = ORIGIN_CODE
 
+    elif variable == 'PARENT':
+        variable_codes = PARENT_CODE
+
+    elif variable == 'YOUNGEST':
+        variable_codes = YOUNGEST_CODE
+
+    elif variable == "GENDER":
+        variable_codes = GENDER_CODE
+
+    elif variable == 'MARITAL':
+        variable_codes = MARITAL_CODE
+
+    elif variable == 'EMPLOYMENT':
+        variable_codes = EMPLOYMENT_CODE
+
+    elif variable == 'HOUSINC':
+        variable_codes = HOUSINC_CODE
+
+    elif variable == 'LIFECYCLE':
+        variable_codes = LIFECYCLE_CODE
+
     return variable_codes
 
 
@@ -300,10 +322,39 @@ def get_the_vairable_list(variable):
     if variable == 'ORIGIN':
         variable_list = ORIGIN_LIST
 
+    elif variable == 'PARENT':
+        variable_list = PARENT_LIST
+
+    elif variable == 'YOUNGEST':
+        variable_list = YOUNGEST_LIST
+
+    elif variable == "GENDER":
+        variable_list = GENDER_LIST
+
+    elif variable == 'MARITAL':
+        variable_list = MARITAL_LIST
+
+    elif variable == 'EMPLOYMENT':
+        variable_list = EMPLOYMENT_LIST
+
+    elif variable == 'HOUSINC':
+        variable_list = HOUSINC_LIST
+
+    elif variable == 'LIFECYCLE':
+        variable_list = LIFECYCLE_LIST
+
     return variable_list
 
 
-def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes, utility_parameters, number_of_data=2000):
+def count_zero(data):
+    count = 0
+    for item in data:
+        if item == 0:
+            count += 1
+    return count
+
+
+def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes, utility_parameters, number_of_data=40000):
     """
     :param input_file: the path of the input file
     :param output_file: the path of the output file
@@ -343,6 +394,10 @@ def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes
                 if ' ' not in utility_data:
                     city_data, nites_data = get_the_city_data(input_field_list, row, city_codes)
 
+                    # temp_number = city_data.__len__() - 2
+                    # print('####', count_zero(city_data), temp_number)
+
+                    # if temp_number >= count_zero(data):
                     if all(value is 0 for value in city_data) is False:
 
                         # initial the row for each line with all zeros
