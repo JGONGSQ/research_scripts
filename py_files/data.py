@@ -347,6 +347,9 @@ def get_the_variable_codes(variable):
     elif variable == 'LIFECYCLE':
         variable_codes = LIFECYCLE_CODE
 
+    elif variable == 'AGEGROUP':
+        variable_codes = AGEGROUP_CODE
+
     return variable_codes
 
 
@@ -375,6 +378,9 @@ def get_the_vairable_list(variable):
 
     elif variable == 'LIFECYCLE':
         variable_list = LIFECYCLE_LIST
+
+    elif variable == 'AGEGROUP':
+        variable_list = AGEGROUP_LIST
 
     return variable_list
 
