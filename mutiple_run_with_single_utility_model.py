@@ -68,7 +68,7 @@ list_of_estimations = list()
 for case_config in case_config_list:
 
     # generate the combination of lists
-    variable_combinations = itertools.combinations(ALL_LOCAL_VARIABLES, len(ALL_LOCAL_VARIABLES)-1)
+    variable_combinations = itertools.combinations(ALL_LOCAL_VARIABLES, len(ALL_LOCAL_VARIABLES)-2)
 
     for local_combination in variable_combinations:
         combination = convert_tuple_to_list(local_combination)
