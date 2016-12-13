@@ -427,7 +427,8 @@ def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes
                 if ' ' not in utility_data:
                     city_data, nites_data = get_the_city_data(input_field_list, row, city_codes)
 
-                    if city_data.__len__() - 2 >= count_zero(city_data):
+                    if city_data.__len__() - 1 == count_zero(city_data):
+                    # if city_data.__len__() - 2 >= count_zero(city_data):
                     # if all(value is 0 for value in city_data) is False:
 
 

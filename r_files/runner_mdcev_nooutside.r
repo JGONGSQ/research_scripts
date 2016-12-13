@@ -34,7 +34,7 @@ alternative_variable_4 = list_creator(strsplit(alternative_4, ",") )
 alternative_variable_5 = list_creator(strsplit(alternative_5, ",") )
 alternative_variable_6 = list_creator(strsplit(alternative_6, ",") )
 
-print("#######################")
+#print("#######################")
 print(alternative_variable_2)
 print(alternative_variable_3)
 print(alternative_variable_4)
@@ -43,7 +43,7 @@ print(alternative_variable_6)
 
 print("###### This is the utility variables")
 variable_list = list_creator(strsplit(utility_variables, ",") )
-print(variable_list)
+#print(variable_list)
 
 print("-----> Reading Table <-----")
 Data <<- read.table(input_file_path, header=T, sep=",");
