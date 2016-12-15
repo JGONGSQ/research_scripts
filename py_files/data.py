@@ -53,7 +53,7 @@ def get_the_city_data_in_orders(input_field_list, row, city_codes):
     nites_data = [0] * city_codes.__len__()
     # need to be careful here to get the total number of stops
     number_of_stops = row.__getitem__(input_field_list.index('NUMSTOP'))
-    order_data = ''
+    path = ''
     # for each stop do the check
     for i in range(int(number_of_stops)):
         location = row.__getitem__(input_field_list.index('REGN%s' % str(i + 1)))
@@ -63,16 +63,49 @@ def get_the_city_data_in_orders(input_field_list, row, city_codes):
 
             # get the nites data, the number of days in the city
             nites = row.__getitem__(input_field_list.index('NITES%s' % str(i + 1)))
-            nites_data.__setitem__(city_codes.index(location), int(nites))
-            city_data.__setitem__(city_codes.index(location), int(nites))
+            nites_data[city_codes.index(location)] += int(nites)
+            city_data[city_codes.index(location)] += int(nites)
             city_name = CITY_LISTS.__getitem__(city_codes.index(location))
-            if order_data == '':
-                order_data += city_name
-            else:
-                order_data = order_data + '-' + city_name
+            path = generate_path(path, city_name)
 
-    print(order_data)
-    return city_data, order_data
+    print(path)
+    return city_data, path
+
+
+def get_state_location(location):
+    state_location = location[0]
+    return state_location
+
+
+def generate_path(path, location_name):
+    if path.endswith(location_name) is False:
+        if path == '':
+            path += location_name
+        else:
+            path = path + '-' + location_name
+    return path
+
+
+def get_the_state_data(input_field_list, row, state_codes):
+    state_data = [0] * state_codes.__len__()
+    nites_data = [0] * state_codes.__len__()
+
+    number_of_stops = row.__getitem__(input_field_list.index('NUMSTOP'))
+    path = ''
+
+    for i in range(int(number_of_stops)):
+        location = row.__getitem__(input_field_list.index('REGN%s' % str(i + 1)))
+        state_location = get_state_location(location)
+
+        if state_location in state_codes:
+            nites = row.__getitem__(input_field_list.index('NITES%s' % str(i + 1)))
+            nites_data[state_codes.index(state_location)] += int(nites)
+            state_data[state_codes.index(state_location)] += int(nites)
+            state_name = STATE_LISTS.__getitem__(state_codes.index(state_location))
+
+            path = generate_path(path, state_name)
+
+    return state_data, path
 
 
 def get_the_utility_variable_data(input_field_list, row, variable, variable_codes):
@@ -461,14 +494,14 @@ def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes
     return is_successful
 
 
-def read_combinations(input_file, output_file, compulsory_fields, city_lists, city_codes, number_of_data=40000):
+def read_combinations(input_file, output_file, compulsory_fields, state_lists, state_codes, number_of_data=40000):
     input_field_list = None
     index_number = 1
     data = list()
-    output_fields_list = compulsory_fields + city_lists
+    output_fields_list = compulsory_fields + state_lists
 
     data.append(output_fields_list)
-    with open(input_file, 'rb') as input_csv:
+    with open(input_file, 'rU') as input_csv:
         file_reader = csv.reader(input_csv, delimiter=',')
 
         for i , row in enumerate(file_reader):
@@ -478,15 +511,17 @@ def read_combinations(input_file, output_file, compulsory_fields, city_lists, ci
                 break
             else:
 
-                city_data, order_data = get_the_city_data_in_orders(input_field_list, row, city_codes)
+                state_data, order_data = get_the_state_data(input_field_list, row, state_codes)
 
-                if all(value is 0 for value in city_data) is False:
+                if state_data.__len__() - 1 == count_zero(state_data):
+                # if state_data.__len__() - 2 >= count_zero(state_data):
+                # if all(value is 0 for value in state_data) is False:
                     output_row = [0] * output_fields_list.__len__()
                     compulsory_data = map(row.__getitem__, map(input_field_list.index, compulsory_fields))
                     compulsory_data[0] = index_number
                     compulsory_data[3] = order_data
 
-                    data_set = compulsory_data + city_data
+                    data_set = compulsory_data + state_data
                     map(output_row.__setitem__, map(output_fields_list.index, output_fields_list), data_set)
                     print(output_row)
                     data.append(output_row)

@@ -10,6 +10,6 @@ results = read_combinations(
     input_file=TEST_INPUT_DATA_PATH,
     output_file=TEST_OUTPUT_DATA_PATH,
     compulsory_fields=COMPULSORY_FIELDS,
-    city_lists=CITY_LISTS,
-    city_codes=CITY_CODES,
+    state_lists=STATE_LISTS,
+    state_codes=STATE_CODES,
 )

@@ -3,12 +3,12 @@
 
 # File
 ### csv ###
-INPUT_DATA_FILE = '../Data/NVS2007unit.csv'
+INPUT_DATA_FILE = '../Data/NVS2007.csv'
 INPUT_DIR_PATH = '../Data/input_files'
 TEST_INPUT_FILE_PATH = '../r_resources/Model_Estimation/az_hhld_vfc_cleaned_final.csv'
 
 # NEW ADDED DATA FILE
-TEST_INPUT_DATA_PATH = '../Data/NVS2007unit.csv'
+TEST_INPUT_DATA_PATH = '../Data/NVS2012.csv'
 TEST_OUTPUT_DATA_PATH = '../Data/test_output_file.csv'
 
 RESULTS_PATH = '../Data/results'
@@ -31,6 +31,9 @@ COMPULSORY_FIELDS = ['id', 'uno', 'sero', 'NUMSTOP']
 
 CITY_LISTS = ['Sydney', 'Melbourne', 'Brisbane', 'Adelaide', 'Hobart', 'Darwin']
 CITY_CODES = ['104', '201', '302', '404', '601', '801']
+
+STATE_LISTS = ['NSW', 'VIC', 'QLD', 'SA', 'TAS', 'NT']
+STATE_CODES = ['1', '2', '3', '4', '6', '8']
 
 
 ALL_VARIABLES = ['HOMESUPP', 'HOMESLA', 'HOMEREGN', 'ORIGIN', 'HOUSEHOLD', 'UNDER15', 'OVER15', 'PARENT', 'YOUNGEST',

@@ -8,7 +8,8 @@ from py_files.settings import *
 # droped_variables = ['PARENT', 'YOUNGEST', 'CH15TO24']
 variable_need_to_be_analysed = ['AGEGROUP']
 
-utility_variables = ['ORIGIN', 'HOMESLA', 'HOUSEHOLD', 'UNDER15', 'OVER15', 'GENDER', 'MARITAL', 'EMPLOYMENT', 'HOUSINC', 'LIFECYCLE']
+# utility_variables = ['ORIGIN', 'HOMESLA', 'HOUSEHOLD', 'UNDER15', 'OVER15', 'GENDER', 'MARITAL', 'EMPLOYMENT', 'HOUSINC', 'LIFECYCLE']
+utility_variables = ['ORIGIN']
 
 results = trim_data(
     input_file=TEST_INPUT_DATA_PATH,
