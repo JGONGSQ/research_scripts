@@ -61,7 +61,6 @@ process = subprocess.call(
         alternative_5_variables=convert_list_to_str(get_utility_parameters_list(UTILITY_VARIABLES_ALTERNATIVES[3])),
         alternative_6_variables=convert_list_to_str(get_utility_parameters_list(UTILITY_VARIABLES_ALTERNATIVES[4])),
     )
-
     ]
     , shell=True)
 

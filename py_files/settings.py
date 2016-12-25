@@ -3,7 +3,7 @@
 
 # File
 ### csv ###
-INPUT_DATA_FILE = '../Data/NVS2007.csv'
+# INPUT_DATA_FILE = '../Data/NVS2007.csv'
 INPUT_DIR_PATH = '../Data/input_files'
 TEST_INPUT_FILE_PATH = '../r_resources/Model_Estimation/az_hhld_vfc_cleaned_final.csv'
 

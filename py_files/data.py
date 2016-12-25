@@ -449,7 +449,7 @@ def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes
     # append headings here
     data.append(output_fields_list)
 
-    with open(input_file, 'rb') as input_csv:
+    with open(input_file, 'rU') as input_csv:
         file_reader = csv.reader(input_csv, delimiter=',')
 
         # process the data line by line
@@ -466,8 +466,8 @@ def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes
                 if ' ' not in utility_data:
                     city_data, nites_data = get_the_city_data(input_field_list, row, city_codes)
 
-                    if city_data.__len__() - 1 == count_zero(city_data):
-                    # if city_data.__len__() - 2 >= count_zero(city_data):
+                    # if city_data.__len__() - 1 == count_zero(city_data):
+                    if city_data.__len__() - 2 >= count_zero(city_data):
                     # if all(value is 0 for value in city_data) is False:
 
 
@@ -494,38 +494,51 @@ def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes
     return is_successful
 
 
-def read_combinations(input_file, output_file, compulsory_fields, state_lists, state_codes, number_of_data=40000):
+def read_state_combinations(input_file, output_file, compulsory_fields, state_lists, state_codes, utility_parameters, number_of_data=40000):
+
+    print utility_parameters
+    # initials
     input_field_list = None
     index_number = 1
     data = list()
-    output_fields_list = compulsory_fields + state_lists
+
+    utility_parameters_list = get_utility_parameters_list(utility_parameters)
+    output_fields_list = compulsory_fields + state_lists + utility_parameters_list
 
     data.append(output_fields_list)
+
     with open(input_file, 'rU') as input_csv:
         file_reader = csv.reader(input_csv, delimiter=',')
 
-        for i , row in enumerate(file_reader):
+        for i, row in enumerate(file_reader):
             if i == 0:
                 input_field_list = row
             elif i > number_of_data:
                 break
             else:
+                # getting the value of the utility parameters
+                utility_data = map(row.__getitem__, map(input_field_list.index, utility_parameters))
+                if ' ' not in utility_data:
 
-                state_data, order_data = get_the_state_data(input_field_list, row, state_codes)
+                    state_data, order_data = get_the_state_data(input_field_list, row, state_codes)
 
-                if state_data.__len__() - 1 == count_zero(state_data):
-                # if state_data.__len__() - 2 >= count_zero(state_data):
-                # if all(value is 0 for value in state_data) is False:
-                    output_row = [0] * output_fields_list.__len__()
-                    compulsory_data = map(row.__getitem__, map(input_field_list.index, compulsory_fields))
-                    compulsory_data[0] = index_number
-                    compulsory_data[3] = order_data
+                    # if state_data.__len__() - 1 == count_zero(state_data):
+                    if state_data.__len__() - 2 >= count_zero(state_data):
+                    # if all(value is 0 for value in state_data) is False:
+                        output_row = [0] * output_fields_list.__len__()
+                        compulsory_data = map(row.__getitem__, map(input_field_list.index, compulsory_fields))
+                        compulsory_data[0] = index_number
+                        compulsory_data[3] = order_data
 
-                    data_set = compulsory_data + state_data
-                    map(output_row.__setitem__, map(output_fields_list.index, output_fields_list), data_set)
-                    print(output_row)
-                    data.append(output_row)
-                    index_number += 1
+                        # getting the utility parameters data according to the utility parameters
+                        utility_variable_data = get_utility_parameters_value(input_field_list, utility_parameters, row)
+
+                        data_set = compulsory_data + state_data + utility_variable_data
+                        map(output_row.__setitem__, map(output_fields_list.index, output_fields_list), data_set)
+
+                        print(output_row)
+                        data.append(output_row)
+                        index_number += 1
 
     is_successful = write_file(filename=output_file, data=data)
     return is_successful
