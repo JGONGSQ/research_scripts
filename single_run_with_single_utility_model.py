@@ -13,7 +13,8 @@ from py_files.settings import *
 # UTILITY_VARIABLES = ['GENDER']
 # dropped_variable = [, 'LIFECYCLE', 'GENDER', 'MARITAL']
 
-local_variable = ['ORIGIN', 'HOMESLA', 'HOUSEHOLD', 'UNDER15', 'OVER15', 'EMPLOYMENT', 'HOUSINC']
+# local_variable = ['ORIGIN', 'HOMESLA', 'HOUSEHOLD', 'UNDER15', 'OVER15', 'EMPLOYMENT', 'HOUSINC']
+local_variable = ['ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_QLD', 'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS']
 
 UTILITY_VARIABLES_ALTERNATIVES = [
 
@@ -39,7 +40,8 @@ start_time = datetime.now()
 case_config = 1
 
 # write the file
-input_file_path = INPUT_DIR_PATH + '/MDCEV_data_v0.csv'
+# input_file_path = INPUT_DIR_PATH + '/MDCEV_data_v0.csv'
+input_file_path = TEST_OUTPUT_DATA_PATH
 output_file_path = RESULTS_PATH + '/results' + '_{}'.format(case_config) + '_{}'.format('MDCEV') + '.txt'
 print output_file_path
 
@@ -50,10 +52,10 @@ process = subprocess.call(
      '{alternative_5_variables} {alternative_6_variables}'.format(
         r_script_file=RUNNER_MDCEV,
         input_file=input_file_path,
-        number_of_alternatives=CITY_LISTS.__len__(),
+        number_of_alternatives=STATE_LISTS.__len__(),
         case_config=case_config,
         utility_parameter=convert_list_to_str(UTILITY_VARIABLES),
-        city_list=convert_list_to_str(CITY_LISTS),
+        city_list=convert_list_to_str(STATE_LISTS),
         results_file=output_file_path,
         alternative_2_variables=convert_list_to_str(get_utility_parameters_list(UTILITY_VARIABLES_ALTERNATIVES[0])),
         alternative_3_variables=convert_list_to_str(get_utility_parameters_list(UTILITY_VARIABLES_ALTERNATIVES[1])),

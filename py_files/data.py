@@ -118,7 +118,7 @@ def get_the_utility_variable_data(input_field_list, row, variable, variable_code
     """
     variable_data = [0] * variable_codes.__len__()
     value = row.__getitem__(input_field_list.index(variable))
-    # print("### This is the value in the line:", value)
+    print("### This is the value in the line:", value)
     if value:
         variable_data.__setitem__(find_index_in_list(list=variable_codes, value=value), 1)
 
@@ -338,6 +338,7 @@ def get_utility_parameters_value(input_field_list, utility_parameters, row):
     # print utility_parameters
     for variable in utility_parameters:
         variable_codes = get_the_variable_codes(variable)
+        print variable
         if variable_codes:
             variable_data = get_the_utility_variable_data(
                 input_field_list=input_field_list,

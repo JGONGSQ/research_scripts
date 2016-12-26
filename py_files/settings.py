@@ -8,7 +8,7 @@ INPUT_DIR_PATH = '../Data/input_files'
 TEST_INPUT_FILE_PATH = '../r_resources/Model_Estimation/az_hhld_vfc_cleaned_final.csv'
 
 # NEW ADDED DATA FILE
-TEST_INPUT_DATA_PATH = '../Data/NVS2012.csv'
+TEST_INPUT_DATA_PATH = '../Data/NVS2007unit.csv'
 TEST_OUTPUT_DATA_PATH = '../Data/test_output_file.csv'
 
 RESULTS_PATH = '../Data/results'
@@ -72,7 +72,7 @@ EMPLOYMENT_LIST = ['EMPLOYMENT_WORKING', 'EMPLOYMENT_NOT_WORKING', 'EMPLOYMENT_R
 EMPLOYMENT_CODE = [['1', '2', '5'], ['3'], ['4'], ['6'], ['7', '8', '9']]
 
 HOUSINC_LIST = ['HOUSINC_LOW', 'HOUSINC_MEDIUM', 'HOUSINC_HIGH', 'HOUSINC_DONT_KONW']
-HOUSINC_CODE = [['1', '2', '3', '4', '5'], ['6', '7', '8', '9'], ['11', '12'], ['10', '13', '99']]
+HOUSINC_CODE = [['1', '2', '3', '4', '5'], ['6', '7', '8', '9'], ['11', '12'], ['10', '13', '99', '25', '28', '29']]
 
 LIFECYCLE_LIST = ['LIFECYCLE_SINGLE', 'LIFECYCLE_COUPLE_NO_KIDS', 'LIFECYCLE_COUPLE_WITH_KIDS', 'LIFECYCLE_DONT_KNOW']
 LIFECYCLE_CODE = [['1', '2', '3', '8', '9'], ['4', '10', '11'], ['5', '6', '7'], ['0']]
