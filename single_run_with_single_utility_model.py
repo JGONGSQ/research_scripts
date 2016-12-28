@@ -14,7 +14,8 @@ from py_files.settings import *
 # dropped_variable = [, 'LIFECYCLE', 'GENDER', 'MARITAL']
 
 # local_variable = ['ORIGIN', 'HOMESLA', 'HOUSEHOLD', 'UNDER15', 'OVER15', 'EMPLOYMENT', 'HOUSINC']
-local_variable = ['ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_QLD', 'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS']
+local_variable = ['MARITAL_REFUSED']
+# 'MARITAL_REFUSED' , MARITAL_COUPLE MARITAL_SINGLE
 
 UTILITY_VARIABLES_ALTERNATIVES = [
 
@@ -40,8 +41,8 @@ start_time = datetime.now()
 case_config = 1
 
 # write the file
-# input_file_path = INPUT_DIR_PATH + '/MDCEV_data_v0.csv'
-input_file_path = TEST_OUTPUT_DATA_PATH
+input_file_path = INPUT_DIR_PATH + '/NVS2007_trimed.csv'
+# input_file_path = TEST_OUTPUT_DATA_PATH
 output_file_path = RESULTS_PATH + '/results' + '_{}'.format(case_config) + '_{}'.format('MDCEV') + '.txt'
 print output_file_path
 
@@ -68,3 +69,7 @@ process = subprocess.call(
 
 
 print(datetime.now() - start_time)
+
+
+storage_list = ['ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_QLD', 'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS', 'GENDER_FEMALE', 'GENDER_MALE', 'MARITAL_COUPLE', 'MARITAL_SINGLE', 'EMPLOYMENT_WORKING', 'EMPLOYMENT_RETIRED', 'EMPLOYMENT_STUDYING', 'HOUSINC_LOW', 'HOUSINC_MEDIUM', 'HOUSINC_HIGH', 'HOUSINC_DONT_KONW', 'LIFECYCLE_SINGLE', 'LIFECYCLE_COUPLE_NO_KIDS', 'LIFECYCLE_COUPLE_WITH_KIDS', 'AGEGROUP_15_29', 'AGEGROUP_30_39', 'AGEGROUP_40_49', 'AGEGROUP_50_59', 'AGEGROUP_60_69']
+

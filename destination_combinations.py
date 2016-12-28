@@ -4,8 +4,9 @@
 
 from py_files.data import read_state_combinations
 from py_files.settings import *
-
-utility_variables = ['ORIGIN', 'HOUSEHOLD', 'UNDER15', 'OVER15', 'EMPLOYMENT', 'HOUSINC']
+# Dropped Varibales
+# 'YOUNGEST', 'PARENT'
+utility_variables = ['ORIGIN', 'HOUSEHOLD', 'UNDER15', 'OVER15', 'EMPLOYMENT', 'HOUSINC','GENDER','MARITAL','LIFECYCLE','AGEGROUP', 'CH15TO24']
 
 results = read_state_combinations(
     input_file=TEST_INPUT_DATA_PATH,
