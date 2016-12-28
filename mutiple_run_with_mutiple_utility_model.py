@@ -64,28 +64,25 @@ list_of_estimations = list()
 for case_config in case_config_list:
 
     # generate the combination of lists
-    variable_combinations = itertools.combinations(UTILITY_VARIABLES, len(UTILITY_VARIABLES) - 3)
+    variable_combinations = itertools.combinations(UTILITY_VARIABLES, len(UTILITY_VARIABLES)-3)
 
     for local_combination in variable_combinations:
         combination = convert_tuple_to_list(local_combination)
 
         variable_in_names = ''
         for i, item in enumerate(combination):
-            item_leng = item.__len__()
-            variable_in_names += str(item[0])
-            # if i != len(combination) - 1:
-            #     variable_in_names += '-'
-        variable_in_names += str(datetime.now()).replace(' ', '*')
+            variable_in_names += str(item)
+            if i != len(combination) - 1:
+                variable_in_names += '-'
 
         input_file = INPUT_DIR_PATH + '/NVS2007_trimed.csv'
         output_file = RESULTS_PATH + '/results' + '_{}'.format(case_config) + '_{}'.format(variable_in_names) + '.txt'
-        print output_file
         list_of_estimations.append((case_config, input_file, output_file, get_utility_parameters_list(combination)))
 
 pool = Pool(processes=6)
 
-for estimation in list_of_estimations:
-    pool.apply_async(cal_estimation, (estimation[0], estimation[1], estimation[2], estimation[3]))
+for item in list_of_estimations:
+    pool.apply_async(cal_estimation, (item[0], item[1], item[2], item[3]))
 
 pool.close()
 pool.join()
