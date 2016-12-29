@@ -1,12 +1,12 @@
 #!/usr/bin/python
 
 # Imports of python packages
-from py_files.data import write_file, read_file_by_city, convert_list_to_str, \
-    convert_tuple_to_list, case_config_excluding_variables, get_utility_variables, get_utility_parameters_list
 from datetime import datetime
 from multiprocessing import Pool
 import subprocess
 import itertools
+
+from py_files.data import convert_list_to_str, convert_tuple_to_list, get_utility_variables, get_utility_parameters_list
 
 # Constants import from settings file
 from py_files.settings import *
@@ -54,40 +54,55 @@ def cal_estimation(case_config, input_file, results_file, utility_parameter):
     return process
 
 
-UTILITY_VARIABLES = get_utility_parameters_list(get_utility_variables(UTILITY_VARIABLES_ALTERNATIVES))
+def run_estimation_with_multiprocessing(list_of_estimations):
+    pool = Pool(processes=6)
+
+    for estimation in list_of_estimations:
+        pool.apply_async(cal_estimation, (estimation[0], estimation[1], estimation[2], estimation[3]))
+
+    pool.close()
+    pool.join()
+    return
 
 
-start_time = datetime.now()
+def generate_list_of_estimations(utility_variables, case_config_list):
 
+    list_of_estimations = list()
 
-list_of_estimations = list()
-for case_config in case_config_list:
+    for case_config in case_config_list:
 
-    # generate the combination of lists
-    variable_combinations = itertools.combinations(UTILITY_VARIABLES, len(UTILITY_VARIABLES)-3)
+        # generate the combination of lists
+        variable_combinations = itertools.combinations(utility_variables, len(utility_variables) - 3)
 
-    for local_combination in variable_combinations:
-        combination = convert_tuple_to_list(local_combination)
+        for local_combination in variable_combinations:
+            combination = convert_tuple_to_list(local_combination)
 
-        variable_in_names = ''
-        for i, item in enumerate(combination):
-            variable_in_names += str(item)
-            if i != len(combination) - 1:
-                variable_in_names += '-'
+            variable_in_names = ''
+            for i, item in enumerate(combination):
+                variable_in_names += str(item)
+                if i != len(combination) - 1:
+                    variable_in_names += '-'
 
-        input_file = INPUT_DIR_PATH + '/NVS2007_trimed.csv'
-        output_file = RESULTS_PATH + '/results' + '_{}'.format(case_config) + '_{}'.format(variable_in_names) + '.txt'
-        list_of_estimations.append((case_config, input_file, output_file, get_utility_parameters_list(combination)))
+            input_file = INPUT_DIR_PATH + '/NVS2007_trimed.csv'
+            output_file = RESULTS_PATH + '/results' + '_{}'.format(case_config) + '_{}'.format(variable_in_names) + '.txt'
+            list_of_estimations.append((case_config, input_file, output_file, get_utility_parameters_list(combination)))
 
-pool = Pool(processes=6)
+    return list_of_estimations
 
-for item in list_of_estimations:
-    pool.apply_async(cal_estimation, (item[0], item[1], item[2], item[3]))
+if __name__ == '__main__':
+    # Start of timing
+    start_time = datetime.now()
 
-pool.close()
-pool.join()
+    # Get the utilituy variables
+    utility_variables = get_utility_parameters_list(get_utility_variables(UTILITY_VARIABLES_ALTERNATIVES))
 
+    # Generate list of estimations
+    list_of_estimations = generate_list_of_estimations(utility_variables, case_config_list)
 
-print(datetime.now() - start_time)
+    # Run estimation with multiprocessing
+    run_estimation_with_multiprocessing(list_of_estimations=list_of_estimations)
+
+    # End of timing
+    print(datetime.now() - start_time)
 
 
