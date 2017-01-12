@@ -48,21 +48,10 @@ def cal_estimation(case_config, input_file, results_file, utility_parameter):
             alternative_5_variables=convert_list_to_str(utility_parameter),
             alternative_6_variables=convert_list_to_str(utility_parameter),
         )
-
         ]
-        , shell=True)
+        , shell=True
+    )
     return process
-
-
-def run_estimation_with_multiprocessing(list_of_estimations):
-    pool = Pool(processes=6)
-
-    for estimation in list_of_estimations:
-        pool.apply_async(cal_estimation, (estimation[0], estimation[1], estimation[2], estimation[3]))
-
-    pool.close()
-    pool.join()
-    return
 
 
 def generate_list_of_estimations(utility_variables, case_config_list):
@@ -88,6 +77,18 @@ def generate_list_of_estimations(utility_variables, case_config_list):
             list_of_estimations.append((case_config, input_file, output_file, get_utility_parameters_list(combination)))
 
     return list_of_estimations
+
+
+def run_estimation_with_multiprocessing(list_of_estimations):
+    pool = Pool(processes=6)
+
+    for estimation in list_of_estimations:
+        pool.apply_async(cal_estimation, (estimation[0], estimation[1], estimation[2], estimation[3]))
+
+    pool.close()
+    pool.join()
+    return
+
 
 if __name__ == '__main__':
     # Start of timing
