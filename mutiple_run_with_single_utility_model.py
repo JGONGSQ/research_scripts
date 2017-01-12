@@ -13,7 +13,10 @@ from py_files.settings import *
 
 case_config_list = [1, 4, 7]
 
-local_variable = ['ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_QLD', 'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS', 'GENDER_FEMALE', 'GENDER_MALE', 'MARITAL_COUPLE', 'MARITAL_SINGLE', 'EMPLOYMENT_WORKING', 'EMPLOYMENT_RETIRED', 'EMPLOYMENT_STUDYING', 'HOUSINC_LOW', 'HOUSINC_MEDIUM', 'HOUSINC_HIGH', 'HOUSINC_DONT_KONW', 'LIFECYCLE_SINGLE', 'LIFECYCLE_COUPLE_NO_KIDS', 'LIFECYCLE_COUPLE_WITH_KIDS', 'AGEGROUP_15_29', 'AGEGROUP_30_39', 'AGEGROUP_40_49', 'AGEGROUP_50_59', 'AGEGROUP_60_69']
+local_variable = ['AGEGROUP_15_29', 'AGEGROUP_30_39', 'AGEGROUP_40_49', 'AGEGROUP_50_59', 'AGEGROUP_60_69']
+# 'LIFECYCLE_SINGLE', 'LIFECYCLE_COUPLE_NO_KIDS', 'LIFECYCLE_COUPLE_WITH_KIDS'
+# 'AGEGROUP_15_29', 'AGEGROUP_30_39', 'AGEGROUP_40_49', 'AGEGROUP_50_59', 'AGEGROUP_60_69'
+# local_variable = ['ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_QLD', 'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS', 'GENDER_FEMALE', 'GENDER_MALE', 'MARITAL_COUPLE', 'MARITAL_SINGLE', 'EMPLOYMENT_WORKING', 'EMPLOYMENT_RETIRED', 'EMPLOYMENT_STUDYING', 'HOUSINC_LOW', 'HOUSINC_MEDIUM', 'HOUSINC_HIGH', 'HOUSINC_DONT_KONW', 'LIFECYCLE_SINGLE', 'LIFECYCLE_COUPLE_NO_KIDS', 'LIFECYCLE_COUPLE_WITH_KIDS', 'AGEGROUP_15_29', 'AGEGROUP_30_39', 'AGEGROUP_40_49', 'AGEGROUP_50_59', 'AGEGROUP_60_69']
 
 UTILITY_VARIABLES_ALTERNATIVES = [
     # Alternative 2
@@ -64,23 +67,24 @@ list_of_estimations = list()
 for case_config in case_config_list:
 
     # generate the combination of lists
-    variable_combinations = itertools.combinations(UTILITY_VARIABLES, len(UTILITY_VARIABLES) - 3)
+    for i in range(len(UTILITY_VARIABLES)):
+        variable_combinations = itertools.combinations(UTILITY_VARIABLES, i+1)
 
-    for local_combination in variable_combinations:
-        combination = convert_tuple_to_list(local_combination)
+        for local_combination in variable_combinations:
+            combination = convert_tuple_to_list(local_combination)
 
-        variable_in_names = ''
-        for i, item in enumerate(combination):
-            item_leng = item.__len__()
-            variable_in_names += str(item[0])
-            # if i != len(combination) - 1:
-            #     variable_in_names += '-'
-        variable_in_names += str(datetime.now()).replace(' ', '*')
+            variable_in_names = ''
+            for i, item in enumerate(combination):
+                item_leng = item.__len__()
+                variable_in_names += str(item[0])
+                # if i != len(combination) - 1:
+                #     variable_in_names += '-'
+            variable_in_names += str(datetime.now()).replace(' ', '*')
 
-        input_file = INPUT_DIR_PATH + '/NVS2007_trimed.csv'
-        output_file = RESULTS_PATH + '/results' + '_{}'.format(case_config) + '_{}'.format(variable_in_names) + '.txt'
-        print output_file
-        list_of_estimations.append((case_config, input_file, output_file, get_utility_parameters_list(combination)))
+            input_file = INPUT_DIR_PATH + '/NVS2007_trimed.csv'
+            output_file = RESULTS_PATH + '/results' + '_{}'.format(case_config) + '_{}'.format(variable_in_names) + '.txt'
+            print output_file
+            list_of_estimations.append((case_config, input_file, output_file, get_utility_parameters_list(combination)))
 
 pool = Pool(processes=6)
 
