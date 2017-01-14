@@ -9,22 +9,28 @@ import subprocess
 # Constants import from settings file
 from py_files.settings import *
 
+melbourne = ['AGEGROUP_15_29', 'AGEGROUP_40_49', 'HOUSINC_HIGH', 'LIFECYCLE_SINGLE', 'LIFECYCLE_COUPLE_NO_KIDS', 'MARITAL_SINGLE', 'ORIGIN_NSW', 'ORIGIN_QLD', 'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS', 'HOUSEHOLD']
+
+brisbane = ['AGEGROUP_60_69', 'GENDER_MALE', 'HOUSINC_LOW', 'HOUSINC_MEDIUM', 'HOUSINC_HIGH', 'LIFECYCLE_COUPLE_NO_KIDS', 'LIFECYCLE_COUPLE_WITH_KIDS']
+
+adelaide = ['AGEGROUP_15_29', 'AGEGROUP_30_39', 'AGEGROUP_60_69', 'EMPLOYMENT_WORKING', 'EMPLOYMENT_RETIRED', 'EMPLOYMENT_STUDYING', 'GENDER_MALE', 'ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_QLD', 'ORIGIN_SA', 'ORIGIN_TAS']
+
+hobart = ['AGEGROUP_40_49', 'AGEGROUP_50_59', 'EMPLOYMENT_RETIRED', 'HOUSINC_LOW', 'HOUSINC_MEDIUM', 'LIFECYCLE_SINGLE', 'LIFECYCLE_COUPLE_NO_KIDS', 'MARITAL_SINGLE', 'ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS']
+
+darwin = ['AGEGROUP_60_69', 'EMPLOYMENT_WORKING', 'EMPLOYMENT_STUDYING', 'ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_QLD', 'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS']
+
 
 UTILITY_VARIABLES_ALTERNATIVES = [
-
     # Alternative 2
-    ["HOMESUPP", "HOMEREGN", "ORIGIN", "AGEGROUP", "CH15TO24", "LIFECYCLE"],
+    melbourne,
     # Alternative 3
-    ["HOMESUPP", "HOMEREGN", "ORIGIN", "CH15TO24", "MARITAL", "EMPLOYMENT"],
-    # ["HOMESUPP", "HOMESLA", "HOMEREGN", "ORIGIN"],
-    # ["HOMESUPP", "HOMEREGN", "EMPLOYMENT", "LIFECYCLE"],
-    # ["HOMESUPP", "HOMESLA", "HOMEREGN", "ORIGIN", "EMPLOYMENT", "MARITAL"],
+    brisbane,
     # Alternative 4
-    ["HOMESUPP", "HOMEREGN", "AGEGROUP", "EMPLOYMENT"],
+    adelaide,
     # Alternative 5
-    ["HOMESUPP", "HOMEREGN", "AGEGROUP", "EMPLOYMENT", "LIFECYCLE"],
+    hobart,
     # Alternative 6
-    ["HOMESUPP", "HOMEREGN", "ORIGIN", "AGEGROUP", "MARITAL"]
+    darwin,
 ]
 
 
@@ -34,24 +40,25 @@ case_config_list = [1, 4, 7]
 
 start_time = datetime.now()
 
+
 for case_config in case_config_list:
 
     # write the file
     input_file_path = INPUT_DIR_PATH + '/NVS2007_trimed.csv'
 
-    output_file_path = RESULTS_PATH + '/results' + '_{}'.format(case_config) + '_{}'.format('MDCEV') + '.txt'
+    output_file_path = RESULTS_PATH + '/results' + '_{}'.format(case_config) + '_{}'.format('MDCEV_2') + '.txt'
     print output_file_path
 
     process = subprocess.call(
         ['Rscript --vanilla {r_script_file} {input_file} '
-         '{number_of_alternatives} {case_config} {utility_parameter} {state_list} {results_file} '
+         '{number_of_alternatives} {case_config} {utility_parameters} {state_list} {results_file} '
          '{alternative_2_variables} {alternative_3_variables} {alternative_4_variables} '
          '{alternative_5_variables} {alternative_6_variables}'.format(
             r_script_file=RUNNER_MDCEV,
             input_file=input_file_path,
             number_of_alternatives=STATE_LISTS.__len__(),
             case_config=case_config,
-            utility_parameter=convert_list_to_str(UTILITY_VARIABLES),
+            utility_parameters=convert_list_to_str(UTILITY_VARIABLES),
             state_list=convert_list_to_str(STATE_LISTS),
             results_file=output_file_path,
             alternative_2_variables=convert_list_to_str(UTILITY_VARIABLES_ALTERNATIVES[0]),
