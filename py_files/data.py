@@ -3,6 +3,35 @@
 import csv
 import os
 from settings import *
+from geopy.geocoders import Nominatim
+from geopy.distance import vincenty
+
+
+def cal_distance(origin_code, destination_code):
+    """
+        Calculate the distance between points
+    :param origin_code: such as 'TAS', 'NSW' or 'TAS'
+    :param destination_code: same as origin code
+    :return: distance between two point in km
+    """
+    # initial the package
+    geolocator = Nominatim()
+
+    # get the origin code
+    origin = geolocator.geocode(origin_code)
+
+    # get destination
+    destination = geolocator.geocode(destination_code)
+
+    # make the points
+    from_origin = (origin.latitude, origin.longitude)
+    to_destination = (destination.latitude, destination.longitude)
+    print(from_origin, to_destination)
+
+    distance = vincenty(from_origin, to_destination).km
+
+    # round the distance to the closest km
+    return int(distance)
 
 
 def find_index_in_list(list, value):
@@ -70,6 +99,9 @@ def get_the_city_data_in_orders(input_field_list, row, city_codes):
 
     print(path)
     return city_data, path
+
+
+
 
 
 def get_state_location(location):

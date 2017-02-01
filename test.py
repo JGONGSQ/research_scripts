@@ -1,15 +1,12 @@
 #!/usr/bin/python
 
-
-for i in range(8):
-        print i
-
+# Import the packagess
+from py_files.data import cal_distance
 
 
-{
-"client": "1",
-"name": "django api test",
-"title": "Mr",
-"email": "james.test@accesshq.com",
-"phone_number": "0004443333"
-}
+origin_code = "NSW"
+destination_code = "VIC"
+
+distance = cal_distance(origin_code, destination_code)
+print('Distance between {origin} and {destination}'.format(origin=origin_code, destination=destination_code))
+print(distance)
