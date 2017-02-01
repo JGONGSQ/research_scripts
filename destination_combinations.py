@@ -14,5 +14,6 @@ results = read_state_combinations(
     compulsory_fields=COMPULSORY_FIELDS,
     state_lists=STATE_LISTS,
     state_codes=STATE_CODES,
+    distance_destination_list=DISTANCE_DESTINATION_LIST,
     utility_parameters=utility_variables
 )

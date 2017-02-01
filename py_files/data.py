@@ -7,21 +7,21 @@ from geopy.geocoders import Nominatim
 from geopy.distance import vincenty
 
 
-def cal_distance(origin_code, destination_code):
+def cal_distance(origin_name, destination_name):
     """
         Calculate the distance between points
-    :param origin_code: such as 'TAS', 'NSW' or 'TAS'
-    :param destination_code: same as origin code
+    :param origin_name: such as 'TAS', 'NSW' or 'TAS'
+    :param destination_name: same as origin code
     :return: distance between two point in km
     """
     # initial the package
     geolocator = Nominatim()
 
     # get the origin code
-    origin = geolocator.geocode(origin_code)
+    origin = geolocator.geocode(origin_name)
 
     # get destination
-    destination = geolocator.geocode(destination_code)
+    destination = geolocator.geocode(destination_name)
 
     # make the points
     from_origin = (origin.latitude, origin.longitude)
@@ -101,9 +101,6 @@ def get_the_city_data_in_orders(input_field_list, row, city_codes):
     return city_data, path
 
 
-
-
-
 def get_state_location(location):
     state_location = location[0]
     return state_location
@@ -138,6 +135,28 @@ def get_the_state_data(input_field_list, row, state_codes):
             path = generate_path(path, state_name)
 
     return state_data, path
+
+
+# TODO need to calculate the distance for each alternative
+def get_distance_data(input_field_list, distance_destination_list, state_list, row):
+    # initial the list
+    distance_data = [0] * distance_destination_list.__len__()
+
+    number_of_stops = row.__getitem__(input_field_list.index('NUMSTOP'))
+
+    home_location_code = row.__getitem__(input_field_list.index('HOMEREGN'))
+    print("This is the home location code", home_location_code)
+
+    for i in range(int(number_of_stops)):
+        location = row.__getitem__(input_field_list.index('REGN%s' % str(i + 1)))
+        print("This is the location", location)
+    # print('This is the distance data', distance_data)
+    # print(row)
+    # print(input_field_list)
+    # print('State List:', state_list)
+    raise Exception
+
+    return distance_data
 
 
 def get_the_utility_variable_data(input_field_list, row, variable, variable_codes):
@@ -459,6 +478,9 @@ def count_zero(data):
     return count
 
 
+
+
+
 def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes, utility_parameters, number_of_data=40000):
     """
     :param input_file: the path of the input file
@@ -527,7 +549,7 @@ def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes
     return is_successful
 
 
-def read_state_combinations(input_file, output_file, compulsory_fields, state_lists, state_codes, utility_parameters, number_of_data=40000):
+def read_state_combinations(input_file, output_file, compulsory_fields, state_lists, state_codes, utility_parameters, distance_destination_list,number_of_data=40000):
 
     print utility_parameters
     # initials
@@ -535,9 +557,11 @@ def read_state_combinations(input_file, output_file, compulsory_fields, state_li
     index_number = 1
     data = list()
 
+    # make the title
     utility_parameters_list = get_utility_parameters_list(utility_parameters)
-    output_fields_list = compulsory_fields + state_lists + utility_parameters_list
+    output_fields_list = compulsory_fields + state_lists + utility_parameters_list + distance_destination_list
 
+    # append the title
     data.append(output_fields_list)
 
     with open(input_file, 'rU') as input_csv:
@@ -565,8 +589,9 @@ def read_state_combinations(input_file, output_file, compulsory_fields, state_li
 
                         # getting the utility parameters data according to the utility parameters
                         utility_variable_data = get_utility_parameters_value(input_field_list, utility_parameters, row)
+                        distance_data = get_distance_data(input_field_list, distance_destination_list, state_lists, row)
 
-                        data_set = compulsory_data + state_data + utility_variable_data
+                        data_set = compulsory_data + state_data + utility_variable_data + distance_data
                         map(output_row.__setitem__, map(output_fields_list.index, output_fields_list), data_set)
 
                         print(output_row)
