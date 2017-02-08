@@ -320,14 +320,14 @@ def convert_tuple_to_list(tuple_object):
 def case_config_excluding_variables(case_config):
     list_of_variables = ALL_VARIABLES
 
-    if case_config == 1:
-        list_of_variables = list(set(ALL_VARIABLES).difference(set(EXECLUDE_VARIABLE_1)))
-
-    if case_config == 4:
-        list_of_variables = list(set(ALL_VARIABLES).difference(set(EXECLUDE_VARIABLE_4)))
-
-    if case_config == 7:
-        list_of_variables = list(set(ALL_VARIABLES).difference(set(EXECLUDE_VARIABLE_7)))
+    # if case_config == 1:
+    #     list_of_variables = list(set(ALL_VARIABLES).difference(set(EXECLUDE_VARIABLE_1)))
+    #
+    # if case_config == 4:
+    #     list_of_variables = list(set(ALL_VARIABLES).difference(set(EXECLUDE_VARIABLE_4)))
+    #
+    # if case_config == 7:
+    #     list_of_variables = list(set(ALL_VARIABLES).difference(set(EXECLUDE_VARIABLE_7)))
 
     return list_of_variables
 
