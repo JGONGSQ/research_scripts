@@ -32,6 +32,7 @@ COMPULSORY_FIELDS = ['id', 'uno', 'sero', 'NUMSTOP']
 CITY_LISTS = ['Sydney', 'Melbourne', 'Brisbane', 'Adelaide', 'Hobart', 'Darwin']
 CITY_CODES = ['104', '201', '302', '404', '601', '801']
 
+STATE_FULL = ['New South Wales', 'Victoria', 'Queensland', 'South Australia', 'Tasmania', 'Northern Territory']
 STATE_LISTS = ['NSW', 'VIC', 'QLD', 'SA', 'TAS', 'NT']
 STATE_CODES = ['1', '2', '3', '4', '6', '8']
 

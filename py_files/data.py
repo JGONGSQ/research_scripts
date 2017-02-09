@@ -4,7 +4,7 @@ import csv
 import os
 from settings import *
 from geopy.geocoders import Nominatim
-from geopy.distance import vincenty
+from geopy.distance import vincenty, great_circle
 
 
 def cal_distance(origin_name, destination_name):
@@ -106,6 +106,21 @@ def get_state_location(location):
     return state_location
 
 
+def get_code_address(region_code):
+    city = REGION_DICT[region_code]
+    state_code = get_state_location(region_code)
+
+    if state_code not in STATE_CODES:
+        return None, None
+    state = STATE_FULL[STATE_CODES.index(state_code)]
+
+    address = city + ", " + state
+
+    print("This is the address", address)
+
+    return address, state
+
+
 def generate_path(path, location_name):
     if path.endswith(location_name) is False:
         if path == '':
@@ -137,7 +152,7 @@ def get_the_state_data(input_field_list, row, state_codes):
     return state_data, path
 
 
-# TODO need to calculate the distance for each alternative
+
 def get_distance_data(input_field_list, distance_destination_list, state_list, row):
     # initial the list
     distance_data = [0] * distance_destination_list.__len__()
@@ -145,11 +160,18 @@ def get_distance_data(input_field_list, distance_destination_list, state_list, r
     number_of_stops = row.__getitem__(input_field_list.index('NUMSTOP'))
 
     home_location_code = row.__getitem__(input_field_list.index('HOMEREGN'))
-    print("This is the home location code", home_location_code)
+    home_address, home_state = get_code_address(home_location_code)
+    if home_address is None:
+        print("Home address is None, not in the state list")
+        return distance_data
 
     for i in range(int(number_of_stops)):
-        location = row.__getitem__(input_field_list.index('REGN%s' % str(i + 1)))
-        print("This is the location", location)
+        destination_location_code = row.__getitem__(input_field_list.index('REGN%s' % str(i + 1)))
+        destination_address, destination_state = get_code_address(destination_location_code)
+        if destination_address:
+            distance = cal_distance(home_address, destination_address)
+            print("Distance: ", distance)
+
     # print('This is the distance data', distance_data)
     # print(row)
     # print(input_field_list)
