@@ -10,6 +10,10 @@ TEST_INPUT_FILE_PATH = '../r_resources/Model_Estimation/az_hhld_vfc_cleaned_fina
 # NEW ADDED DATA FILE
 TEST_INPUT_DATA_PATH = '../Data/NVS2007unit.csv'
 TEST_OUTPUT_DATA_PATH = '../Data/test_output_file.csv'
+REGN_CODE_DICT_PATH = '../Data/regn_code_dict.csv'
+REGN_CODE_DICT_PATH_V1 = '../Data/regn_code_dict_v1.csv'
+REGN_CODE_DICT_PATH_V2 = '../Data/regn_code_dict_v2.csv'
+
 
 RESULTS_PATH = '../Data/results'
 
@@ -78,7 +82,7 @@ AGEGROUP_CODE = [['1', '2', '3'], ['4', '5'], ['6', '7'], ['8', '9'], ['10', '11
 DISTANCE_DESTINATION_LIST = ['DISTANCE_TO_NSW', 'DISTANCE_TO_VIC', 'DISTANCE_TO_QLD', 'DISTANCE_TO_SA', 'DISTANCE_TO_TAS', 'DISTANCE_TO_NT']
 
 REGION_DICT = {
-    "101": "South Coast",
+    "101": "Eurobodalla Shire",
     "102": "Illawarra",
     "103": "unused",
     "104": "Sydney",
@@ -86,20 +90,20 @@ REGION_DICT = {
     "106": "Capital Country",
     "107": "The Murray",
     "108": "Riverina",
-    "109": "Central West NSW",
+    "109": "Dubbo",
     "110": "Hunter",
     "111": "unused",
-    "112": "North Coast NSW",
-    "113": "Northern Rivers - Tropical NSW",
-    "114": "New England North West",
-    "115": "Outback NSW",
+    "112": "Nambucca Shire",
+    "113": "Ballina",
+    "114": "Tablelands", # "New England North West"
+    "115": "Broken Hill",
     "116": "unused",
     "117": "Canberra",
     "118": "Central Coast",
     "119": "Blue Mountains",
     "120": "Lord Howe Island",
     "190": "Transit NSW",
-    "198": "Other NSW",
+    "198": "Sydney",
     "201": "Melbourne",
     "202": "Wimmera",
     "203": "Mallee",
@@ -110,7 +114,7 @@ REGION_DICT = {
     "208": "Central Murray",
     "209": "Goulburn",
     "210": "High Country",
-    "211": "Lakes",
+    "211": "Lakes", #
     "212": "Gippsland",
     "213": "Melbourne East",
     "214": "Geelong",
@@ -126,26 +130,26 @@ REGION_DICT = {
     "301": "Gold Coast",
     "302": "Brisbane",
     "303": "Sunshine Coast",
-    "304": "Hervey Bay/Maryborough",
+    "304": "Hervey Bay/Maryborough", # "Hervey Bay/Maryborough"
     "305": "unused",
     "306": "Darling Downs",
     "307": "Bundaberg",
     "308": "Fitzroy",
     "309": "Mackay",
     "310": "Whitsundays",
-    "311": "Northern",
+    "311": "Townsville",
     "312": "Tropical North Queensland",
     "313": "Great Barrier Reef",
     "314": "Outback",
     "390": "Transit QLD",
-    "398": "Other QLD",
+    "398": "Brisbane", # "Other QLD",
     "401": "Limestone Coast",
     "402": "Murraylands",
-    "403": "Fleurieu Peninsula",
+    "403": "Inman Valley",
     "404": "Adelaide",
     "405": "Barossa",
     "406": "Riverland",
-    "407": "Clare Valley",
+    "407": "Sevenhill", # "Clare Valley"
     "408": "Adelaide Hills",
     "409": "Flinders Ranges",
     "410": "Outback SA",
@@ -153,7 +157,7 @@ REGION_DICT = {
     "412": "Yorke Peninsula",
     "413": "Kangaroo Island",
     "490": "Transit SA",
-    "498": "Other SA",
+    "498": "Adelaide", # "Other SA",
     "501": "South East",
     "502": "Goldfields",
     "503": "Midwest",
@@ -171,8 +175,8 @@ REGION_DICT = {
     "553": "Experience Perth",
     "554": "Australia's Golden Outback",
     "590": "Transit WA",
-    "598": "Other WA",
-    "601": "Hobart and Surrounds",
+    "598": "Perth", # "Other WA"
+    "601": "Hobart", # "Hobart and sourending area"
     "602": "Southern",
     "603": "East Coast",
     "604": "Northern",
@@ -180,7 +184,7 @@ REGION_DICT = {
     "606": "North West",
     "607": "West Coast",
     "690": "Transit TAS",
-    "698": "Other TAS",
+    "698": "Hobart", # "Other TAS",
     "801": "Darwin",
     "802": "Kakadu",
     "803": "Arnhem",
@@ -191,7 +195,7 @@ REGION_DICT = {
     "808": "MacDonnell",
     "809": "Daly",
     "890": "Transit NT",
-    "898": "Other NT",
+    "898": "Darwin", # "Other NT",
     "900": "External Regions",
     "998": "Other Australia",
     "999": "Dont know where in Aust"

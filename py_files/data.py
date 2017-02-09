@@ -7,25 +7,89 @@ from geopy.geocoders import Nominatim
 from geopy.distance import vincenty, great_circle
 
 
-def cal_distance(origin_name, destination_name):
+def update_regn_dict():
+    geolocator = Nominatim()
+    data = list()
+    head_row = ['key', 'location', 'latitude', 'longitude']
+    data.append(head_row)
+
+    for item in REGION_DICT:
+        key = item.__str__()
+        location_address, state = get_code_address(key)
+        latitude = None
+        longitude = None
+
+        try:
+            destination = geolocator.geocode(location_address)
+        except Exception:
+            print ("Destination is None")
+            destination = None
+
+        if destination:
+            latitude = destination.latitude
+            longitude = destination.longitude
+
+        data.append([key, location_address, latitude, longitude])
+
+    return data
+
+
+def get_regn_dict(filepath):
+    regn_dict = {}
+
+    with open(filepath, 'rU') as input_csv:
+        file_reader = csv.reader(input_csv, delimiter=',')
+        for i, row in enumerate(file_reader):
+            key = row[0]
+            latitude = row[2]
+            longitude = row[3]
+            regn_dict[key] = {
+                "latitude": latitude,
+                "longitude": longitude
+            }
+
+    return regn_dict
+
+
+# def cal_distance(origin_name, destination_name):
+#     """
+#         Calculate the distance between points
+#     :param origin_name: such as 'TAS', 'NSW' or 'TAS'
+#     :param destination_name: same as origin code
+#     :return: distance between two point in km
+#     """
+#     # initial the package
+#     geolocator = Nominatim()
+#
+#     # get the origin code
+#     try:
+#         origin = geolocator.geocode(origin_name, timeout=10)
+#
+#     # get destination
+#         destination = geolocator.geocode(destination_name, timeout=10)
+#     except Exception:
+#         return 0
+#     # make the points
+#     from_origin = (origin.latitude, origin.longitude)
+#     to_destination = (destination.latitude, destination.longitude)
+#     print(from_origin, to_destination)
+#
+#     distance = vincenty(from_origin, to_destination).km
+#
+#     # round the distance to the closest km
+#     return int(distance)
+
+def cal_distance_v2(point_1, point_2):
     """
         Calculate the distance between points
     :param origin_name: such as 'TAS', 'NSW' or 'TAS'
     :param destination_name: same as origin code
     :return: distance between two point in km
     """
-    # initial the package
-    geolocator = Nominatim()
-
-    # get the origin code
-    origin = geolocator.geocode(origin_name)
-
-    # get destination
-    destination = geolocator.geocode(destination_name)
 
     # make the points
-    from_origin = (origin.latitude, origin.longitude)
-    to_destination = (destination.latitude, destination.longitude)
+    from_origin = (point_1["latitude"], point_1["longitude"])
+    to_destination = (point_2["latitude"], point_2["longitude"])
     print(from_origin, to_destination)
 
     distance = vincenty(from_origin, to_destination).km
@@ -152,9 +216,9 @@ def get_the_state_data(input_field_list, row, state_codes):
     return state_data, path
 
 
-
 def get_distance_data(input_field_list, distance_destination_list, state_list, row):
     # initial the list
+    regn_dict = get_regn_dict(REGN_CODE_DICT_PATH_V2)
     distance_data = [0] * distance_destination_list.__len__()
 
     number_of_stops = row.__getitem__(input_field_list.index('NUMSTOP'))
@@ -167,16 +231,16 @@ def get_distance_data(input_field_list, distance_destination_list, state_list, r
 
     for i in range(int(number_of_stops)):
         destination_location_code = row.__getitem__(input_field_list.index('REGN%s' % str(i + 1)))
-        destination_address, destination_state = get_code_address(destination_location_code)
+        destination_address, state = get_code_address(destination_location_code)
         if destination_address:
-            distance = cal_distance(home_address, destination_address)
-            print("Distance: ", distance)
+            distance = cal_distance_v2(regn_dict[home_location_code], regn_dict[destination_location_code])
+            print("Distance: %s km" % distance)
 
     # print('This is the distance data', distance_data)
     # print(row)
     # print(input_field_list)
     # print('State List:', state_list)
-    raise Exception
+    # raise Exception
 
     return distance_data
 
@@ -498,9 +562,6 @@ def count_zero(data):
         if item == 0:
             count += 1
     return count
-
-
-
 
 
 def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes, utility_parameters, number_of_data=40000):
