@@ -19,7 +19,7 @@ hobart = ['AGEGROUP_40_49', 'AGEGROUP_50_59', 'EMPLOYMENT_RETIRED', 'HOUSINC_LOW
 
 darwin = ['AGEGROUP_60_69', 'EMPLOYMENT_WORKING', 'EMPLOYMENT_STUDYING', 'ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_QLD', 'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS', 'DISTANCE_TO_NT']
 
-
+# initial the explanatory variables
 UTILITY_VARIABLES_ALTERNATIVES = [
     # Alternative 2
     melbourne,
@@ -36,7 +36,7 @@ UTILITY_VARIABLES_ALTERNATIVES = [
 
 UTILITY_VARIABLES = get_utility_variables(UTILITY_VARIABLES_ALTERNATIVES)
 
-case_config_list = [4]
+case_config_list = [1, 4, 7]
 
 start_time = datetime.now()
 
@@ -46,8 +46,9 @@ for case_config in case_config_list:
     # write the file
     input_file_path = INPUT_DIR_PATH + '/NVS2007_trimed_v3.csv'
 
-    output_file_path = RESULTS_PATH + '/results' + '_{}'.format(case_config) + '_{}'.format('MDCEV_2') + '.txt'
-    print output_file_path
+    estimation_output_file = RESULTS_PATH + '/results' + '_{}'.format(case_config) + '_{}'.format('MDCEV_2') + '.txt'
+    forecast_output_file = RESULTS_PATH + '/results' + '_{}'.format(case_config) + '_{}'.format('MDCEV_2') + '.txt'
+    print estimation_output_file
 
     process = subprocess.call(
         ['Rscript --vanilla {r_script_file} {input_file} '
@@ -60,7 +61,7 @@ for case_config in case_config_list:
             case_config=case_config,
             utility_parameters=convert_list_to_str(UTILITY_VARIABLES),
             state_list=convert_list_to_str(STATE_LISTS),
-            results_file=output_file_path,
+            results_file=estimation_output_file,
             alternative_2_variables=convert_list_to_str(UTILITY_VARIABLES_ALTERNATIVES[0]),
             alternative_3_variables=convert_list_to_str(UTILITY_VARIABLES_ALTERNATIVES[1]),
             alternative_4_variables=convert_list_to_str(UTILITY_VARIABLES_ALTERNATIVES[2]),
@@ -69,6 +70,13 @@ for case_config in case_config_list:
         )
         ]
         , shell=True)
+    if case_config == 1:
+        print("In the case config 1")
+
+    elif case_config == 4:
+        print("In the case config 4")
+    elif case_config == 7:
+        print("In the case config 7")
 
 
 print(datetime.now() - start_time)

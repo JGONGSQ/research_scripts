@@ -51,6 +51,44 @@ def get_regn_dict(filepath):
     return regn_dict
 
 
+def get_coefficient_dict(filepath):
+    coefficient_dict = {}
+
+    with open(filepath, 'rU') as csvfile:
+        file_reader = csv.reader(csvfile, delimiter=',')
+        # initial values
+        writing_flag = False
+        alternative_counter = 1
+        variable_counter = 1
+
+        for i, row in enumerate(file_reader):
+            print(i, row[0])
+
+            if row[0] == "uno":
+                writing_flag = True
+                alternative_counter += 1
+                variable_counter = 0
+                alternative_name = "alternative_{alternative_counter}".format(alternative_counter=alternative_counter)
+                coefficient_dict[alternative_name] = {}
+
+            variable_counter += 1
+            variable_name = "variable_{variable_counter}".format(variable_counter=variable_counter)
+
+            if row[0] == "sigm":
+                writing_flag = False
+
+            if writing_flag:
+                # print(alternative_name, variable_name, row)
+                coefficient_dict[alternative_name].update({
+                    variable_name: {
+                        "name": row[0],
+                        "value": float(row[1])
+                    }
+                })
+
+    return coefficient_dict
+
+
 def get_ranking_dict(state):
     ranking_dict = None
 
@@ -430,6 +468,26 @@ def write_file(filename, data):
             writer.writerow(row)
 
     return True
+
+
+def convert_txt_to_csv(filepath):
+    """
+        Convert the txt file to csv file.
+    :param filepath: the path of the input file
+    :return:
+    """
+
+    output_file = filepath.replace('.txt', '.csv')
+
+    with open(output_file, 'wb') as csvfile:
+        row_writer = csv.writer(csvfile, delimiter=',')
+        file = open(filepath, 'r')
+
+        for line in file:
+            row = filter(None, line.split(' '))
+            row_writer.writerow(row)
+
+    return output_file
 
 
 def convert_list_to_str(input_list):

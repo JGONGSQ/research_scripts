@@ -4,23 +4,43 @@ from py_files.settings import *
 from py_files.data import *
 import csv
 
-# filter the file to see if converge or not
-input_file_path = '/Users/daddyspro/Desktop/useful_results/mutiple_utility_model/results_7_MDCEV_2.txt'
+filepath = '/Users/daddyspro/Desktop/useful_results/mutiple_utility_model/results_1_MDCEV_2.txt'
 # 'results_4_MDCEV_2.txt'
 # 'results_7_MDCEV_2.txt'
+output_filepath = convert_txt_to_csv(filepath)
+print output_filepath
 
-output_file_path = '/Users/daddyspro/Desktop/useful_results/mutiple_utility_model/results_7_MDCEV_2.csv'
+coeff_dict = get_coefficient_dict(output_filepath)
 
+print("This is the dictionary", coeff_dict)
+for item in coeff_dict:
+    print coeff_dict[item]
 
-def read_the_file(input_filepath, output_filepath):
-    with open(output_filepath, 'wb') as csvfile:
-        row_writer = csv.writer(csvfile, delimiter=',')
-        file = open(input_filepath, 'r')
-
-        for line in file:
-            row = filter(None, line.split(' '))
-            row_writer.writerow(row)
-
-
-read_the_file(input_file_path, output_file_path)
-
+# test_dict = {
+#     "alternative_one": {
+#         "variable_one": {
+#             "name": "test variable",
+#             "value": "123"
+#         },
+#         "variable_two": {
+#             "name": "test variable",
+#             "value": "123"
+#         }
+#
+#     },
+#
+#     "alternative_two": {
+#         "variable_one": {
+#             "name": "test variable",
+#             "value": "123"
+#         },
+#         "variable_two": {
+#             "name": "test variable",
+#             "value": "123"
+#         }
+#
+#     }
+# }
+#
+# for item in test_dict:
+#     print test_dict[item]
