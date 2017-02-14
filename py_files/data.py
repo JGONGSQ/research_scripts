@@ -51,6 +51,25 @@ def get_regn_dict(filepath):
     return regn_dict
 
 
+def get_ranking_dict(state):
+    ranking_dict = None
+
+    if state == "NSW" or state == "New South Wales":
+        ranking_dict = NSW_RANKING
+    elif state == "SA" or state == "South Australia":
+        ranking_dict = SA_RANKING
+    elif state == "VIC" or state == "Victoria":
+        ranking_dict = VIC_RANKING
+    elif state == "QLD" or state == "Queensland":
+        ranking_dict = QLD_RANKING
+    elif state == "TAS" or state == "Tasmania":
+        ranking_dict = TAS_RANKING
+    elif state == "NT" or state == "Northern Territory":
+        ranking_dict = NT_RANKING
+
+    return ranking_dict
+
+
 # def cal_distance(origin_name, destination_name):
 #     """
 #         Calculate the distance between points
@@ -216,25 +235,55 @@ def get_the_state_data(input_field_list, row, state_codes):
     return state_data, path
 
 
+def initial_distance_data(regn_dict, home_point, distance_destination_list):
+    # initial the data with zeros
+    distance_data = [0] * distance_destination_list.__len__()
+
+    # calculate the distance to capital city of each state
+    for i, code in enumerate(CITY_CODES):
+        # Calculate the state
+        distance = cal_distance_v2(home_point, regn_dict[code])
+        distance_data[i] = distance
+
+    return distance_data
+
+
 def get_distance_data(input_field_list, distance_destination_list, state_list, row):
     # initial the list
     regn_dict = get_regn_dict(REGN_CODE_DICT_PATH_V2)
-    distance_data = [0] * distance_destination_list.__len__()
+    # distance_data = [0] * distance_destination_list.__len__()
+    distance_ranking = [100] * distance_destination_list.__len__()
 
     number_of_stops = row.__getitem__(input_field_list.index('NUMSTOP'))
 
     home_location_code = row.__getitem__(input_field_list.index('HOMEREGN'))
     home_address, home_state = get_code_address(home_location_code)
+
+    # initial the distance data
+    distance_data = initial_distance_data(regn_dict, regn_dict[home_location_code], distance_destination_list)
+
     if home_address is None:
         print("Home address is None, not in the state list")
         return distance_data
 
     for i in range(int(number_of_stops)):
+        # get the destination code
         destination_location_code = row.__getitem__(input_field_list.index('REGN%s' % str(i + 1)))
+        # get the destination address and its state
         destination_address, state = get_code_address(destination_location_code)
-        if destination_address:
-            distance = cal_distance_v2(regn_dict[home_location_code], regn_dict[destination_location_code])
-            print("Distance: %s km" % distance)
+        # get the ranking dictionary of the table
+        if state:
+            ranking = get_ranking_dict(state)
+            ranking_order = ranking[REGION_DICT[destination_location_code]]
+            index = STATE_FULL.index(state)
+            print("########", int(ranking_order), index)
+
+            if distance_ranking[index] >= int(ranking_order):
+                distance = cal_distance_v2(regn_dict[home_location_code], regn_dict[destination_location_code])
+                distance_data[index] = distance
+                distance_ranking[index] = ranking_order
+                print("Distance: %s km" % distance)
+
 
     # print('This is the distance data', distance_data)
     # print(row)

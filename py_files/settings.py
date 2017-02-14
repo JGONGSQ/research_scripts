@@ -200,3 +200,130 @@ REGION_DICT = {
     "998": "Other Australia",
     "999": "Dont know where in Aust"
 }
+
+NSW_RANKING = {
+    "Sydney": "1",
+    "Central Coast": "2",
+    "Eurobodalla Shire": "26",
+    "Illawarra": "24",
+    "Snowy Mountains": "10",
+    "Capital Country": "13",
+    "The Murray": "14",
+    "Riverina": "15",
+    "Dubbo": "12",
+    "Hunter": "18",
+    "Nambucca Shire": "20",
+    "Ballina": "32",
+    "Tablelands": "28",
+    "Broken Hill": "23",
+    "Canberra": "7",
+    "Blue Mountains": "11",
+    "Lord Howe Island": "19",
+    "Transit NSW": "50",
+}
+
+VIC_RANKING = {
+    "Melbourne": "1",
+    "Wimmera": "15",
+    "Mallee": "18",
+    "Western": "31",
+    "Western Grampians": "19",
+    "Bendigo Loddon": "4",
+    "Peninsula": "20",
+    "Central Murray": "13",
+    "Goulburn": "12",
+    "High Country": "21",
+    "Lakes": "43",
+    "Gippsland": "26",
+    "Melbourne East": "7",
+    "Geelong": "2",
+    "Macedon": "24",
+    "Spa Country": "32",
+    "Ballarat": "3",
+    "Central Highlands": "22",
+    "Upper Yarra": "34",
+    "Murray East": "38",
+    "Phillip Island": "39",
+    "Transit VIC": "47",
+    "Other VIC": "50",
+}
+
+QLD_RANKING = {
+    "Brisbane": "1",
+    "Gold Coast": "2",
+    "Townsville": "3",
+    "Great Barrier Reef": "5",
+    "Sunshine Coast": "8",
+    "Mackay": "9",
+    "Bundaberg": "10",
+    "Whitsundays": "11",
+    "Hervey Bay/Maryborough": "12",
+    "Tropical North Queensland": "13",
+    "Darling Downs": "15",
+    "Fitzroy": "22",
+    "Outback": "30",
+    "Transit QLD": "50",
+}
+
+SA_RANKING = {
+    "Adelaide": "1",
+    "Limestone Coast": "2",
+    "Murraylands": "3",
+    "Inman Valley": "4",
+    "Barossa": "12",
+    "Riverland": "15",
+    "Sevenhill": "18",
+    "Adelaide Hills": "21",
+    "Flinders Ranges": "24",
+    "Outback SA": "28",
+    "Eyre Peninsula": "8",
+    "Yorke Peninsula": "9",
+    "Kangaroo Island": "11",
+    "Transit SA": "50",
+}
+
+# WA_RANKING = {
+#     ###############
+#     "501": "South East",
+#     "502": "Goldfields",
+#     "503": "Midwest",
+#     "504": "Gascoyne",
+#     "505": "Pilbara",
+#     "506": "Kimberley",
+#     "507": "Perth",
+#     "508": "Peel",
+#     "509": "South West",
+#     "510": "Great Southern",
+#     "511": "Wheatbelt",
+#     "550": "Australia's Coral Coast",
+#     "551": "Australia's North West",
+#     "552": "Australia's South West",
+#     "553": "Experience Perth",
+#     "554": "Australia's Golden Outback",
+#     "590": "Transit WA",
+#     "598": "Perth",  # "Other WA"
+# }
+
+TAS_RANKING = {
+    "Hobart":   "1",
+    "Southern": "2",
+    "East Coast": "3",
+    "Northern": "4",
+    "Launceston and Tamar Valley": "5",
+    "North West": "6",
+    "West Coast": "7",
+    "Transit TAS": "10",
+}
+
+NT_RANKING = {
+    "Darwin": "1",
+    "Alice Springs": "2",
+    "Arnhem": "3",
+    "Katherine": "4",
+    "Tablelands": "5",
+    "Petermann": "6",
+    "Kakadu": "7",
+    "MacDonnell": "8",
+    "Daly": "9",
+    "Transit NT": "10"
+}
