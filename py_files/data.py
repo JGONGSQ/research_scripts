@@ -61,15 +61,14 @@ def get_coefficient_dict(filepath):
         alternative_counter = 1
         variable_counter = 1
 
-        for i, row in enumerate(file_reader):
-            print(i, row[0])
-
+        # read line by line
+        for row in file_reader:
             if row[0] == "uno":
                 writing_flag = True
                 alternative_counter += 1
                 variable_counter = 0
                 alternative_name = "alternative_{alternative_counter}".format(alternative_counter=alternative_counter)
-                coefficient_dict[alternative_name] = {}
+                coefficient_dict.update({alternative_name: {}})
 
             variable_counter += 1
             variable_name = "variable_{variable_counter}".format(variable_counter=variable_counter)
