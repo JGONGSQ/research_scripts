@@ -13,7 +13,7 @@ args <- commandArgs(trailingOnly = TRUE)
 
 
 if (length(args)==0) {
-  stop("At least one argument must be supplied", call.=FALSE)
+    stop("At least one argument must be supplied", call.=FALSE)
 }
 
 input_file_path = args[1]

@@ -15,32 +15,3 @@ coeff_dict = get_coefficient_dict(output_filepath)
 print("This is the dictionary", coeff_dict)
 for item in coeff_dict:
     print coeff_dict[item]
-
-# test_dict = {
-#     "alternative_one": {
-#         "variable_one": {
-#             "name": "test variable",
-#             "value": "123"
-#         },
-#         "variable_two": {
-#             "name": "test variable",
-#             "value": "123"
-#         }
-#
-#     },
-#
-#     "alternative_two": {
-#         "variable_one": {
-#             "name": "test variable",
-#             "value": "123"
-#         },
-#         "variable_two": {
-#             "name": "test variable",
-#             "value": "123"
-#         }
-#
-#     }
-# }
-#
-# for item in test_dict:
-#     print test_dict[item]
