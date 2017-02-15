@@ -10,6 +10,15 @@
 library(miscTools)
 library(maxLik)
 
+list_creator <- function(parameter_list) {
+    list = c()
+    for (item in parameter_list) {
+        list = c(list, item)
+    }
+    return(list)
+}
+
+
 parameter_ind <- function(ivgt, ind, nc, sero, ncoeffs) {
   
   i <- 1;
