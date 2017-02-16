@@ -28,7 +28,9 @@ alternative_values_3 <- float_list_creator(strsplit(toString(coef_data[2,"values
 alternative_values_4 <- float_list_creator(strsplit(toString(coef_data[3,"values"]), ","))
 alternative_values_5 <- float_list_creator(strsplit(toString(coef_data[4,"values"]), ","))
 alternative_values_6 <- float_list_creator(strsplit(toString(coef_data[5,"values"]), ","))
-# print(temp_values)
+coef_values <- float_list_creator(strsplit(toString(coef_data[6,"values"]), ","))
+# print("This is the coeff values")
+# print(coef_values[1])
 
 Data <<- read.table(data_filepath, header=T, sep=",");
 table_headers = names(Data)
@@ -107,18 +109,19 @@ ivdts <- list();
 ivdtc <- list();
 
 ivdts[[1]] <- c("uno");
-ivdtc[[1]] <- c(2.604);
+ivdtc[[1]] <- c(coef_values[1]);
 ivdts[[2]] <- c("uno");
-ivdtc[[2]] <- c(2.718);
+ivdtc[[2]] <- c(coef_values[2]);
 ivdts[[3]] <- c("uno");
-ivdtc[[3]] <- c(2.408);
+ivdtc[[3]] <- c(coef_values[3]);
 ivdts[[4]] <- c("uno");
-ivdtc[[4]] <- c(2.711);
+ivdtc[[4]] <- c(coef_values[4]);
 ivdts[[5]] <- c("uno");
-ivdtc[[5]] <- c(2.456);
+ivdtc[[5]] <- c(coef_values[5]);
 ivdts[[6]] <- c("uno");
-ivdtc[[6]] <- c(2.604);
-
+ivdtc[[6]] <- c(coef_values[6]);
+# print("This is the ivdtc")
+# print(ivdtc)
 
    
 ivgts <- list();
