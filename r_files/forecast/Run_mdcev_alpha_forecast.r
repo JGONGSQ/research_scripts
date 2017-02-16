@@ -15,7 +15,20 @@ coef_filepath = args[7]
 
 coef_data <<- read.table(coef_filepath, header=T, sep=",");
 print(">>>> Coef Data <<<<")
-print(coef_data)
+
+alternative_variables_2 <- list_creator(strsplit(toString(coef_data[1,"variables"]), ","))
+alternative_variables_3 <- list_creator(strsplit(toString(coef_data[2,"variables"]), ","))
+alternative_variables_4 <- list_creator(strsplit(toString(coef_data[3,"variables"]), ","))
+alternative_variables_5 <- list_creator(strsplit(toString(coef_data[4,"variables"]), ","))
+alternative_variables_6 <- list_creator(strsplit(toString(coef_data[5,"variables"]), ","))
+# print(temp_variable)
+
+alternative_values_2 <- float_list_creator(strsplit(toString(coef_data[1,"values"]), ","))
+alternative_values_3 <- float_list_creator(strsplit(toString(coef_data[2,"values"]), ","))
+alternative_values_4 <- float_list_creator(strsplit(toString(coef_data[3,"values"]), ","))
+alternative_values_5 <- float_list_creator(strsplit(toString(coef_data[4,"values"]), ","))
+alternative_values_6 <- float_list_creator(strsplit(toString(coef_data[5,"values"]), ","))
+# print(temp_values)
 
 Data <<- read.table(data_filepath, header=T, sep=",");
 table_headers = names(Data)
@@ -70,10 +83,20 @@ ivmtc <- list();
 
 ivmt[[1]] <- c("");    # Do not modify this line because the first alternative is considered as base
 ivmtc[[1]] <- c(0.0);  # Do not modify this line because the first alternative is considered as base
-ivmt[[2]] <- c("uno","hhsize");
-ivmtc[[2]] <- c(0.249,-0.03);
-ivmt[[3]] <- c("uno","hhsize");
-ivmtc[[3]] <- c(-0.797,-0.027);
+# ivmt[[2]] <- c("uno","hhsize");
+#ivmtc[[2]] <- c(0.249,-0.03);
+#ivmt[[3]] <- c("uno","hhsize");
+#ivmtc[[3]] <- c(-0.797,-0.027);
+ivmt[[2]] <- alternative_variables_2;
+ivmtc[[2]] <- alternative_values_2;
+ivmt[[3]] <- alternative_variables_3;
+ivmtc[[3]] <- alternative_values_3;
+ivmt[[4]] <- alternative_variables_4;
+ivmtc[[4]] <- alternative_values_4;
+ivmt[[5]] <- alternative_variables_5;
+ivmtc[[5]] <- alternative_values_5;
+ivmt[[6]] <- alternative_variables_6;
+ivmtc[[6]] <- alternative_values_6;
 
 
 # Important Note: For the satiation parameters (alphas and gammas) do not provide the final values of alphas and gammas. 
@@ -89,13 +112,27 @@ ivdts[[2]] <- c("uno");
 ivdtc[[2]] <- c(2.718);
 ivdts[[3]] <- c("uno");
 ivdtc[[3]] <- c(2.408);
+ivdts[[4]] <- c("uno");
+ivdtc[[4]] <- c(2.711);
+ivdts[[5]] <- c("uno");
+ivdtc[[5]] <- c(2.456);
+ivdts[[6]] <- c("uno");
+ivdtc[[6]] <- c(2.604);
+
 
    
 ivgts <- list();
 
-ivgts[[1]] <- c("uno");    # Only one "sero" for each output good should be entered
-ivgts[[2]] <- c("uno");
-ivgts[[3]] <- c("uno");
+# ivgts[[1]] <- c("uno");    # Only one "sero" for each output good should be entered
+# ivgts[[2]] <- c("uno");
+# ivgts[[3]] <- c("uno");
+# ivgts[[4]] <- c("uno");
+# ivgts[[5]] <- c("uno");
+# ivgts[[6]] <- c("uno");
+
+for (i in 1:nc){
+    ivgts[[i]] <- c("uno")
+}
 
 # The Gamma values for all alternatives are restricted to zero.  
 ivgtc <- c(0.0); 

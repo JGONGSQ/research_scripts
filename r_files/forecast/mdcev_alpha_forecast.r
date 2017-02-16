@@ -18,6 +18,14 @@ list_creator <- function(parameter_list) {
     return(list)
 }
 
+float_list_creator <- function(parameter_list) {
+    list = c()
+    for (item in parameter_list) {
+        list = c(list, as.numeric(item))
+    }
+    return(list)
+}
+
 
 parameter_ind <- function(ivgt, ind, nc, sero, ncoeffs) {
   
