@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import csv
 import math
+import numpy as np
 
 
 def get_delta_value(value):
@@ -64,6 +65,12 @@ def get_coef_file(filepath):
     return data
 
 
+def result_compare(data, result):
+
+
+    return
+
+
 def evaluate_forcasting(data_file, result_file, alternative_list=None):
 
     with open(data_file, 'rU') as data_csv, open(result_file, 'r+') as result_file:
@@ -82,6 +89,9 @@ def evaluate_forcasting(data_file, result_file, alternative_list=None):
                 data = map(data_row.__getitem__, data_row_index)
                 result = map(result_row.__getitem__, result_row_index)
                 print data, result
+                result_compare(data, result)
+
+
                 # raise Exception
 
     return
