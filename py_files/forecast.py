@@ -62,3 +62,26 @@ def get_coef_file(filepath):
                     values = values + ',' + str(value)
 
     return data
+
+
+def evaluate_forcasting(data_file, result_file, alternative_list=None):
+
+    with open(data_file, 'rU') as data_csv, open(result_file, 'r+') as result_file:
+
+        data_reader = csv.reader(data_csv, delimiter=',')
+        result_reader = csv.reader(result_file, delimiter=',')
+
+        for i, data_row in enumerate(data_reader):
+
+            if i == 0:
+                data_row_index = map(data_row.index, alternative_list)
+                result_row_index = map(result_reader.next().index, alternative_list)
+                print data_row_index, result_row_index
+            else:
+                result_row = result_reader.next()
+                data = map(data_row.__getitem__, data_row_index)
+                result = map(result_row.__getitem__, result_row_index)
+                print data, result
+                # raise Exception
+
+    return
