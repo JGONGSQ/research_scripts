@@ -449,7 +449,7 @@ def read_file_by_city(filename, compulsory_fields, city_lists, city_codes, utili
     return results
 
 
-def write_file(filename, data):
+def write_data_to_csv(filename, data):
     """
         Write the results list to generate a new data file
     :param filename: the name of the output file with its path
@@ -467,6 +467,19 @@ def write_file(filename, data):
             writer.writerow(row)
 
     return True
+
+
+def read_csv_to_data(filename):
+
+    data = list()
+
+    with open(filename, 'rU') as csvfile:
+        file_reader = csv.reader(csvfile, delimiter=',')
+
+        for row in file_reader:
+            data.append(row)
+
+    return data
 
 
 def convert_txt_to_csv(filepath):
@@ -734,7 +747,7 @@ def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes
                         index_number += 1
 
     # write the data to the output file
-    is_successful = write_file(filename=output_file, data=data)
+    is_successful = write_data_to_csv(filename=output_file, data=data)
     return is_successful
 
 
@@ -787,5 +800,6 @@ def read_state_combinations(input_file, output_file, compulsory_fields, state_li
                         data.append(output_row)
                         index_number += 1
 
-    is_successful = write_file(filename=output_file, data=data)
+    is_successful = write_data_to_csv(filename=output_file, data=data)
     return is_successful
+

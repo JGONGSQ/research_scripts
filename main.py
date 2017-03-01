@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 # Imports of python package
-from py_files.data import read_file, write_file, read_file_by_city, convert_list_to_str, \
+from py_files.data import read_file, write_data_to_csv, read_file_by_city, convert_list_to_str, \
     convert_tuple_to_list, case_config_excluding_variables
 from datetime import datetime
 from multiprocessing import Pool
@@ -64,7 +64,7 @@ for case_config in case_config_list:
 
         # write the file
         input_file_path = INPUT_DIR_PATH + '/input' + '_{}'.format(case_config) + '_{}'.format(variable_in_names) + '.csv'
-        write_file(input_file_path, results)
+        write_data_to_csv(input_file_path, results)
 
         output_file_path = RESULTS_PATH + '/results' + '_{}'.format(case_config) + '_{}'.format(variable_in_names) + '.txt'
         list_of_estimations.append((case_config, input_file_path, output_file_path, convert_list_to_str(variable_combination)))

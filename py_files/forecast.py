@@ -65,7 +65,13 @@ def get_coef_file(filepath):
     return data
 
 
-def result_compare(data, result):
+def compare_data_and_result(data, result):
+    """
+        Comparing the forecasted results and original data
+    :param data: original data list
+    :param result: forecasted results list
+    :return: hit ratio and r_square value of each row
+    """
     data = map(float, data)
     result = map(float, result)
     data_avg = sum(data) / len(data)
@@ -88,7 +94,13 @@ def result_compare(data, result):
     return hit, r_square
 
 
-def evaluate_forcasting(data_file, result_file, alternative_list=None):
+def evaluate(data_file, result_file, alternative_list=None):
+    """
+    :param data_file: original data file
+    :param result_file: results of the forecasting operation
+    :param alternative_list: list of alternatives
+    :return:
+    """
     hit_ratio = list()
     r_square = list()
     with open(data_file, 'rU') as data_csv, open(result_file, 'r+') as result_file:
@@ -107,7 +119,7 @@ def evaluate_forcasting(data_file, result_file, alternative_list=None):
                 data = map(data_row.__getitem__, data_row_index)
                 result = map(result_row.__getitem__, result_row_index)
                 print data, result
-                hit, r = result_compare(data, result)
+                hit, r = compare_data_and_result(data, result)
                 hit_ratio.append(hit)
                 r_square.append(r)
                 # raise Exception
@@ -115,4 +127,33 @@ def evaluate_forcasting(data_file, result_file, alternative_list=None):
     average_r = sum(r_square)/len(r_square)
     print("This is the average hit", average_hit)
     print("This is the average r square", average_r)
+    return
+
+
+def forecast(r_file, data_filepath, case_config, results_file, halton_filepath, coef_file):
+    """
+    :param r_file: It is the R file going to use for the forecasting
+    :param data_filepath: It is the data file of the original estimation. normally would be a csv file
+    :param case_config: it the case_configureation of the forecasting, nomally would 1, 4, 7
+    :param results_file: forecasting results file, which is the output file
+    :param halton_filepath: the file generate the randomsy in the forecasting
+    :param coef_file: the file of the coef file store in the csv, normally would be convert from a txt file.
+    :return:
+    """
+    process = subprocess.call(
+        ['Rscript --vanilla {r_file} {data_file} '
+         '{number_of_alternatives} {case_config} {state_list} {results_file} '
+         '{halton_file} {coef_file}'.format(
+            r_file=r_file,
+            data_file=data_filepath,  # 1
+            number_of_alternatives=STATE_LISTS.__len__(),
+            case_config=case_config,  # 3
+            state_list=convert_list_to_str(STATE_LISTS),
+            results_file=results_file,  # 5
+            halton_file=halton_filepath,
+            coef_file=coef_file  # 7
+        )
+        ]
+        , shell=True)
+
     return

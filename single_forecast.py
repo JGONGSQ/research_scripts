@@ -16,28 +16,17 @@ csv_filepath = convert_txt_to_csv(txt_filepath)
 print csv_filepath
 
 coef_data = get_coef_file(csv_filepath)
-write_file(filename=coef_file, data=coef_data)
+write_data_to_csv(filename=coef_file, data=coef_data)
 
 # coef_dict = get_coefficient_dict(csv_filepath)
 #
 # print("This is the dictionary", coef_dict)
 # for item in coef_dict:
 #     print coef_dict[item]
-
 case_config = 1
 
-process = subprocess.call(
-        ['Rscript --vanilla {r_file} {data_file} '
-         '{number_of_alternatives} {case_config} {state_list} {results_file} '
-         '{halton_file} {coef_file}'.format(
-            r_file=r_file,
-            data_file=data_filepath, #1
-            number_of_alternatives=STATE_LISTS.__len__(),
-            case_config=case_config, #3
-            state_list=convert_list_to_str(STATE_LISTS),
-            results_file=results_file, #5
-            halton_file=halton_filepath,
-            coef_file=coef_file #7
-            )
-        ]
-        , shell=True)
+forecast(r_file=r_file, data_filepath=data_filepath,
+         case_config=case_config, results_file=results_file,
+         halton_filepath=halton_filepath, coef_file=coef_file)
+
+

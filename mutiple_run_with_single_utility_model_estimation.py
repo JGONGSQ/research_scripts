@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 # Imports of python packages
-from py_files.data import write_file, read_file_by_city, convert_list_to_str, \
+from py_files.data import write_data_to_csv, read_file_by_city, convert_list_to_str, \
     convert_tuple_to_list, case_config_excluding_variables, get_utility_variables, get_utility_parameters_list
 from datetime import datetime
 from multiprocessing import Pool
