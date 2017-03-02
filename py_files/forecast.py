@@ -2,6 +2,8 @@
 import csv
 import math
 import numpy as np
+import subprocess
+from .data import *
 
 
 def get_delta_value(value):
@@ -89,7 +91,7 @@ def compare_data_and_result(data, result):
 
     hit = round(number_of_hit / number_of_choice, 3)
     r_square = 1 - round(resisudal / tot, 3)
-    print hit, r_square
+    # print hit, r_square
 
     return hit, r_square
 
@@ -113,12 +115,12 @@ def evaluate(data_file, result_file, alternative_list=None):
             if i == 0:
                 data_row_index = map(data_row.index, alternative_list)
                 result_row_index = map(result_reader.next().index, alternative_list)
-                print data_row_index, result_row_index
+                # print data_row_index, result_row_index
             else:
                 result_row = result_reader.next()
                 data = map(data_row.__getitem__, data_row_index)
                 result = map(result_row.__getitem__, result_row_index)
-                print data, result
+                # print data, result
                 hit, r = compare_data_and_result(data, result)
                 hit_ratio.append(hit)
                 r_square.append(r)

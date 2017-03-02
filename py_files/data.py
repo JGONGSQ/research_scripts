@@ -5,6 +5,25 @@ import os
 from settings import *
 from geopy.geocoders import Nominatim
 from geopy.distance import vincenty, great_circle
+import numpy as np
+
+
+def count_on_pure_data(pure_data, number_of_alternatives):
+    duration_counts = np.zeros(number_of_alternatives)
+    alternative_counts = np.zeros(number_of_alternatives)
+    number_of_chosen_alternative_counts = np.zeros(number_of_alternatives)
+
+    for row in pure_data:
+        temp_a = np.asarray(row)
+        duration_counts = np.add(temp_a, duration_counts)
+        temp_b = np.nonzero(row)
+        for index in temp_b[0]:
+            alternative_counts[index] += 1
+
+        temp_c = np.count_nonzero(row)
+        number_of_chosen_alternative_counts[temp_c - 1] += 1
+
+    return duration_counts, alternative_counts, number_of_chosen_alternative_counts
 
 
 def update_regn_dict():
@@ -32,6 +51,18 @@ def update_regn_dict():
         data.append([key, location_address, latitude, longitude])
 
     return data
+
+
+def get_pure_data(data, index):
+    pure_data = list()
+    for i, row in enumerate(data):
+        if i == 0:
+            pass
+        else:
+            temp_row = map(row.__getitem__, index)
+            temp_row = map(float, temp_row)
+            pure_data.append(temp_row)
+    return pure_data
 
 
 def get_regn_dict(filepath):
