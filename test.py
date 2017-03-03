@@ -5,10 +5,6 @@ from py_files.data import *
 from py_files.settings import *
 from py_files.forecast import evaluate
 from py_files.plot import *
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-import pylab
 from datetime import datetime
 import os
 # import single_forecast

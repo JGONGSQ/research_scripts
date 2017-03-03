@@ -11,6 +11,10 @@ def get_delta_value(value):
     return value
 
 
+def get_theeta_value(value):
+    return math.log(value)
+
+
 def get_coef_file(filepath):
     data = list()
 
@@ -19,6 +23,7 @@ def get_coef_file(filepath):
         # initial values
         variable_flag = False
         alpha_flag = False
+        gamma_flag = False
         variables = None
         values = None
         alternative_counter = 0
@@ -38,8 +43,9 @@ def get_coef_file(filepath):
 
             if row[0] == 'D1' or row[0] == 'G1':
                 data.append([variables, values])
-                # variable_flag = False
                 variable_counter = 0
+                if row[0] == 'G1':
+                    gamma_flag = True
                 alpha_flag = True
                 variables = ''
                 values = ''
@@ -54,7 +60,10 @@ def get_coef_file(filepath):
                 value = float(row[1])
 
                 if alpha_flag:
-                    if value != 1:
+                    if gamma_flag:
+                        value = get_theeta_value(value)
+
+                    if value != 1 and not gamma_flag:
                         value = get_delta_value(value)
 
                 if variable_counter == 1:

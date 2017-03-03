@@ -53,7 +53,7 @@ print data_alternative_counts, result_alternative_counts
 print data_number_of_chosen_alternative_counts, result_number_of_chosen_alternative_counts
 
 # Plotting part
-fig = plt.figure(1)
+fig = plt.figure(4)
 
 fig = plot_bar_graph_within(STATE_LISTS, data_duration_counts, result_duration_counts, 'Duration counts in days', fig, 221)
 fig = plot_bar_graph_within(STATE_LISTS, data_alternative_counts, result_alternative_counts, 'Alternative counts as hit ratio', fig, 222)

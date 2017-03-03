@@ -786,7 +786,7 @@ def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes
     return is_successful
 
 
-def read_state_combinations(input_file, output_file, compulsory_fields, state_lists, state_codes, utility_parameters, distance_destination_list,number_of_data=40000):
+def read_state_combinations(input_file, output_file, compulsory_fields, state_list, state_codes, utility_parameters, distance_destination_list, number_of_data=40000):
 
     print utility_parameters
     # initials
@@ -796,7 +796,7 @@ def read_state_combinations(input_file, output_file, compulsory_fields, state_li
 
     # make the title
     utility_parameters_list = get_utility_parameters_list(utility_parameters)
-    output_fields_list = compulsory_fields + state_lists + utility_parameters_list + distance_destination_list
+    output_fields_list = compulsory_fields + state_list + utility_parameters_list + distance_destination_list
 
     # append the title
     data.append(output_fields_list)
@@ -826,7 +826,7 @@ def read_state_combinations(input_file, output_file, compulsory_fields, state_li
 
                         # getting the utility parameters data according to the utility parameters
                         utility_variable_data = get_utility_parameters_value(input_field_list, utility_parameters, row)
-                        distance_data = get_distance_data(input_field_list, distance_destination_list, state_lists, row)
+                        distance_data = get_distance_data(input_field_list, distance_destination_list, state_list, row)
 
                         data_set = compulsory_data + state_data + utility_variable_data + distance_data
                         map(output_row.__setitem__, map(output_fields_list.index, output_fields_list), data_set)

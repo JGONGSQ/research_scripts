@@ -72,7 +72,6 @@ for case_config in case_config_list:
         , shell=True)
     if case_config == 1:
         print("In the case config 1")
-
     elif case_config == 4:
         print("In the case config 4")
     elif case_config == 7:
