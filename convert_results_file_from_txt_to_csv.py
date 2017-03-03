@@ -10,8 +10,8 @@ filepath = '/Users/daddyspro/Desktop/useful_results/mutiple_utility_model/result
 output_filepath = convert_txt_to_csv(filepath)
 print output_filepath
 
-coeff_dict = get_coefficient_dict(output_filepath)
+coef_dict = get_coefficient_dict(output_filepath)
 
-print("This is the dictionary", coeff_dict)
-for item in coeff_dict:
-    print coeff_dict[item]
+print("This is the dictionary", coef_dict)
+for item in coef_dict:
+    print coef_dict[item]

@@ -60,3 +60,7 @@ fig = plot_bar_graph_within(STATE_LISTS, data_alternative_counts, result_alterna
 fig = plot_bar_graph_within([1,2,3,4,5,6], data_number_of_chosen_alternative_counts, result_number_of_chosen_alternative_counts, "Number of chosen alternative hit", fig, 223)
 
 plt.show()
+
+
+# if __name__ == '__main__':
+#     print 123123123
