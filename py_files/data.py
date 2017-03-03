@@ -9,17 +9,21 @@ import numpy as np
 
 
 def count_on_pure_data(pure_data, number_of_alternatives):
+    # initial the matrix
     duration_counts = np.zeros(number_of_alternatives)
     alternative_counts = np.zeros(number_of_alternatives)
     number_of_chosen_alternative_counts = np.zeros(number_of_alternatives)
 
+    #  add the value to the matrix line by line
     for row in pure_data:
+        # Get the duration value
         temp_a = np.asarray(row)
         duration_counts = np.add(temp_a, duration_counts)
+        # Get the hit value
         temp_b = np.nonzero(row)
         for index in temp_b[0]:
             alternative_counts[index] += 1
-
+        # Get the number of chosen alternatives in the matrix
         temp_c = np.count_nonzero(row)
         number_of_chosen_alternative_counts[temp_c - 1] += 1
 
