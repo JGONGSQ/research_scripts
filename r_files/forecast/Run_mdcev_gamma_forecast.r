@@ -1,23 +1,54 @@
+print("------> Start forecasting process <-----")
+source("r_files/forecast/mdcev_gamma_forecast.r");
 
-source("D:/R_Package_Estimation/MDCEV_NoOutside_Forecasting/mdcev_gamma_forecast.r");
+args <- commandArgs(trailingOnly = TRUE)
 
-Data <<- read.table("D:/R_Package_Estimation/MDCEV_NoOutside_Forecasting/testnout.csv", header=T, sep=",");
-output <- "D:/R_Package_Estimation/MDCEV_NoOutside_Forecasting/testnout_gamma.csv";
+if (length(args)==0){
+  stop("At least one argument must be supplied", call.=FALSE)
+}
+
+data_filepath = args[1]
+number_of_alternatives = strtoi(args[2])
+case_config = strtoi(args[3])
+alternative_variables = args[4]
+output_filepath = args[5]
+halton_filepath = args[6]
+coef_filepath = args[7]
+
+coef_data <<- read.table(coef_filepath, header=T, sep=",");
+print(">>>> Coef Data <<<<")
+alternative_variables_2 <- list_creator(strsplit(toString(coef_data[1,"variables"]), ","))
+alternative_variables_3 <- list_creator(strsplit(toString(coef_data[2,"variables"]), ","))
+alternative_variables_4 <- list_creator(strsplit(toString(coef_data[3,"variables"]), ","))
+alternative_variables_5 <- list_creator(strsplit(toString(coef_data[4,"variables"]), ","))
+alternative_variables_6 <- list_creator(strsplit(toString(coef_data[5,"variables"]), ","))
+
+
+alternative_values_2 <- float_list_creator(strsplit(toString(coef_data[1,"values"]), ","))
+alternative_values_3 <- float_list_creator(strsplit(toString(coef_data[2,"values"]), ","))
+alternative_values_4 <- float_list_creator(strsplit(toString(coef_data[3,"values"]), ","))
+alternative_values_5 <- float_list_creator(strsplit(toString(coef_data[4,"values"]), ","))
+alternative_values_6 <- float_list_creator(strsplit(toString(coef_data[5,"values"]), ","))
+coef_values <- float_list_creator(strsplit(toString(coef_data[7,"values"]), ","))
+print(coef_values)
+Data <<- read.table(data_filepath, header=T, sep=",");
+table_headers = names(Data)
+output <- output_filepath;
 
 # path for the dataset that draws pesudo random Halton draws to generate the gumbel error terms
 # If you do not have the matrix, you can comment out this line and write code to generate random numbers on the fly
 # alternatively, you can uncomment this line and set _gumbel = 0 to avoid considering the unobserved heterogeneity
-Halton_File <<- "D:/R_Package_Estimation/Halton/halton_class15.csv";
+Halton_File <<- halton_filepath;
 
 ivuno <- "uno";         # Column of ones
 ivsero <- "sero";       # Column of zeros
 
 numout <- 0;      # Number of outside goods (i.e., always consumed goods)
-config <- 4;      # Utility specification configuration, possible values: 4, 7
+config <- case_config;      # Utility specification configuration, possible values: 4, 7
 alp0to1 <<- 1;    # 1 if you want the Alpha values to be constrained between 0 and 1, 0 otherwise
 price <- 0;       # 1 if there is price variation across goods, 0 otherwise
-nc <<- 3;         # Number of alternatives (in the universal choice set) including outside goods
-po <<- 1;         # position of pointer to case number in data set,
+nc <<- number_of_alternatives;         # Number of alternatives (in the universal choice set) including outside goods
+po <<- match("id", table_headers, 0);         # position of pointer to case number in data set,
 
 nrep <- 1;        # Number of sets of error term Halton draws overwhich you want to simulate the unobserved heterogeneity
 
@@ -32,12 +63,15 @@ tolee <- 0.01;
 avg <- 0;
 
 
-
 # Provide labels of dependent variables (i.e., the expenditure variables) below
-def <- c("consume1","consume2","consume3");
+def <- list_creator(strsplit(alternative_variables, ","));
 
 # Provide labels of price variables below; if no price variables, introduce UNO as the variable
-fp <- c(ivuno, ivuno, ivuno); #, ivuno, ivuno, ivuno, ivuno, ivuno, ivuno, ivuno, ivuno, ivuno, ivuno, ivuno, ivuno);
+fp_list = c()
+for (i in 1:nc){
+  fp_list = c(ivuno, fp_list)
+}
+fp <- fp_list; #, ivuno, ivuno, ivuno, ivuno, ivuno, ivuno, ivuno, ivuno, ivuno, ivuno, ivuno, ivuno);
 
 
 # definition of independent variables 
@@ -48,10 +82,20 @@ ivmtc <- list();
 
 ivmt[[1]] <- c("");     # Do not modify this line because the first alternative is considered as base     
 ivmtc[[1]] <- c(0.0);   # Do not modify this line because the first alternative is considered as base
-ivmt[[2]] <- c("uno","hhsize");
-ivmtc[[2]] <- c(0.319,-0.03);
-ivmt[[3]] <- c("uno","hhsize");
-ivmtc[[3]] <- c(-0.748,-0.025);
+# ivmt[[2]] <- c("uno","hhsize");
+# ivmtc[[2]] <- c(0.319,-0.03);
+# ivmt[[3]] <- c("uno","hhsize");
+# ivmtc[[3]] <- c(-0.748,-0.025);
+ivmt[[2]] <- alternative_variables_2;
+ivmtc[[2]] <- alternative_values_2;
+ivmt[[3]] <- alternative_variables_3;
+ivmtc[[3]] <- alternative_values_3;
+ivmt[[4]] <- alternative_variables_4;
+ivmtc[[4]] <- alternative_values_4;
+ivmt[[5]] <- alternative_variables_5;
+ivmtc[[5]] <- alternative_values_5;
+ivmt[[6]] <- alternative_variables_6;
+ivmtc[[6]] <- alternative_values_6;
 
 
 # Important Note: For the satiation parameters (alphas and gammas) do not provide the final values of alphas and gammas. 
@@ -60,9 +104,12 @@ ivmtc[[3]] <- c(-0.748,-0.025);
 # Simialrly, Alpha is parameterized as 1-(1/exp(delta)). Provide the delta values here.
 ivdts <- list();
 
-ivdts[[1]] <- c("uno");
-ivdts[[2]] <- c("uno");
-ivdts[[3]] <- c("uno");
+for (i in 1:nc){
+  ivdts[[i]] <- c("uno")
+}
+#ivdts[[1]] <- c("uno");
+#ivdts[[2]] <- c("uno");
+#ivdts[[3]] <- c("uno");
 
 
 # The alpha values for all alternatives are restricted to -1000.
@@ -73,13 +120,17 @@ ivgts <- list();
 ivgtc <- list();
 
 ivgts[[1]] <- c("uno");
-ivgtc[[1]] <- c(6.4885);
+ivgtc[[1]] <- c(coef_values[1]);
 ivgts[[2]] <- c("uno");
-ivgtc[[2]] <- c(5.9695);
+ivgtc[[2]] <- c(coef_values[2]);
 ivgts[[3]] <- c("uno");
-ivgtc[[3]] <- c(5.4557);
-
-
+ivgtc[[3]] <- c(coef_values[3]);
+ivgts[[4]] <- c("uno");
+ivgtc[[4]] <- c(coef_values[4]);
+ivgts[[5]] <- c("uno");
+ivgtc[[5]] <- c(coef_values[5]);
+ivgts[[6]] <- c("uno");
+ivgtc[[6]] <- c(coef_values[6]);
 
 
 ########################################################################################################
