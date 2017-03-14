@@ -63,8 +63,8 @@ class ModelRun(object):
 
     utility_variables = get_utility_variables(alternatives_utility_variables)
 
-    case_config_list = [1, 4, 7]
-    # case_config_list = [4]
+    # case_config_list = [1, 4, 7]
+    case_config_list = [4]
 
     def _create_estimation_output_filename(self, case_config):
         return RESULTS_PATH + '/results' + '_{}'.format(case_config) + '_{}'.format('MDCEV_TEMP') + '.txt'
@@ -131,12 +131,12 @@ class ModelRun(object):
         for case_config in self.case_config_list:
             self._get_coef(case_config)
             r_file = self.r_alpha_forecast
-            if case_config == 4:
-                r_file = self.r_gamma_forecast
-
-            forecast(r_file=r_file, data_filepath=self.model_data_file,
-                     case_config=case_config, results_file=self._create_forecast_filename(case_config),
-                     halton_filepath=self.halton_filepath, coef_file=self._create_coef_filename(case_config))
+            # if case_config == 4:
+            #     r_file = self.r_gamma_forecast
+            #
+            # forecast(r_file=r_file, data_filepath=self.model_data_file,
+            #          case_config=case_config, results_file=self._create_forecast_filename(case_config),
+            #          halton_filepath=self.halton_filepath, coef_file=self._create_coef_filename(case_config))
 
             evaluate(data_file=self.model_data_file, result_file=self._create_forecast_filename(case_config), alternative_list=STATE_LISTS)
 
@@ -186,7 +186,7 @@ class ModelRun(object):
         return
 
     def full(self):
-        # self.read_the_data()
+        self.read_the_data()
         self.estimation()
         self.forecast()
         self.plot()

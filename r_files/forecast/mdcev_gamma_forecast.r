@@ -262,9 +262,6 @@ gamma_forecast <- function(Data, arg_inds, arg_vars, dep, fp1, ivmts, ivdts, ivg
         D <- colSums(t(Data[i,flagchm])) + (vqr[4,1]*vqr[3,1]);
         
         lambda <- (N/D)^(1-a[1,1]);
-        print("####")
-        print(vqr[2,2])
-        #print(lambda)
         
         if (vqr[2,2] < lambda) {
           fc[1,1] <- (((vqr[2,1]/lambda)^(1/(matrix(1,nrow=1,ncol=1) - a[1,1])))*vqr[4,1]) - vqr[4,1];
