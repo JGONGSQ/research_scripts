@@ -81,6 +81,11 @@ AGEGROUP_CODE = [['1', '2', '3'], ['4', '5'], ['6', '7'], ['8', '9'], ['10', '11
 
 DISTANCE_DESTINATION_LIST = ['DISTANCE_TO_NSW', 'DISTANCE_TO_VIC', 'DISTANCE_TO_QLD', 'DISTANCE_TO_SA', 'DISTANCE_TO_TAS', 'DISTANCE_TO_NT']
 
+CONSTANT_LIST = ['POPULATION_NSW', 'POPULATION_VIC', 'POPULATION_QLD', 'POPULATION_SA', 'POPULATION_TAS', 'POPULATION_NT']
+# Population are in the unit of millions, such that 7.54 million people in NSW.
+CONSTANT_VALUE = [7.54, 5.79, 4.69, 1.68, 0.52, 0.24]
+# CONSTANT_BACKUP_VALUE = [7.54, 5.79, 4.69, 1.68, 0.52, 0.24]
+
 REGION_DICT = {
     "101": "Eurobodalla Shire",
     "102": "Illawarra",

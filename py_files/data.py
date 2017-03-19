@@ -796,7 +796,7 @@ def read_state_combinations(input_file, output_file, compulsory_fields, state_li
 
     # make the title
     utility_parameters_list = get_utility_parameters_list(utility_parameters)
-    output_fields_list = compulsory_fields + state_list + utility_parameters_list + distance_destination_list
+    output_fields_list = compulsory_fields + state_list + utility_parameters_list + distance_destination_list + CONSTANT_LIST
 
     # append the title
     data.append(output_fields_list)
@@ -828,7 +828,7 @@ def read_state_combinations(input_file, output_file, compulsory_fields, state_li
                         utility_variable_data = get_utility_parameters_value(input_field_list, utility_parameters, row)
                         distance_data = get_distance_data(input_field_list, distance_destination_list, state_list, row)
 
-                        data_set = compulsory_data + state_data + utility_variable_data + distance_data
+                        data_set = compulsory_data + state_data + utility_variable_data + distance_data + CONSTANT_VALUE
                         map(output_row.__setitem__, map(output_fields_list.index, output_fields_list), data_set)
 
                         print(output_row)

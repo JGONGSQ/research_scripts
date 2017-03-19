@@ -32,21 +32,21 @@ class ModelRun(object):
 
     # Alternatives
     vic = ['AGEGROUP_15_29', 'AGEGROUP_40_49', 'HOUSINC_HIGH', 'LIFECYCLE_SINGLE', 'LIFECYCLE_COUPLE_NO_KIDS',
-                 'MARITAL_SINGLE', 'ORIGIN_NSW', 'ORIGIN_QLD', 'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS', 'HOUSEHOLD']
+                 'MARITAL_SINGLE', 'ORIGIN_NSW', 'ORIGIN_QLD', 'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS', 'HOUSEHOLD', 'POPULATION_VIC']
 
     qld = ['AGEGROUP_60_69', 'GENDER_MALE', 'HOUSINC_LOW', 'HOUSINC_MEDIUM', 'HOUSINC_HIGH',
-                'LIFECYCLE_COUPLE_NO_KIDS', 'LIFECYCLE_COUPLE_WITH_KIDS', 'DISTANCE_TO_QLD']
+                'LIFECYCLE_COUPLE_NO_KIDS', 'LIFECYCLE_COUPLE_WITH_KIDS', 'DISTANCE_TO_QLD', 'POPULATION_QLD']
 
     sa = ['AGEGROUP_15_29', 'AGEGROUP_30_39', 'AGEGROUP_60_69', 'EMPLOYMENT_WORKING', 'EMPLOYMENT_RETIRED',
                 'EMPLOYMENT_STUDYING', 'GENDER_MALE', 'ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_QLD', 'ORIGIN_SA',
-                'ORIGIN_TAS', ]
+                'ORIGIN_TAS', 'POPULATION_SA']
 
     tas = ['AGEGROUP_40_49', 'AGEGROUP_50_59', 'EMPLOYMENT_RETIRED', 'HOUSINC_LOW', 'HOUSINC_MEDIUM',
               'LIFECYCLE_SINGLE', 'LIFECYCLE_COUPLE_NO_KIDS', 'MARITAL_SINGLE', 'ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_SA',
-              'ORIGIN_WA', 'ORIGIN_TAS', 'DISTANCE_TO_TAS']
+              'ORIGIN_WA', 'ORIGIN_TAS', 'DISTANCE_TO_TAS', 'POPULATION_TAS']
 
     nt = ['AGEGROUP_60_69', 'EMPLOYMENT_WORKING', 'EMPLOYMENT_STUDYING', 'ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_QLD',
-              'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS', 'DISTANCE_TO_NT']
+              'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS', 'DISTANCE_TO_NT', 'POPULATION_NT']
 
     alternatives_utility_variables = [
         # Alternative 2
@@ -93,8 +93,8 @@ class ModelRun(object):
             compulsory_fields=self.compulsory_fields,
             state_list=self.alternative_list,
             state_codes=self.alternative_code,
+            utility_parameters=self.utility_parameters,
             distance_destination_list=self.distance_destination_list,
-            utility_parameters=self.utility_parameters
         )
         return flag
 
@@ -120,8 +120,7 @@ class ModelRun(object):
                     alternative_3_variables=convert_list_to_str(self.alternatives_utility_variables[1]),
                     alternative_4_variables=convert_list_to_str(self.alternatives_utility_variables[2]),
                     alternative_5_variables=convert_list_to_str(self.alternatives_utility_variables[3]),
-                    alternative_6_variables=convert_list_to_str(self.alternatives_utility_variables[4]),
-                )
+                    alternative_6_variables=convert_list_to_str(self.alternatives_utility_variables[4]),)
                 ]
                 , shell=True)
         return
@@ -131,12 +130,12 @@ class ModelRun(object):
         for case_config in self.case_config_list:
             self._get_coef(case_config)
             r_file = self.r_alpha_forecast
-            # if case_config == 4:
-            #     r_file = self.r_gamma_forecast
-            #
-            # forecast(r_file=r_file, data_filepath=self.model_data_file,
-            #          case_config=case_config, results_file=self._create_forecast_filename(case_config),
-            #          halton_filepath=self.halton_filepath, coef_file=self._create_coef_filename(case_config))
+            if case_config == 4:
+                r_file = self.r_gamma_forecast
+
+            forecast(r_file=r_file, data_filepath=self.model_data_file,
+                     case_config=case_config, results_file=self._create_forecast_filename(case_config),
+                     halton_filepath=self.halton_filepath, coef_file=self._create_coef_filename(case_config))
 
             evaluate(data_file=self.model_data_file, result_file=self._create_forecast_filename(case_config), alternative_list=STATE_LISTS)
 
