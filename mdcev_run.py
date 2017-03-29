@@ -32,39 +32,48 @@ class ModelRun(object):
 
     # Alternatives
     vic = ['AGEGROUP_15_29', 'AGEGROUP_40_49', 'HOUSINC_HIGH', 'LIFECYCLE_SINGLE', 'LIFECYCLE_COUPLE_NO_KIDS',
-                 'MARITAL_SINGLE', 'ORIGIN_NSW', 'ORIGIN_QLD', 'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS', 'HOUSEHOLD', 'POPULATION_VIC']
+                 'MARITAL_SINGLE', 'ORIGIN_NSW', 'ORIGIN_QLD', 'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS',
+           'HOUSEHOLD']
 
-    qld = ['AGEGROUP_60_69', 'GENDER_MALE', 'HOUSINC_LOW', 'HOUSINC_MEDIUM', 'HOUSINC_HIGH',
-                'LIFECYCLE_COUPLE_NO_KIDS', 'LIFECYCLE_COUPLE_WITH_KIDS', 'DISTANCE_TO_QLD', 'POPULATION_QLD']
+    qld = ['AGEGROUP_30_39','AGEGROUP_60_69','EMPLOYMENT_WORKING', 'HOUSINC_LOW', 'HOUSINC_MEDIUM', 'HOUSINC_HIGH',
+                'LIFECYCLE_COUPLE_NO_KIDS', 'LIFECYCLE_COUPLE_WITH_KIDS', 'DISTANCE_TO_QLD']
 
     sa = ['AGEGROUP_15_29', 'AGEGROUP_30_39', 'AGEGROUP_60_69', 'EMPLOYMENT_WORKING', 'EMPLOYMENT_RETIRED',
                 'EMPLOYMENT_STUDYING', 'GENDER_MALE', 'ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_QLD', 'ORIGIN_SA',
-                'ORIGIN_TAS', 'POPULATION_SA']
+                'ORIGIN_TAS']
 
     tas = ['AGEGROUP_40_49', 'AGEGROUP_50_59', 'EMPLOYMENT_RETIRED', 'HOUSINC_LOW', 'HOUSINC_MEDIUM',
               'LIFECYCLE_SINGLE', 'LIFECYCLE_COUPLE_NO_KIDS', 'MARITAL_SINGLE', 'ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_SA',
-              'ORIGIN_WA', 'ORIGIN_TAS', 'DISTANCE_TO_TAS', 'POPULATION_TAS']
+              'ORIGIN_WA', 'ORIGIN_TAS', 'DISTANCE_TO_TAS']
 
     nt = ['AGEGROUP_60_69', 'EMPLOYMENT_WORKING', 'EMPLOYMENT_STUDYING', 'ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_QLD',
-              'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS', 'DISTANCE_TO_NT', 'POPULATION_NT']
+              'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS', 'DISTANCE_TO_NT']
+
+    constant = []
+
+    # vic = ['ORIGIN_NSW']
+    # qld = ['ORIGIN_NSW']
+    # sa = ['ORIGIN_NSW']
+    # tas = ['ORIGIN_NSW']
+    # nt = ['ORIGIN_NSW']
 
     alternatives_utility_variables = [
         # Alternative 2
-        vic,
+        vic + constant,
         # Alternative 3
-        qld,
+        qld + constant,
         # Alternative 4
-        sa,
+        sa + constant,
         # Alternative 5
-        tas,
+        tas + constant,
         # Alternative 6
-        nt,
+        nt + constant,
     ]
 
     utility_variables = get_utility_variables(alternatives_utility_variables)
 
-    # case_config_list = [1, 4, 7]
-    case_config_list = [4]
+    case_config_list = [1, 4, 7]
+    # case_config_list = [4]
 
     def _create_estimation_output_filename(self, case_config):
         return RESULTS_PATH + '/results' + '_{}'.format(case_config) + '_{}'.format('MDCEV_TEMP') + '.txt'
@@ -150,7 +159,7 @@ class ModelRun(object):
 
             result = read_csv_to_data(self._create_forecast_filename(case_config))
             result_alternative_index = map(result[0].index, STATE_LISTS)
-            print data_alternative_index, result_alternative_index
+            # print data_alternative_index, result_alternative_index
 
             # Get the pure data
             pure_data = get_pure_data(data, data_alternative_index)
@@ -186,7 +195,7 @@ class ModelRun(object):
 
     def full(self):
         self.read_the_data()
-        self.estimation()
+        # self.estimation()
         self.forecast()
         self.plot()
         print "This is a FULL RUN"

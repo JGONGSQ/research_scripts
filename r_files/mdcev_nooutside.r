@@ -56,7 +56,7 @@ parameter_ind <- function(ivgt, ind, nc, sero, ncoeffs) {
 
 
 
-mdcev_nooutgood <- function(Data, arg_inds, arg_vars, dep, fp1, ivmts, ivdts, ivgts, Alpha_Names, Gamma_Names) {
+mdcev_nooutgood <- function(Data, arg_inds, arg_vars, def, fp1, ivmts, ivdts, ivgts, Alpha_Names, Gamma_Names) {
 
   #row <- 100               #Number of rows to be read at a time by the log-likelihood function
   #nobs <- 1000             #Number of observations in the dataset

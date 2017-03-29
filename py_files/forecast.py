@@ -109,7 +109,7 @@ def compare_data_and_result(data, result):
             # resisudal += (result[i] - data[i]) ** 2
         elif number == 0 and result[i] == 0:
             number_of_hit += 1
-
+        # print(data[i], result[i])
         user_rmse[i] += (data[i] - result[i]) ** 2
 
 
