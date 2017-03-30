@@ -1,5 +1,7 @@
 #!/usr/bin/python
 # Local library imports
+from settings import *
+from extensions import Data
 
 # python imports
 import sys
@@ -8,13 +10,23 @@ from datetime import datetime
 
 
 class SequenceMNL(object):
-
+    # R script
+    r_estimation = RUNNER_SMNL
 
     # csv data files
+    original_source_file = SOURCE_INPUT_FILE
+    output_file = OUTPUT_FILE
 
-    # Get the data
-    def get_data(self):
-        pass
+    def __init__(self):
+        self.data = Data(source_file=self.original_source_file,
+                         output_file=self.output_file)
+
+    # read the data
+    def read_data(self):
+        flag = self.data.read_sequence()
+        print("This is the data", flag)
+
+        return flag
 
     # Estimation
     def estimation(self):
@@ -33,7 +45,7 @@ class SequenceMNL(object):
         pass
 
     def full(self):
-        self.get_data()
+        self.read_data()
         self.estimation()
         self.forecast()
         self.write_results()
@@ -54,7 +66,7 @@ if __name__ == '__main__':
         arg = 'all'
 
     if arg == 'read':
-        smnl.get_data()
+        smnl.read_data()
 
     elif arg == 'estimation':
         smnl.estimation()
