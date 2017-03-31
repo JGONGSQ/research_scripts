@@ -23,8 +23,8 @@ class SequenceMNL(object):
 
     # read the data
     def read_data(self):
-        flag = self.data.read_sequence()
-        print("This is the data", flag)
+        data = self.data.sequence()
+
 
         return flag
 
