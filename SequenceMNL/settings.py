@@ -1,9 +1,10 @@
 #!/usr/bin/python
 
 # File paths
-RUNNER_SMNL = '/r/run.r'
+RUNNER_SMNL = 'r/run.r'
 SOURCE_INPUT_FILE = '../../Data/NVS2007unit.csv'
 OUTPUT_FILE = '../../Data/results/sequence.csv'
+FORECAST_FILE = '../../Data/results/sequence_forecast.csv'
 
 
 # Variables

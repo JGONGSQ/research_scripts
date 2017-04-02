@@ -17,9 +17,10 @@ class Data(object):
     counter = 0
 
     # initial
-    def __init__(self, source_file, output_file, data=None):
+    def __init__(self, source_file, output_file, forecast_file, data=None):
         self.source_file = source_file
         self.output_file = output_file
+        self.forecast_file = forecast_file
         self.data = data
 
     def _find_index_in_list(self, list, value):
@@ -29,7 +30,6 @@ class Data(object):
                 if item == value:
                     index = i
         return index
-
 
     def _get_variable_codes(self, variable):
         code = None
@@ -176,9 +176,9 @@ class Data(object):
         return data
 
     # read
-    def read(self):
+    def read(self, filepath):
         self.data = list()
-        with open(self.source_file, 'rU') as csvfile:
+        with open(filepath, 'rU') as csvfile:
             file = csv.reader(csvfile, delimiter=',')
             for row in file:
                 self.data.append(row)
@@ -187,9 +187,11 @@ class Data(object):
 
     # Get the sequence of the data
     def sequence(self, number_of_data=500):
-        self.read()
+        self.read(self.source_file)
         title_row = None
         data = list()
+
+        data.append(self.output_title)
 
         # self.data are from the self.read method
         for i, row in enumerate(self.data):
@@ -224,7 +226,7 @@ class Data(object):
         return data
 
     # write
-    def write(self):
+    def write(self, data):
         """
             Write the results list to generate a new data file
         """
@@ -235,7 +237,7 @@ class Data(object):
                 writer = csv.writer(csvfile, delimiter=',')
 
                 # write each row
-                for row in self.data:
+                for row in data:
                     writer.writerow(row)
 
         except Exception as error:
@@ -250,8 +252,26 @@ class Data(object):
 
     # compare
     def compare(self):
-        pass
+        counter = 0
+        hit_ratio = float()
+        origin_data = self.read(self.output_file)
+        forecast_data = self.read(self.forecast_file)
+        destiantion_index = 3
+        total_number_of_data = origin_data.__len__()
+        for i in range(total_number_of_data):
+            if i == 0:
+                pass
+            else:
+                if origin_data[i][destiantion_index] == forecast_data[i][1]:
+                    counter += 1
 
+        hit_ratio = float(counter) / total_number_of_data
+        print(counter, hit_ratio)
+        return
+
+
+class R(object):
+    pass
 
 
 

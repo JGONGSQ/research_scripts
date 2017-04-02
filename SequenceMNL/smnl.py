@@ -16,24 +16,30 @@ class SequenceMNL(object):
     # csv data files
     original_source_file = SOURCE_INPUT_FILE
     output_file = OUTPUT_FILE
+    forecast_file = FORECAST_FILE
 
     def __init__(self):
         self.data = Data(source_file=self.original_source_file,
-                         output_file=self.output_file)
+                         output_file=self.output_file,
+                         forecast_file=self.forecast_file)
 
     # read the data
     def read_data(self):
-        data = self.data.sequence()
-
-
-        return flag
+        sequence_data = self.data.sequence()
+        self.data.write(sequence_data)
+        return
 
     # Estimation
     def estimation(self):
-        pass
+        # run the estimation in R script file
+        process = subprocess.call(
+            ['Rscript --vanilla {r_script}'.format(r_script=self.r_estimation)]
+            , shell=True)
+        return
 
     # Simulation
     def forecast(self):
+        # some python script to call the forecast function
         pass
 
     # Reform results
@@ -42,7 +48,9 @@ class SequenceMNL(object):
 
     # Compare the results to the data and plot
     def plot(self):
-        pass
+        self.data.compare()
+
+        return
 
     def full(self):
         self.read_data()
