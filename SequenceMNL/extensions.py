@@ -140,7 +140,7 @@ class Data(object):
             if state_location in self.state_codes:
                 state_name = self.state_list.__getitem__(self.state_codes.index(state_location))
                 # print state_name
-                if i == 0:
+                if not sequence:
                     sequence.append(state_name)
                 elif sequence[-1] != state_name:
                     sequence.append(state_name)
@@ -186,7 +186,7 @@ class Data(object):
         return self.data
 
     # Get the sequence of the data
-    def sequence(self, number_of_data=500):
+    def sequence(self, number_of_data=50000):
         self.read(self.source_file)
         title_row = None
         data = list()
