@@ -80,6 +80,7 @@ prediction_df = long_testing_data.loc[long_testing_data["choice_situation"].isin
 # print(prediction_df)
 # This is the array of the predicted choice
 prediction_array = destination_mnl.predict(prediction_df)
+
 print(prediction_array)
 # chosen_predictions = destination_mnl.predict(prediction_df,
 #                                        choice_col=choice_column,

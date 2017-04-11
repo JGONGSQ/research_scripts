@@ -59,7 +59,7 @@ class SequenceMNL(object):
         self.write_results()
         self.plot()
         print("This is a FULL run")
-        pass
+        return
 
 
 if __name__ == '__main__':
