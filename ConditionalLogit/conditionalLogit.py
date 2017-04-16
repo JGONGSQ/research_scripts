@@ -1,10 +1,12 @@
 #!/usr/bin/python
 
 from collections import OrderedDict
+from datetime import datetime
 
+import sys
+import subprocess
 import pandas as pd
 import numpy as np
-
 import pylogit as pl
 
 
@@ -77,20 +79,62 @@ print(destination_mnl.get_statsmodels_summary())
 all_situation_ids = np.sort(long_testing_data["choice_situation"].unique())
 prediction_ids = all_situation_ids[:2000]
 prediction_df = long_testing_data.loc[long_testing_data["choice_situation"].isin(prediction_ids)].copy()
-# print(prediction_df)
+
 # This is the array of the predicted choice
 prediction_array = destination_mnl.predict(prediction_df)
 
 print(prediction_array)
-# chosen_predictions = destination_mnl.predict(prediction_df,
-#                                        choice_col=choice_column,
-#                                        return_long_probs=False)
 
-# log_likelihood_calc_1 = np.log(chosen_predictions).sum()
-# print(chosen_predictions, log_likelihood_calc_1)
-# log_predictions = np.log(prediction_array)
-# choice_array = prediction_df[choice_column].values
-# log_likelihood_calc_2 = choice_array.dot(log_predictions)
 
-# assert np.allclose(log_likelihood_calc_1,
-#                    log_likelihood_calc_2)
+class ConditionalMNL(object):
+
+    def __init__(self):
+        pass
+
+    def read_data(self):
+        return
+
+    def estimation(self):
+        pass
+
+    def forecast(self):
+        pass
+
+    def write_results(self):
+        pass
+
+    def plot(self):
+        pass
+
+    def full(self):
+        self.read_data()
+        self.estimation()
+        self.forecast()
+        self.write_results()
+        self.plot()
+        print("This is a FULL run")
+        return
+
+
+if __name__== '__main__':
+    conditional_mnl = ConditionalMNL()
+    start_time = datetime.now()
+
+    argv = sys.argv
+    try:
+        arg = argv[1]
+    except Exception:
+        arg = 'all'
+
+    if arg == 'read':
+        conditional_mnl.read_data()
+    elif arg == 'estimation':
+        conditional_mnl.estimation()
+    elif arg == 'forecast':
+        conditional_mnl.forecast()
+    elif arg == 'plot':
+        conditional_mnl.plot()
+    elif arg == "all":
+        conditional_mnl.full()
+
+    print(datetime.now() - start_time)
