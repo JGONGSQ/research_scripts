@@ -12,26 +12,24 @@ import pandas as pd
 import numpy as np
 import pylogit as pl
 
-###############Start########################
+############### Start ##################
 
-# print(long_testing_data)
-# print(long_testing_data.columns)
-
-
-# general settings
-
+# utility function settings
 basic_specification = OrderedDict()
 basic_names = OrderedDict()
 
 basic_specification["intercept"] = [1, 2]
-basic_names["intercept"] = ['ASC_NSW',
-                            'ASC_VIC'
-                            ]
+basic_names["intercept"] = [
+    'ASC_NSW',
+    'ASC_VIC'
+]
 
 basic_specification["HOMESLA"] = [1, 2, 3]
-basic_names["HOMESLA"] = ['HOMESLA_NSW',
-                           'HOMESLA_VIC',
-                           'HOMESLA_QLD']
+basic_names["HOMESLA"] = [
+    'HOMESLA_NSW',
+    'HOMESLA_VIC',
+    'HOMESLA_QLD'
+]
 
 basic_specification["GENDER"] = [[1, 2, 3]]
 basic_names["GENDER"] = ['GENDER']
@@ -45,37 +43,9 @@ basic_names["ORIGIN"] = ["ORIGIN"]
 basic_specification["EMPLOYMENT"] = [[1, 2, 3]]
 basic_names["EMPLOYMENT"] = ["EMPLOYMENT"]
 
-# basic_specification["last_choice"] = [[1, 2, 3]]
-# basic_names["last_choice"] = ['last_choice']
-
-########################################################
-
-# basic_specification["seat_configuration"] = [2]
-# basic_names["seat_configuration"] = ['Airline Seat Configuration, base=No (Swissmetro)']
-#
-# basic_specification["train_survey"] = [[1, 2]]
-# basic_names["train_survey"] = ["Surveyed on a Train, base=No, (Train and Swissmetro)"]
-#
-# basic_specification["regular_class"] = [1]
-# basic_names["regular_class"] = ["First Class == False, (Swissmetro)"]
-#
-# basic_specification["single_luggage_piece"] = [3]
-# basic_names["single_luggage_piece"] = ["Number of Luggage Pieces == 1, (Car)"]
-#
-# basic_specification["multiple_luggage_pieces"] = [3]
-# basic_names["multiple_luggage_pieces"] = ["Number of Luggage Pieces > 1, (Car)"]
-
-# print basic_names
-# print basic_specification
-
-#####################Start#########################
-
-##################################################
 total_num_parameters = 0
 for item in basic_names:
     total_num_parameters += basic_names[item].__len__()
-
-# print(total_num_parameters)
 
 
 class ConditionalMNL(object):
