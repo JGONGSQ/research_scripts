@@ -128,6 +128,34 @@ class Data(object):
 
         return list
 
+    def _get_variable_category(self, variable):
+        category = None
+        if variable == 'ORIGIN':
+            category = ORIGIN_CATEGORY
+
+        elif variable == 'PARENT':
+            category = PARENT_CATEGORY
+
+        elif variable == "GENDER":
+            category = GENDER_CATEGORY
+
+        elif variable == 'MARITAL':
+            category = MARITAL_CATEGORY
+
+        elif variable == 'EMPLOYMENT':
+            category = EMPLOYMENT_CATEGORY
+
+        elif variable == 'HOUSINC':
+            category = HOUSINC_CATEGORY
+
+        elif variable == 'LIFECYCLE':
+            category = LIFECYCLE_CATEGORY
+
+        elif variable == 'AGEGROUP':
+            category = AGEGROUP_CATEGORY
+
+        return category
+
     def _get_variable_data(self, variable_code, variable, utility_data):
         # user the variable get variable value in thr row
         variable_value = utility_data.__getitem__(self.utility_variables.index(variable))
@@ -136,7 +164,7 @@ class Data(object):
         # I know the variable code, using the value to find the index value of the value in the code
         index = self._find_index_in_list(variable_code, variable_value)
         # use the index value to get the choose category
-        data = self._get_variable_list(variable).__getitem__(index)
+        data = self._get_variable_category(variable).__getitem__(index)
 
         return data
 
@@ -201,7 +229,7 @@ class Data(object):
 
         return self.data
 
-    def conditional(self, number_of_data=10000):
+    def conditional(self, number_of_data=1000):
         self.read(self.source_file)
         title_row = None
         data = list()
