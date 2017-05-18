@@ -229,7 +229,7 @@ class Data(object):
 
         return self.data
 
-    def conditional(self, number_of_data=1000):
+    def conditional(self, number_of_data=3000):
         self.read(self.source_file)
         title_row = None
         data = list()

@@ -816,9 +816,9 @@ def read_state_combinations(input_file, output_file, compulsory_fields, state_li
 
                     state_data, order_data = get_the_state_data(input_field_list, row, state_codes)
 
-                    if state_data.__len__() - 1 == count_zero(state_data):
+                    # if state_data.__len__() - 1 == count_zero(state_data):
                     # if state_data.__len__() - 2 >= count_zero(state_data):
-                    # if all(value is 0 for value in state_data) is False:
+                    if all(value is 0 for value in state_data) is False:
                         output_row = [0] * output_fields_list.__len__()
                         compulsory_data = map(row.__getitem__, map(input_field_list.index, compulsory_fields))
                         compulsory_data[0] = index_number

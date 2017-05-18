@@ -33,21 +33,21 @@ class ModelRun(object):
     # Alternatives
     vic = ['AGEGROUP_15_29', 'AGEGROUP_40_49', 'HOUSINC_HIGH', 'LIFECYCLE_SINGLE', 'LIFECYCLE_COUPLE_NO_KIDS',
                  'MARITAL_SINGLE', 'ORIGIN_NSW', 'ORIGIN_QLD', 'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS',
-           'HOUSEHOLD']
+           'HOUSEHOLD']#, 'DISTANCE_TO_VIC']
 
     qld = ['AGEGROUP_30_39','AGEGROUP_60_69','EMPLOYMENT_WORKING', 'HOUSINC_LOW', 'HOUSINC_MEDIUM', 'HOUSINC_HIGH',
-                'LIFECYCLE_COUPLE_NO_KIDS', 'LIFECYCLE_COUPLE_WITH_KIDS', 'DISTANCE_TO_QLD']
+                'LIFECYCLE_COUPLE_NO_KIDS', 'LIFECYCLE_COUPLE_WITH_KIDS']#, 'DISTANCE_TO_QLD']
 
     sa = ['AGEGROUP_15_29', 'AGEGROUP_30_39', 'AGEGROUP_60_69', 'EMPLOYMENT_WORKING', 'EMPLOYMENT_RETIRED',
                 'EMPLOYMENT_STUDYING', 'GENDER_MALE', 'ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_QLD', 'ORIGIN_SA',
-                'ORIGIN_TAS']
+                'ORIGIN_TAS']#, 'DISTANCE_TO_SA']
 
     tas = ['AGEGROUP_40_49', 'AGEGROUP_50_59', 'EMPLOYMENT_RETIRED', 'HOUSINC_LOW', 'HOUSINC_MEDIUM',
               'LIFECYCLE_SINGLE', 'LIFECYCLE_COUPLE_NO_KIDS', 'MARITAL_SINGLE', 'ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_SA',
-              'ORIGIN_WA', 'ORIGIN_TAS', 'DISTANCE_TO_TAS']
+              'ORIGIN_WA', 'ORIGIN_TAS']# , 'DISTANCE_TO_TAS']
 
     nt = ['AGEGROUP_60_69', 'EMPLOYMENT_WORKING', 'EMPLOYMENT_STUDYING', 'ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_QLD',
-              'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS', 'DISTANCE_TO_NT']
+              'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS']#, 'DISTANCE_TO_NT']
 
     constant = []
 
@@ -72,8 +72,8 @@ class ModelRun(object):
 
     utility_variables = get_utility_variables(alternatives_utility_variables)
 
-    case_config_list = [1, 4, 7]
-    # case_config_list = [4]
+    # case_config_list = [1, 4, 7]
+    case_config_list = [4]
 
     def _create_estimation_output_filename(self, case_config):
         return RESULTS_PATH + '/results' + '_{}'.format(case_config) + '_{}'.format('MDCEV_TEMP') + '.txt'
@@ -194,8 +194,8 @@ class ModelRun(object):
         return
 
     def full(self):
-        self.read_the_data()
-        # self.estimation()
+        # self.read_the_data()
+        self.estimation()
         self.forecast()
         self.plot()
         print "This is a FULL RUN"

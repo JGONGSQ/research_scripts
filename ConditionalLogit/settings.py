@@ -17,7 +17,7 @@ UTILITY_VARIABLES = [
 ]
 
 COMPULSORY_FIELDS = ['TOURIST_ID']
-ALTERNATIVE_CATEGORY = ['choice_situation', 'alternative_id', 'choice']
+ALTERNATIVE_CATEGORY = ['choice_situation', 'mode_id', 'choice']
 
 STATE_LIST = ['NSW', 'VIC', 'QLD', 'SA', 'TAS', 'NT']
 STATE_CODES = ['1', '2', '3', '4', '6', '8']

@@ -25,25 +25,30 @@ choice_column = "choice"
 basic_specification = OrderedDict()
 basic_names = OrderedDict()
 
-basic_specification["intercept"] = [1, 2]
+basic_specification["intercept"] = [1, 2, 3]
 basic_names["intercept"] = ['ASC_NSW',
-                            'ASC_VIC'
+                            'ASC_VIC',
+                            'ASC_QLD'
                             ]
 
-basic_specification["distance"] = [1, 2, 3]
+basic_specification["distance"] = [1, 2, 3, 4]
 basic_names["distance"] = ['distance_NSW',
                            'distance_VIC',
-                           'distance_QLD']
+                           'distance_QLD',
+                           'distance_SA']
 
-basic_specification["male"] = [[1, 2, 3]]
+basic_specification["male"] = [[1, 2, 3, 4]]
 basic_names["male"] = ['male']
 
-basic_specification["agegroup"] = [[1, 2, 3]]
+basic_specification["agegroup"] = [[1, 2, 3, 4]]
 basic_names["agegroup"] = ["agegroup"]
 
-basic_specification["last_choice"] = [[1, 2, 3]]
-basic_names["last_choice"] = ['last_choice']
+basic_specification["lifestyle"] = [[1, 2]]
+basic_names["lifestyle"] = ["lifestyle"]
 
+# basic_specification["last_choice"] = [[1, 2, 3, 4]]
+# basic_names["last_choice"] = ['last_choice']
+#
 # basic_specification["seat_configuration"] = [2]
 # basic_names["seat_configuration"] = ['Airline Seat Configuration, base=No (Swissmetro)']
 #
@@ -71,7 +76,7 @@ destination_mnl = pl.create_choice_model(data=long_testing_data,
                                          model_type="MNL",
                                          names=basic_names)
 
-destination_mnl.fit_mle(np.zeros(8))
+destination_mnl.fit_mle(np.zeros(10))
 print(destination_mnl.get_statsmodels_summary())
 
 
