@@ -25,7 +25,7 @@ def plot_bar_graph_within(names, observered_data, result_data, title, fig, sub_p
     ax.bar(x + 1, result_data, align='center', color='blue')
 
     # create the patch
-    red_patch = mpatches.Patch(color='red', label='Observered Value')
+    red_patch = mpatches.Patch(color='red', label='Observed Value')
     blue_patch = mpatches.Patch(color='blue', label='Estimated Value')
 
     # Set the label x-axis
