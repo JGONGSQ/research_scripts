@@ -271,7 +271,7 @@ def get_code_address(region_code):
 
     address = city + ", " + state
 
-    print("This is the address", address)
+    # print("This is the address", address)
 
     return address, state
 
@@ -335,7 +335,7 @@ def get_distance_data(input_field_list, distance_destination_list, state_list, r
     distance_data = initial_distance_data(regn_dict, regn_dict[home_location_code], distance_destination_list)
 
     if home_address is None:
-        print("Home address is None, not in the state list")
+        # print("Home address is None, not in the state list")
         return distance_data
 
     for i in range(int(number_of_stops)):
@@ -348,13 +348,13 @@ def get_distance_data(input_field_list, distance_destination_list, state_list, r
             ranking = get_ranking_dict(state)
             ranking_order = ranking[REGION_DICT[destination_location_code]]
             index = STATE_FULL.index(state)
-            print("########", int(ranking_order), index)
+            # print("########", int(ranking_order), index)
 
             if distance_ranking[index] >= int(ranking_order):
                 distance = cal_distance_v2(regn_dict[home_location_code], regn_dict[destination_location_code])
                 distance_data[index] = distance
                 distance_ranking[index] = ranking_order
-                print("Distance: %s km" % distance)
+                # print("Distance: %s km" % distance)
 
 
     # print('This is the distance data', distance_data)
@@ -376,7 +376,7 @@ def get_the_utility_variable_data(input_field_list, row, variable, variable_code
     """
     variable_data = [0] * variable_codes.__len__()
     value = row.__getitem__(input_field_list.index(variable))
-    print("### This is the value in the line:", value)
+    # print("### This is the value in the line:", value)
     if value:
         variable_data.__setitem__(find_index_in_list(list=variable_codes, value=value), 1)
 
@@ -629,7 +629,7 @@ def get_utility_parameters_value(input_field_list, utility_parameters, row):
     # print utility_parameters
     for variable in utility_parameters:
         variable_codes = get_the_variable_codes(variable)
-        print variable
+        # print variable
         if variable_codes:
             variable_data = get_the_utility_variable_data(
                 input_field_list=input_field_list,
@@ -788,15 +788,16 @@ def trim_data(input_file, output_file, compulsory_fields, city_lists, city_codes
 
 def read_state_combinations(input_file, output_file, compulsory_fields, state_list, state_codes, utility_parameters, distance_destination_list, number_of_data=40000):
 
-    print utility_parameters
+    # print utility_parameters
     # initials
     input_field_list = None
     index_number = 1
     data = list()
+    total_duration = ["Duration"]
 
     # make the title
     utility_parameters_list = get_utility_parameters_list(utility_parameters)
-    output_fields_list = compulsory_fields + state_list + utility_parameters_list + distance_destination_list + CONSTANT_LIST
+    output_fields_list = compulsory_fields + state_list + utility_parameters_list + distance_destination_list + CONSTANT_LIST + total_duration
 
     # append the title
     data.append(output_fields_list)
@@ -823,15 +824,16 @@ def read_state_combinations(input_file, output_file, compulsory_fields, state_li
                         compulsory_data = map(row.__getitem__, map(input_field_list.index, compulsory_fields))
                         compulsory_data[0] = index_number
                         compulsory_data[3] = order_data
-
+                        print('This is the state data line', state_data, sum(state_data))
                         # getting the utility parameters data according to the utility parameters
                         utility_variable_data = get_utility_parameters_value(input_field_list, utility_parameters, row)
                         distance_data = get_distance_data(input_field_list, distance_destination_list, state_list, row)
 
-                        data_set = compulsory_data + state_data + utility_variable_data + distance_data + CONSTANT_VALUE
+                        data_set = compulsory_data + state_data + utility_variable_data \
+                                   + distance_data + CONSTANT_VALUE + [sum(state_data)]
                         map(output_row.__setitem__, map(output_fields_list.index, output_fields_list), data_set)
 
-                        print(output_row)
+                        # print(output_row)
                         data.append(output_row)
                         index_number += 1
 
