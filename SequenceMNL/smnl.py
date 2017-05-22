@@ -79,9 +79,6 @@ if __name__ == '__main__':
     elif arg == 'estimation':
         smnl.estimation()
 
-    # elif arg == 'coef':
-    #     smnl._get_coef()
-
     elif arg == 'forecast':
         smnl.forecast()
 

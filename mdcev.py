@@ -199,6 +199,7 @@ class ModelRun(object):
         self.forecast()
         self.plot()
         print "This is a FULL RUN"
+        return
 
 
 if __name__ == '__main__':
@@ -216,9 +217,6 @@ if __name__ == '__main__':
 
     elif arg == 'estimation':
         model_run.estimation()
-
-    elif arg == 'coef':
-        model_run._get_coef()
 
     elif arg == 'forecast':
         model_run.forecast()
