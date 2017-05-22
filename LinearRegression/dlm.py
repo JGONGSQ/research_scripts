@@ -60,7 +60,8 @@ class ModelRun(object):
                 origin_index = source[i].index('Duration')
 
             else:
-                sub_total += (float(source[i][origin_index]) - float(line[forecast_index])) ** 2
+                # might need to think about round method, but keep it like this for now
+                sub_total += (float(source[i][origin_index]) - round(float(line[forecast_index]),0)) ** 2
 
         print("This is the subtotal", sub_total, len(forecast_results))
         rmse = math.sqrt(sub_total/len(forecast_results))
