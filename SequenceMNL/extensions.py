@@ -1,9 +1,14 @@
 #!/usr/bin/python
 # imports from local package
-from settings import *
-
-# python imports
 import csv
+import sys
+# sys.path.append('../')
+
+from settings import *
+# from py_files.data import *
+# python imports
+
+from geopy.distance import vincenty
 
 
 class Data(object):
@@ -33,7 +38,7 @@ class Data(object):
 
     def _get_variable_codes(self, variable):
         code = None
-        if variable == 'ORIGIN':
+        if variable == 'HOMEREGN':
             code = ORIGIN_CODE
 
         elif variable == 'PARENT':
@@ -64,7 +69,7 @@ class Data(object):
 
     def _get_variable_list(self, variable):
         list = None
-        if variable == 'ORIGIN':
+        if variable == 'HOMEREGN':
             list = ORIGIN_LIST
 
         elif variable == 'PARENT':
@@ -93,10 +98,26 @@ class Data(object):
 
         return list
 
+    def _get_regn_dict(self, filepath):
+        regn_dict = {}
+
+        with open(filepath, 'rU') as input_csv:
+            file_reader = csv.reader(input_csv, delimiter=',')
+            for i, row in enumerate(file_reader):
+                key = row[0]
+                latitude = row[2]
+                longitude = row[3]
+                regn_dict[key] = {
+                    "latitude": latitude,
+                    "longitude": longitude
+                }
+
+        return regn_dict
+
     def _get_variable_data(self, variable_code, variable, utility_data):
         # user the variable get variable value in thr row
         variable_value = utility_data.__getitem__(self.utility_variables.index(variable))
-        if variable == 'ORIGIN':
+        if variable == 'HOMEREGN':
             variable_value = variable_value[0]
         # I know the variable  code, using the value to find the index value of the value in the code
         index = self._find_index_in_list(variable_code, variable_value)
@@ -125,50 +146,87 @@ class Data(object):
         # print index
         return index
 
-    def _get_vistied_sequence_in_state(self, title_row, row):
+    def cal_distance_v2(self, point_1, point_2):
+        """
+            Calculate the distance between points
+        :param origin_name: such as 'TAS', 'NSW' or 'TAS'
+        :param destination_name: same as origin code
+        :return: distance between two point in km
+        """
+
+        # make the points
+        from_origin = (point_1["latitude"], point_1["longitude"])
+        to_destination = (point_2["latitude"], point_2["longitude"])
+        print(from_origin, to_destination)
+
+        distance = vincenty(from_origin, to_destination).km
+
+        # round the distance to the closest km
+        return int(distance)
+
+    def _get_vistied_sequence_in_state(self, title_row, row, origin_data, regn_dict):
         sequence = list()
+        distances = list()
+        last_visited = None
 
         number_of_stops = row.__getitem__(title_row.index('NUMSTOP'))
         # print("This is the number of stops", number_of_stops)
 
         for i in range(int(number_of_stops)):
             # get the location of the travel regn
-            location = row.__getitem__(title_row.index('REGN%s' % str(i + 1)))
-            state_location = location[0]
+            visiting_location = row.__getitem__(title_row.index('REGN%s' % str(i + 1)))
+            print("This is the location code", visiting_location, origin_data)
+            state_location = visiting_location[0]
             # print(state_location)
+
+            if i == 0:
+                last_visited = origin_data
+            else:
+                last_visited = row.__getitem__(title_row.index('REGN%s' % str(i)))
+
+            distance = self.cal_distance_v2(regn_dict[last_visited], regn_dict[visiting_location])
 
             if state_location in self.state_codes:
                 state_name = self.state_list.__getitem__(self.state_codes.index(state_location))
                 # print state_name
-                if not sequence:
+                if not sequence or sequence[-1] != state_name:
+                    # sequence.append(state_name)
                     sequence.append(state_name)
-                elif sequence[-1] != state_name:
-                    sequence.append(state_name)
+                    distances.append(distance)
 
-        return sequence
+        return sequence, distances
 
     def _get_useful_data(self, title_row, row, utility_data):
         # get the category variables
         data = list()
+
+        # get the region dict
+        regn_dict = self._get_regn_dict(REGN_CODE_DICT_PATH_V2)
+
+        converted_utility_data = self._convert_utility_data(utility_data)
+        origin_data = utility_data.__getitem__(self.utility_variables.index('HOMEREGN'))
         # line = map(row.__getitem__, index)
-        state_sequence = self._get_vistied_sequence_in_state(title_row, row)
+
+        state_sequence, distances = self._get_vistied_sequence_in_state(title_row, row, origin_data, regn_dict)
         print("State Sequence", state_sequence)
         compulsory_data = map(row.__getitem__, self._get_index_of_variables(title_row, self.compulsory_fields))
         # print("This is the compulsory_data", compulsory_data)
+
         # convert sequence into needy form
-        converted_utility_data = self._convert_utility_data(utility_data)
-        origin_data = converted_utility_data.__getitem__(self.utility_variables.index('ORIGIN'))
+        print("This is the origin data", origin_data[0])
         from_to_data = ["0", origin_data]
         for i, item in enumerate(state_sequence):
             self.counter += 1
             compulsory_data[0] = self.counter
-            distance = [0]
+            # # distance need to be calcualted
+            distance = [distances[i]]
             from_to_data[0] = item
             if i != 0:
                 from_to_data[1] = state_sequence[i-1]
 
             local_list = compulsory_data + from_to_data + converted_utility_data + distance
             data.append(local_list)
+            break
 
         # sperated them as different list if have multiple destinations
 
@@ -205,7 +263,7 @@ class Data(object):
                 # check the utility data
                 utility_data_index = self._get_index_of_variables(title_row, self.utility_variables)
                 utility_data = map(row.__getitem__, utility_data_index)
-                # print(self.utility_variables)
+                print("@##@@#@#", utility_data)
                 # print(utility_data)
 
                 # if no missing data in the range, do the processing otherwise pass
@@ -220,8 +278,8 @@ class Data(object):
 
                     # raise Exception
 
-        for item in data:
-            print item
+        # for item in data:
+        #     print item
 
         return data
 

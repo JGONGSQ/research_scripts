@@ -5,6 +5,7 @@ from settings import *
 
 # python imports
 import csv
+from geopy.distance import vincenty
 
 
 class Data(object):
@@ -15,7 +16,7 @@ class Data(object):
     state_list = STATE_LIST
     state_alternatives = STATE_ALTERNATIVES
     alternative_category = ALTERNATIVE_CATEGORY
-    output_title = compulsory_fields + alternative_category + utility_variables
+    output_title = compulsory_fields + alternative_category + utility_variables + ['Distance']
     counter = 0
 
     def __init__(self, source_file, output_file, forecast_file, data=None):
@@ -24,9 +25,29 @@ class Data(object):
         self.forecast_file = forecast_file
         self.data = data
 
+
+    def cal_distance_v2(self, point_1, point_2):
+        """
+            Calculate the distance between points
+        :param origin_name: such as 'TAS', 'NSW' or 'TAS'
+        :param destination_name: same as origin code
+        :return: distance between two point in km
+        """
+
+        # make the points
+        from_origin = (point_1["latitude"], point_1["longitude"])
+        to_destination = (point_2["latitude"], point_2["longitude"])
+        # print(from_origin, to_destination)
+
+        distance = vincenty(from_origin, to_destination).km
+
+        # round the distance to the closest km
+        return int(distance)
+
     def _get_trips_and_alternatives(self, title_row, row):
         number_of_trips = 0
         alternatives = list()
+        locations = list()
 
         number_of_stops = row.__getitem__(title_row.index('NUMSTOP'))
 
@@ -39,11 +60,12 @@ class Data(object):
 
                 if not alternatives or state_alternative not in alternatives:
                     alternatives.append(state_alternative)
+                    locations.append(location)
                     number_of_trips += 1
                 # elif state_alternative != alternatives[-1]:
                 #     number_of_trips += 1
 
-        return number_of_trips, alternatives
+        return number_of_trips, alternatives, locations
 
     def _bubble_sort_the_alternatives(self, alternatives):
         sort_list = list()
@@ -74,7 +96,7 @@ class Data(object):
 
     def _get_variable_codes(self, variable):
         code = None
-        if variable == 'ORIGIN':
+        if variable == 'HOMEREGN':
             code = ORIGIN_CODE
 
         elif variable == 'PARENT':
@@ -102,7 +124,7 @@ class Data(object):
 
     def _get_variable_list(self, variable):
         list = None
-        if variable == 'ORIGIN':
+        if variable == 'HOMEREGN':
             list = ORIGIN_LIST
 
         elif variable == 'PARENT':
@@ -130,7 +152,7 @@ class Data(object):
 
     def _get_variable_category(self, variable):
         category = None
-        if variable == 'ORIGIN':
+        if variable == 'HOMEREGN':
             category = ORIGIN_CATEGORY
 
         elif variable == 'PARENT':
@@ -159,7 +181,7 @@ class Data(object):
     def _get_variable_data(self, variable_code, variable, utility_data):
         # user the variable get variable value in thr row
         variable_value = utility_data.__getitem__(self.utility_variables.index(variable))
-        if variable == 'ORIGIN':
+        if variable == 'HOMEREGN':
             variable_value = variable_value[0]
         # I know the variable code, using the value to find the index value of the value in the code
         index = self._find_index_in_list(variable_code, variable_value)
@@ -183,11 +205,29 @@ class Data(object):
         # print("This is the converted data", converted_data)
         return converted_data
 
-    def _get_useful_data(self, title_row, row, utility_data):
+    def _get_regn_dict(self, filepath):
+        regn_dict = {}
+
+        with open(filepath, 'rU') as input_csv:
+            file_reader = csv.reader(input_csv, delimiter=',')
+            for i, row in enumerate(file_reader):
+                key = row[0]
+                latitude = row[2]
+                longitude = row[3]
+                regn_dict[key] = {
+                    "latitude": latitude,
+                    "longitude": longitude
+                }
+
+        return regn_dict
+
+    def _get_useful_data(self, title_row, row, utility_data, regn_dict):
         data = list()
 
+        origin_data = utility_data.__getitem__(self.utility_variables.index('HOMEREGN'))
+
         # get the number of trips in the visit and return the number of the visited
-        number_of_trips, alternatives = self._get_trips_and_alternatives(title_row, row)
+        number_of_trips, alternatives, locations = self._get_trips_and_alternatives(title_row, row)
         tourist_id = row.__getitem__(title_row.index('TOURIST_ID'))
 
         converted_utility_data = self._convert_utility_data(utility_data)
@@ -196,23 +236,36 @@ class Data(object):
         if number_of_trips > 1:
 
             # print number_of_trips, alternatives
-            sort_list = self._bubble_sort_the_alternatives(alternatives)
-
+            sort_alternatives = self._bubble_sort_the_alternatives(alternatives)
+            sort_locations = self._bubble_sort_the_alternatives(locations)
+            print("######## This is the locations", tourist_id, locations, sort_locations, origin_data)
             # print(number_of_trips, alternatives, sort_list)
             # for i in range(number_of_trips):
-            for alternative in alternatives:
+            for i, alternative in enumerate(alternatives):
                 self.counter += 1
-                for choice in sort_list:
+                if i == 0:
+                    last_visited = origin_data
+                else:
+                    last_visited = locations[i - 1]
+
+                for j, choice in enumerate(sort_alternatives):
 
                     if alternative == choice:
                         choice_flag = "1"
                     else:
                         choice_flag = "0"
 
-                    row = [tourist_id, self.counter, choice, choice_flag] + converted_utility_data
+                    if i == 0 or last_visited != sort_locations[j]:
 
-                    data.append(row)
-                    print(row)
+                        distance = self.cal_distance_v2(regn_dict[last_visited], regn_dict[sort_locations[j]])
+
+                        if distance == 0:
+                            distance = 50
+
+                        row = [tourist_id, self.counter, choice, choice_flag] + converted_utility_data + [distance]
+
+                        data.append(row)
+                        print(row)
 
             # raise Exception
 
@@ -233,6 +286,7 @@ class Data(object):
         self.read(self.source_file)
         title_row = None
         data = list()
+        regn_dict = self._get_regn_dict(REGN_CODE_DICT_PATH_V2)
 
         data.append(self.output_title)
 
@@ -247,7 +301,7 @@ class Data(object):
                 utility_data = map(row.__getitem__, utility_data_index)
                 if ' ' not in utility_data:
                     # print utility_data
-                    values = self._get_useful_data(title_row, row, utility_data)
+                    values = self._get_useful_data(title_row, row, utility_data, regn_dict)
 
                     for item in values:
                         data.append(item)

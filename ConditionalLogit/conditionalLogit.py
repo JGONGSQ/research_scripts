@@ -52,11 +52,11 @@ basic_names["AGEGROUP"] = [
     "AGEGROUP_SA",
 ]
 
-basic_specification["ORIGIN"] = [2, 3, 4]
-basic_names["ORIGIN"] = [
-    "ORIGIN_VIC",
-    "ORIGIN_QLD",
-    "ORIGIN_SA",
+basic_specification["HOMEREGN"] = [2, 3, 4]
+basic_names["HOMEREGN"] = [
+    "HOMEREGN_VIC",
+    "HOMEREGN_QLD",
+    "HOMEREGN_SA",
 ]
 
 basic_specification["EMPLOYMENT"] = [[1, 2, 3]]
@@ -178,7 +178,7 @@ class ConditionalMNL(object):
     def full(self):
         self.read_data()
         self.estimation_mnl()
-        self.forecast()
+        # self.forecast()
         self.write_results()
         self.plot()
         print("This is a FULL run")

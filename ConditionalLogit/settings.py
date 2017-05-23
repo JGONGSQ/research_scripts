@@ -5,13 +5,11 @@
 SOURCE_INPUT_FILE = '../../Data/NVS2007unit.csv'
 OUTPUT_FILE = '../../Data/results/conditional_mnl.csv'
 FORECAST_FILE = '../../Data/results/conditional_forecast.csv'
-
-
-
+REGN_CODE_DICT_PATH_V2 = '../../Data/regn_code_dict_v2.csv'
 
 
 UTILITY_VARIABLES = [
-    'HOMESLA', 'ORIGIN', 'GENDER',
+    'HOMESLA', 'HOMEREGN', 'GENDER',
     'HOUSEHOLD',  'EMPLOYMENT', 'AGEGROUP', 'HOUSINC', 'LIFECYCLE',
     'OVER15'
 ]
