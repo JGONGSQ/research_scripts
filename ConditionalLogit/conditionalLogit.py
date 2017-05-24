@@ -167,7 +167,7 @@ class ConditionalMNL(object):
 
         return model_asym
 
-    def forecast(self, model_mnl):
+    def forecast(self, model):
         # read the data
         long_testing_data = pd.read_csv(self.output_file)
         # some local settings
@@ -175,7 +175,7 @@ class ConditionalMNL(object):
         prediction_ids = all_situation_ids[:2000]
         prediction_df = long_testing_data.loc[long_testing_data["choice_situation"].isin(prediction_ids)].copy()
         # predict call
-        prediction_array = model_mnl.predict(prediction_df)
+        prediction_array = model.predict(prediction_df)
 
         print(prediction_array)
         return
@@ -189,9 +189,11 @@ class ConditionalMNL(object):
     def full(self):
         # self.read_data()
         model_mnl = self.estimation_mnl()
-        # self.forecast()
-        self.estimation_asym(model_mnl)
+        model_asym = self.estimation_asym(model_mnl)
+
+        self.forecast(model_asym)
         self.write_results()
+
         self.plot()
         print("This is a FULL run")
         return
