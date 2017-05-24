@@ -128,13 +128,15 @@ class ConditionalMNL(object):
                 asym_names[col] = basic_names[col]
 
         asym_intercept_names = basic_names["intercept"]
+
+        # the "index" of the alternative whose constant has been constrained
         asym_intercept_ref_pos = 4
 
         # "shape_TAS" is not presented
         asym_shape_names = ["shape_NSW", "shape_VIC", "shape_QLD", "shape_SA"]
         number_of_initial_values = len(asym_shape_names)
 
-        # the index of the alternative whose shape parameter is constrained
+        # the "index" of the alternative whose shape parameter is constrained
         asym_ref = 4
 
         print("###### Asymmetry Model ######")
