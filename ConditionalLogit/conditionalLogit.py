@@ -18,38 +18,40 @@ import pylogit as pl
 basic_specification = OrderedDict()
 basic_names = OrderedDict()
 
-basic_specification["intercept"] = [1, 2, 3]
+basic_specification["intercept"] = [1, 2, 3, 4]
 basic_names["intercept"] = [
     'ASC_NSW',
     'ASC_VIC',
     'ASC_QLD',
-    # 'ASC_SA',
+    'ASC_SA',
     # 'ASC_TAS'
 ]
 
-basic_specification["HOMESLA"] = [1, 2, 3]
+basic_specification["HOMESLA"] = [1, 2, 3, 5]
 basic_names["HOMESLA"] = [
     'HOMESLA_NSW',
     'HOMESLA_VIC',
     'HOMESLA_QLD',
     # 'HOMESLA_SA',
-    # 'HOMESLA_TAS'
+    'HOMESLA_TAS'
 ]
 
-basic_specification["GENDER"] = [1, 2, 3, 4]
+basic_specification["GENDER"] = [1, 2, 3]
 basic_names["GENDER"] = [
     'GENDER_NSW',
     'GENDER_VIC',
     'GENDER_QLD',
-    'GENDER_SA',
+    # 'GENDER_SA',
+    # 'GENDER_TAS',
 ]
 
-basic_specification["AGEGROUP"] = [1, 2, 3, 4]
+basic_specification["AGEGROUP"] = [1, 2, 3]
 basic_names["AGEGROUP"] = [
     "AGEGROUP_NSW",
     "AGEGROUP_VIC",
     "AGEGROUP_QLD",
-    "AGEGROUP_SA",
+    # "AGEGROUP_SA",
+    # "AGEGROUP_TAS",
 ]
 
 basic_specification["HOMEREGN"] = [2, 3, 4]
@@ -68,8 +70,6 @@ for item in basic_names:
 
 
 class ConditionalMNL(object):
-
-    mnl_model = None
 
     # csv data files
     original_source_file = SOURCE_INPUT_FILE
@@ -94,6 +94,8 @@ class ConditionalMNL(object):
     def estimation_mnl(self):
         long_testing_data = pd.read_csv(self.output_file)
 
+        print("###### MNL Model ######")
+
         model_mnl = pl.create_choice_model(
             data=long_testing_data,
             alt_id_col=self.custom_alt_id,
@@ -103,41 +105,46 @@ class ConditionalMNL(object):
             model_type="MNL",
             names=basic_names
         )
-        print("This is the model object", model_mnl)
 
         model_mnl.fit_mle(np.zeros(total_num_parameters))
-        print(model_mnl.get_statsmodels_summary())
+        model_mnl.get_statsmodels_summary()
 
         # all_situation_ids = np.sort(long_testing_data["choice_situation"].unique())
         # prediction_ids = all_situation_ids[:2000]
 
         return model_mnl
 
-    def estimation_asym(self):
+    def estimation_asym(self, model_mnl):
+        # read the data
+        long_testing_data = pd.read_csv(self.output_file)
 
         # Set up the asym specifaction and names dictionary
-        asym_specifiaction = OrderedDict()
+        asym_specification = OrderedDict()
         asym_names = OrderedDict()
 
         for col in basic_specification:
             if col != "intercept":
-                asym_specifiaction[col] = basic_specification[col]
+                asym_specification[col] = basic_specification[col]
                 asym_names[col] = basic_names[col]
 
         asym_intercept_names = basic_names["intercept"]
-        asym_intercept_ref_pos = 1
+        asym_intercept_ref_pos = 4
 
-        # "shape_SA" is not presented
-        asym_shape_names = ["shape_NSW", "shape_VIC", "shape_QLD"]
+        # "shape_TAS" is not presented
+        asym_shape_names = ["shape_NSW", "shape_VIC", "shape_QLD", "shape_SA"]
+        number_of_initial_values = len(asym_shape_names)
+
         # the index of the alternative whose shape parameter is constrained
         asym_ref = 4
 
-        self.model_mnl = pl.create_choice_model(
+        print("###### Asymmetry Model ######")
+
+        model_asym = pl.create_choice_model(
             data=long_testing_data,
             alt_id_col=self.custom_alt_id,
             obs_id_col=self.obs_id_column,
             choice_col=self.choice_column,
-            specification=basic_specification,
+            specification=asym_specification,
             model_type="Asym",
             names=asym_names,
             shape_names=asym_shape_names,
@@ -146,17 +153,19 @@ class ConditionalMNL(object):
             intercept_ref_pos=asym_intercept_ref_pos
         )
 
-        # self.model_mnl.fit_mle(
-        #     None,
-        #     init_shapes=np.zeros(3),
-        #     init_intercepts=
-        # )
+        model_asym.fit_mle(
+            None,
+            init_shapes=np.zeros(number_of_initial_values),
+            init_intercepts=model_mnl.params.values[:number_of_initial_values],
+            init_coefs=model_mnl.params.values[number_of_initial_values:] / np.log(number_of_initial_values+1),
+            method="bfgs"
+        )
 
+        model_asym.get_statsmodels_summary()
 
+        return model_asym
 
-        return
-
-    def forecast(self):
+    def forecast(self, model_mnl):
         # read the data
         long_testing_data = pd.read_csv(self.output_file)
         # some local settings
@@ -164,7 +173,7 @@ class ConditionalMNL(object):
         prediction_ids = all_situation_ids[:2000]
         prediction_df = long_testing_data.loc[long_testing_data["choice_situation"].isin(prediction_ids)].copy()
         # predict call
-        prediction_array = self.model_mnl.predict(prediction_df)
+        prediction_array = model_mnl.predict(prediction_df)
 
         print(prediction_array)
         return
@@ -176,9 +185,10 @@ class ConditionalMNL(object):
         pass
 
     def full(self):
-        self.read_data()
-        self.estimation_mnl()
+        # self.read_data()
+        model_mnl = self.estimation_mnl()
         # self.forecast()
+        self.estimation_asym(model_mnl)
         self.write_results()
         self.plot()
         print("This is a FULL run")
