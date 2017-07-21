@@ -27,41 +27,43 @@ basic_names["intercept"] = [
     # 'ASC_TAS'
 ]
 
-basic_specification["HOMESLA"] = [1, 2, 3, 5]
+basic_specification["HOMESLA"] = [1, 2, 3, 4, 5]
 basic_names["HOMESLA"] = [
     'HOMESLA_NSW',
     'HOMESLA_VIC',
     'HOMESLA_QLD',
-    # 'HOMESLA_SA',
+    'HOMESLA_SA',
     'HOMESLA_TAS'
 ]
 
-basic_specification["GENDER"] = [1, 2, 3]
+basic_specification["GENDER"] = [1, 2, 3, 4, 5]
 basic_names["GENDER"] = [
     'GENDER_NSW',
     'GENDER_VIC',
     'GENDER_QLD',
-    # 'GENDER_SA',
-    # 'GENDER_TAS',
+    'GENDER_SA',
+    'GENDER_TAS',
 ]
 
-basic_specification["AGEGROUP"] = [1, 2, 3]
+basic_specification["AGEGROUP"] = [1, 2, 3, 4, 5]
 basic_names["AGEGROUP"] = [
     "AGEGROUP_NSW",
     "AGEGROUP_VIC",
     "AGEGROUP_QLD",
-    # "AGEGROUP_SA",
-    # "AGEGROUP_TAS",
+    "AGEGROUP_SA",
+    "AGEGROUP_TAS",
 ]
 
-basic_specification["HOMEREGN"] = [2, 3, 4]
+basic_specification["HOMEREGN"] = [1, 2, 3, 4, 5]
 basic_names["HOMEREGN"] = [
+    "HOMEREGN_NSW",
     "HOMEREGN_VIC",
     "HOMEREGN_QLD",
     "HOMEREGN_SA",
+    "HOMEREGN_TAS"
 ]
 
-basic_specification["EMPLOYMENT"] = [[1, 2, 3]]
+basic_specification["EMPLOYMENT"] = [[1, 2, 3, 4]]
 basic_names["EMPLOYMENT"] = ["EMPLOYMENT"]
 
 total_num_parameters = 0
@@ -94,7 +96,7 @@ class ConditionalMNL(object):
     def estimation_mnl(self):
         long_testing_data = pd.read_csv(self.output_file)
 
-        print("###### MNL Model ######")
+        print("################################################ MNL Model ######################################")
 
         model_mnl = pl.create_choice_model(
             data=long_testing_data,
@@ -108,6 +110,7 @@ class ConditionalMNL(object):
 
         model_mnl.fit_mle(np.zeros(total_num_parameters))
         model_mnl.get_statsmodels_summary()
+        print(model_mnl.get_statsmodels_summary())
 
         # all_situation_ids = np.sort(long_testing_data["choice_situation"].unique())
         # prediction_ids = all_situation_ids[:2000]
@@ -139,7 +142,7 @@ class ConditionalMNL(object):
         # the "index" of the alternative whose shape parameter is constrained
         asym_ref = 4
 
-        print("###### Asymmetry Model ######")
+        print("################################################## Asymmetry Model #########################################")
 
         model_asym = pl.create_choice_model(
             data=long_testing_data,
@@ -177,7 +180,7 @@ class ConditionalMNL(object):
         # predict call
         prediction_array = model.predict(prediction_df)
 
-        print(prediction_array)
+        # print(prediction_array)
         return
 
     def write_results(self):
@@ -187,14 +190,14 @@ class ConditionalMNL(object):
         pass
 
     def full(self):
-        # self.read_data()
-        model_mnl = self.estimation_mnl()
-        model_asym = self.estimation_asym(model_mnl)
-
-        self.forecast(model_asym)
-        self.write_results()
-
-        self.plot()
+        self.read_data()
+        # model_mnl = self.estimation_mnl()
+        # model_asym = self.estimation_asym(model_mnl)
+        #
+        # self.forecast(model_asym)
+        # self.write_results()
+        #
+        # self.plot()
         print("This is a FULL run")
         return
 
@@ -213,8 +216,6 @@ if __name__== '__main__':
         conditional_mnl.read_data()
     elif arg == 'estimate':
         conditional_mnl.estimation_mnl()
-    elif arg == 'forecast':
-        conditional_mnl.forecast()
     elif arg == 'plot':
         conditional_mnl.plot()
     elif arg == "all":

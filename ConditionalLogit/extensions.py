@@ -178,6 +178,19 @@ class Data(object):
 
         return category
 
+    def _get_utility_parameters_list(self, utility_parameters):
+        utility_parameters_list = list()
+
+        for variable in utility_parameters:
+
+            variable_list = self._get_variable_list(variable)
+            if variable_list:
+                utility_parameters_list += variable_list
+            else:
+                utility_parameters_list.append(variable)
+
+        return utility_parameters_list
+
     def _get_variable_data(self, variable_code, variable, utility_data):
         # user the variable get variable value in thr row
         variable_value = utility_data.__getitem__(self.utility_variables.index(variable))
@@ -190,7 +203,20 @@ class Data(object):
 
         return data
 
-    def _convert_utility_data(self, utility_data):
+    def _get_utility_variable_data(self, title_row, row, variable, variable_code):
+        variable_data = [0] * variable_code.__len__()
+        value = row.__getitem__(title_row.index(variable))
+
+        if variable == 'HOMEREGN':
+            value = value[0]
+
+        print("### This is the value in the line:", value)
+        if value:
+            variable_data.__setitem__(self._find_index_in_list(list=variable_code, value=value), 1)
+
+        return variable_data
+
+    def _convert_utility_data(self, title_row, row, utility_data):
         converted_data = list()
         # print("This is the utility data", utility_data)
 
@@ -198,8 +224,15 @@ class Data(object):
         for variable in self.utility_variables:
             variable_code = self._get_variable_codes(variable)
             if variable_code:
-                variable_data = self._get_variable_data(variable_code, variable, utility_data)
-                converted_data.append(variable_data)
+                # variable_data = self._get_variable_data(variable_code, variable, utility_data)
+                variable_data = self._get_utility_variable_data(
+                    title_row=title_row,
+                    row=row,
+                    variable=variable,
+                    variable_code=variable_code
+                )
+
+                converted_data += variable_data
             else:
                 converted_data.append(utility_data.__getitem__(int(self.utility_variables.index(variable))))
         # print("This is the converted data", converted_data)
@@ -229,8 +262,10 @@ class Data(object):
         # get the number of trips in the visit and return the number of the visited
         number_of_trips, alternatives, locations = self._get_trips_and_alternatives(title_row, row)
         tourist_id = row.__getitem__(title_row.index('TOURIST_ID'))
-
-        converted_utility_data = self._convert_utility_data(utility_data)
+        # print(utility_data)
+        converted_utility_data = self._convert_utility_data(title_row, row, utility_data)
+        print(converted_utility_data)
+        # raise Exception
 
         # then process each of them into a list
         if number_of_trips > 1:
@@ -288,7 +323,7 @@ class Data(object):
         data = list()
         regn_dict = self._get_regn_dict(REGN_CODE_DICT_PATH_V2)
 
-        data.append(self.output_title)
+        data.append(self._get_utility_parameters_list(self.output_title))
 
         for i, row in enumerate(self.data):
             # print("### Start of the line ###")

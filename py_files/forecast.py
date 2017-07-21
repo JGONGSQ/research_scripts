@@ -160,7 +160,7 @@ def evaluate(data_file, result_file, alternative_list=None):
     average_hit = sum(correction_ratio)/len(correction_ratio)
 
     print("This is the average hit", average_hit)
-    print("This is the average hit", rmse)
+    print("This is the rmse", rmse)
 
     return
 

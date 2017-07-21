@@ -28,7 +28,7 @@ class ModelRun(object):
     alternative_list = STATE_LISTS
     alternative_code = STATE_CODES
     distance_destination_list = DISTANCE_DESTINATION_LIST
-    utility_parameters = ['ORIGIN', 'HOUSEHOLD', 'UNDER15', 'OVER15', 'EMPLOYMENT', 'HOUSINC', 'GENDER', 'MARITAL', 'LIFECYCLE', 'AGEGROUP', 'CH15TO24']
+    utility_parameters = ['ORIGIN', 'HOMESLA', 'HOUSEHOLD', 'UNDER15', 'OVER15', 'EMPLOYMENT', 'HOUSINC', 'GENDER', 'MARITAL', 'LIFECYCLE', 'AGEGROUP', 'CH15TO24', 'NITESUM']
 
     # Alternatives
     vic = ['AGEGROUP_15_29', 'AGEGROUP_40_49', 'HOUSINC_HIGH', 'LIFECYCLE_SINGLE', 'LIFECYCLE_COUPLE_NO_KIDS',

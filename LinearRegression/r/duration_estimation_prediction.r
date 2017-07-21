@@ -16,8 +16,8 @@ time_model <- lm(Duration ~ HOUSEHOLD +
                    ORIGIN_QLD	+ ORIGIN_WA +	ORIGIN_TAS + # ORIGIN_NT + 
                    LIFECYCLE_COUPLE_NO_KIDS + 
                    CH15TO24,
-                   DISTANCE_TO_NSW +	DISTANCE_TO_VIC +	DISTANCE_TO_QLD +	
-                   DISTANCE_TO_SA +	DISTANCE_TO_TAS +	DISTANCE_TO_NT, 
+                   # DISTANCE_TO_NSW +	DISTANCE_TO_VIC +	DISTANCE_TO_QLD +	
+                   # DISTANCE_TO_SA +	DISTANCE_TO_TAS +	DISTANCE_TO_NT, 
                  data=data);
 
 
