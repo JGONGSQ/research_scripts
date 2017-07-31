@@ -26,7 +26,7 @@ def plot_bar_graph_within(names, observered_data, result_data, title, fig, sub_p
 
     # create the patch
     red_patch = mpatches.Patch(color='red', label='Observed Value')
-    blue_patch = mpatches.Patch(color='blue', label='Estimated Value')
+    blue_patch = mpatches.Patch(color='blue', label='Simulated Value')
 
     # Set the label x-axis
     ax.xaxis.set_major_locator(plt.FixedLocator(x + 0.5))

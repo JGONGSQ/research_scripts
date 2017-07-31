@@ -183,7 +183,7 @@ class ModelRun(object):
             fig = plot_bar_graph_within(STATE_LISTS, data_duration_counts, result_duration_counts,
                                         'Duration counts in days', fig, 221)
             fig = plot_bar_graph_within(STATE_LISTS, data_alternative_counts, result_alternative_counts,
-                                        'Alternative counts as hit ratio', fig, 222)
+                                        'Alternative counts as correct ratio', fig, 222)
             fig = plot_bar_graph_within([1, 2, 3, 4, 5, 6], data_number_of_chosen_alternative_counts,
                                         result_number_of_chosen_alternative_counts, "Number of chosen alternative hit",
                                         fig, 223)

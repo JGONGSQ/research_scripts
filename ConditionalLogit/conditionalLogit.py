@@ -1,4 +1,5 @@
 #!/usr/bin/python
+from basics import *
 from settings import *
 from extensions import Data
 
@@ -14,57 +15,6 @@ import pylogit as pl
 
 ############### Start ##################
 
-# utility function settings
-basic_specification = OrderedDict()
-basic_names = OrderedDict()
-
-basic_specification["intercept"] = [1, 2, 3, 4]
-basic_names["intercept"] = [
-    'ASC_NSW',
-    'ASC_VIC',
-    'ASC_QLD',
-    'ASC_SA',
-    # 'ASC_TAS'
-]
-
-basic_specification["HOMESLA"] = [1, 2, 3, 4, 5]
-basic_names["HOMESLA"] = [
-    'HOMESLA_NSW',
-    'HOMESLA_VIC',
-    'HOMESLA_QLD',
-    'HOMESLA_SA',
-    'HOMESLA_TAS'
-]
-
-basic_specification["GENDER"] = [1, 2, 3, 4, 5]
-basic_names["GENDER"] = [
-    'GENDER_NSW',
-    'GENDER_VIC',
-    'GENDER_QLD',
-    'GENDER_SA',
-    'GENDER_TAS',
-]
-
-basic_specification["AGEGROUP"] = [1, 2, 3, 4, 5]
-basic_names["AGEGROUP"] = [
-    "AGEGROUP_NSW",
-    "AGEGROUP_VIC",
-    "AGEGROUP_QLD",
-    "AGEGROUP_SA",
-    "AGEGROUP_TAS",
-]
-
-basic_specification["HOMEREGN"] = [1, 2, 3, 4, 5]
-basic_names["HOMEREGN"] = [
-    "HOMEREGN_NSW",
-    "HOMEREGN_VIC",
-    "HOMEREGN_QLD",
-    "HOMEREGN_SA",
-    "HOMEREGN_TAS"
-]
-
-basic_specification["EMPLOYMENT"] = [[1, 2, 3, 4]]
-basic_names["EMPLOYMENT"] = ["EMPLOYMENT"]
 
 total_num_parameters = 0
 for item in basic_names:
@@ -109,8 +59,9 @@ class ConditionalMNL(object):
         )
 
         model_mnl.fit_mle(np.zeros(total_num_parameters))
-        model_mnl.get_statsmodels_summary()
-        print(model_mnl.get_statsmodels_summary())
+        results = model_mnl.get_statsmodels_summary()
+
+        print("########################", results)
 
         # all_situation_ids = np.sort(long_testing_data["choice_situation"].unique())
         # prediction_ids = all_situation_ids[:2000]
@@ -180,7 +131,7 @@ class ConditionalMNL(object):
         # predict call
         prediction_array = model.predict(prediction_df)
 
-        # print(prediction_array)
+        print(prediction_array)
         return
 
     def write_results(self):
@@ -190,13 +141,13 @@ class ConditionalMNL(object):
         pass
 
     def full(self):
-        self.read_data()
-        # model_mnl = self.estimation_mnl()
-        # model_asym = self.estimation_asym(model_mnl)
-        #
-        # self.forecast(model_asym)
+        # self.read_data()
+        model_mnl = self.estimation_mnl()
+        model_asym = self.estimation_asym(model_mnl)
+
+        self.forecast(model_asym)
         # self.write_results()
-        #
+
         # self.plot()
         print("This is a FULL run")
         return
