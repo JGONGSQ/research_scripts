@@ -28,8 +28,6 @@ class ModelRun(object):
     alternative_list = STATE_LISTS
     alternative_code = STATE_CODES
     distance_destination_list = DISTANCE_DESTINATION_LIST
-    # utility_parameters = ['ORIGIN', 'HOMESLA', 'UNDER15', 'OVER15', 'HOUSINC', 'GENDER',
-    #                       'MARITAL', 'AGEGROUP', 'CH15TO24', 'NITESUM']
 
     utility_parameters = ['ORIGIN', 'HOMESLA', 'HOUSEHOLD', 'UNDER15', 'OVER15', 'EMPLOYMENT', 'HOUSINC', 'GENDER', 'MARITAL', 'LIFECYCLE', 'AGEGROUP', 'CH15TO24', 'NITESUM']
 
@@ -47,16 +45,6 @@ class ModelRun(object):
     tas = ['AGEGROUP_40_49', 'AGEGROUP_50_59', 'EMPLOYMENT_RETIRED', 'HOUSINC_LOW', 'HOUSINC_MEDIUM',
               'LIFECYCLE_SINGLE', 'LIFECYCLE_COUPLE_NO_KIDS', 'MARITAL_SINGLE', 'ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_SA',
               'ORIGIN_WA', 'ORIGIN_TAS']# , 'DISTANCE_TO_TAS']
-
-    # vic = ['AGEGROUP_15_29', 'AGEGROUP_40_49', 'HOUSINC_HIGH',
-    #        'MARITAL_SINGLE', 'ORIGIN_NSW', 'ORIGIN_QLD', 'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS']  # , 'DISTANCE_TO_VIC']
-    # qld = ['AGEGROUP_30_39', 'AGEGROUP_60_69', 'HOUSINC_LOW', 'HOUSINC_MEDIUM', 'HOUSINC_HIGH']  # , 'DISTANCE_TO_QLD']
-    # sa = ['AGEGROUP_15_29', 'AGEGROUP_30_39', 'AGEGROUP_60_69', 'GENDER_MALE', 'ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_QLD', 'ORIGIN_SA',
-    #       'ORIGIN_TAS']  # , 'DISTANCE_TO_SA']
-    # tas = ['AGEGROUP_40_49', 'AGEGROUP_50_59', 'HOUSINC_LOW', 'HOUSINC_MEDIUM', 'MARITAL_SINGLE', 'ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_SA',
-    #        'ORIGIN_WA', 'ORIGIN_TAS']  # , 'DISTANCE_TO_TAS']
-    # nt = ['AGEGROUP_60_69' 'ORIGIN_NSW', 'ORIGIN_VIC', 'ORIGIN_QLD',
-    #       'ORIGIN_SA', 'ORIGIN_WA', 'ORIGIN_TAS']  # , 'DISTANCE_TO_NT']
 
     constant = []
 
