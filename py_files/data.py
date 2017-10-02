@@ -2,10 +2,12 @@
 # python package
 import csv
 import os
+import numpy as np
+
+from mdcev.settings import *
 from settings import *
 from geopy.geocoders import Nominatim
 from geopy.distance import vincenty, great_circle
-import numpy as np
 
 
 def count_on_pure_data(pure_data, number_of_alternatives):
@@ -14,7 +16,7 @@ def count_on_pure_data(pure_data, number_of_alternatives):
     alternative_counts = np.zeros(number_of_alternatives)
     number_of_chosen_alternative_counts = np.zeros(number_of_alternatives)
 
-    #  add the value to the matrix line by line
+    # add the value to the matrix line by line
     for row in pure_data:
         # Get the duration value
         temp_a = np.asarray(row)
@@ -376,7 +378,7 @@ def get_the_utility_variable_data(input_field_list, row, variable, variable_code
     """
     variable_data = [0] * variable_codes.__len__()
     value = row.__getitem__(input_field_list.index(variable))
-    # print("### This is the value in the line:", value)
+    print("### This is the value in the line:", value, variable)
     if value:
         variable_data.__setitem__(find_index_in_list(list=variable_codes, value=value), 1)
 
@@ -675,6 +677,18 @@ def get_the_variable_codes(variable):
     elif variable == 'AGEGROUP':
         variable_codes = AGEGROUP_CODE
 
+    elif variable == 'PARTYPE':
+        variable_codes = PARTYPE_CODE
+
+    elif variable == 'GROUPTYPE':
+        variable_codes = GROUPTYPE_CODE
+
+    elif variable == 'TRIP_PURPOSE':
+        variable_codes = TRIP_PURPOSE_CODE
+
+    elif variable == 'CUSTOMS':
+        variable_codes = CUSTOMS_CODE
+
     return variable_codes
 
 
@@ -706,6 +720,18 @@ def get_the_vairable_list(variable):
 
     elif variable == 'AGEGROUP':
         variable_list = AGEGROUP_LIST
+
+    elif variable == 'PARTYPE':
+        variable_list = PARTYPE_LIST
+
+    elif variable == 'GROUPTYPE':
+        variable_list = GROUPTYPE_LIST
+
+    elif variable == 'TRIP_PURPOSE':
+        variable_list = TRIP_PURPOSE_LIST
+
+    elif variable == 'CUSTOMS':
+        variable_list = CUSTOMS_LIST
 
     return variable_list
 
@@ -838,5 +864,63 @@ def read_state_combinations(input_file, output_file, compulsory_fields, state_li
                         index_number += 1
 
     is_successful = write_data_to_csv(filename=output_file, data=data)
+    return is_successful
+
+
+def read_ivs_state_combinations(input_file, output_file, compulsory_fields, state_list, state_codes, utility_parameters, distance_destination_list, number_of_data=40000):
+
+    input_field_list = None
+    index_number = 1
+    data = list()
+    total_duration = ["Duration"]
+
+    utility_parameters_list = get_utility_parameters_list(utility_parameters)
+
+    # print(utility_parameters_list)
+    # output_fields_list = compulsory_fields + state_list + utility_parameters_list + distance_destination_list + CONSTANT_LIST + total_duration
+    output_fields_list = compulsory_fields + state_list + utility_parameters_list + CONSTANT_LIST + total_duration
+    data.append(output_fields_list)
+    data_count = 0
+
+    with open(input_file, 'rU') as input_csv:
+        file_reader = csv.reader(input_csv, delimiter=',')
+
+        for i, row in enumerate(file_reader):
+            if i == 0:
+                input_field_list = row
+            elif i > number_of_data:
+                break
+            else:
+                # getting the value of the utility parameters
+                utility_data = map(row.__getitem__, map(input_field_list.index, utility_parameters))
+                # if ' ' not in utility_data:
+                if not any(item in [' ', 'NA'] for item in utility_data):
+                    data_count += 1
+                    state_data, order_data = get_the_state_data(input_field_list, row, state_codes)
+
+                    # if state_data.__len__() - 1 == count_zero(state_data):
+                    # if state_data.__len__() - 2 >= count_zero(state_data):
+                    if all(value is 0 for value in state_data) is False:
+
+                        output_row = [0] * output_fields_list.__len__()
+                        compulsory_data = map(row.__getitem__, map(input_field_list.index, compulsory_fields))
+                        compulsory_data[0] = index_number
+                        compulsory_data[4] = order_data
+                        print('This is the state data line', state_data, sum(state_data))
+                        # getting the utility parameters data according to the utility parameters
+                        utility_variable_data = get_utility_parameters_value(input_field_list, utility_parameters, row)
+                        # distance_data = get_distance_data(input_field_list, distance_destination_list, state_list, row)
+
+                        # data_set = compulsory_data + state_data + utility_variable_data \
+                        #            + distance_data + CONSTANT_VALUE + [sum(state_data)]
+                        data_set = compulsory_data + state_data + utility_variable_data + CONSTANT_VALUE + [sum(state_data)]
+                        map(output_row.__setitem__, map(output_fields_list.index, output_fields_list), data_set)
+
+                        # print(output_row)
+                        data.append(output_row)
+                        index_number += 1
+
+    is_successful = write_data_to_csv(filename=output_file, data=data)
+    print("This is total number of filtered data", data_count)
     return is_successful
 
