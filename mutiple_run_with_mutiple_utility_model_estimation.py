@@ -74,7 +74,7 @@ def generate_list_of_estimations(utility_variables, case_config_list):
                 if i != len(combination) - 1:
                     variable_in_names += '-'
 
-            input_file = 'Data/ivs/filted_data.csv'
+            input_file = '../Data/ivs/filted_data.csv'
             output_file = RESULTS_PATH + '/ivs/results' + '_{}'.format(case_config) + '_{}'.format(variable_in_names) + '.txt'
             list_of_estimations.append((case_config, input_file, output_file, get_utility_parameters_list(combination)))
 
@@ -104,6 +104,7 @@ if __name__ == '__main__':
 
     # Run estimation with multiprocessing
     run_estimation_with_multiprocessing(list_of_estimations=list_of_estimations)
+    # print(len(local_variable))
 
     # End of timing
     print(datetime.now() - start_time)
