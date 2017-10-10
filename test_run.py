@@ -99,7 +99,7 @@ def generate_list_of_estimations(utility_variables, case_config_list, number_of_
 
 
 def run_estimation_with_multiprocessing(list_of_estimations):
-    pool = Pool(processes=1)
+    pool = Pool(processes=6)
 
     for estimation in list_of_estimations:
         pool.apply_async(cal_estimation, (estimation[0], estimation[1], estimation[2], estimation[3]))
