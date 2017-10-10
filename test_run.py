@@ -92,7 +92,7 @@ def generate_list_of_estimations(utility_variables, case_config_list, number_of_
                         variable_in_names += '-'
 
                 input_file = '../Data/ivs/filted_data.csv'
-                output_file = RESULTS_PATH + '/ivs/results' + '~{}'.format(case_config) + '~{}'.format(variable_in_names) + '.txt'
+                output_file = RESULTS_PATH + '/result' + '~{}'.format(case_config) + '~{}'.format(variable_in_names) + '.txt'
                 list_of_estimations.append((case_config, input_file, output_file, get_utility_parameters_list(combination)))
 
     return list_of_estimations
