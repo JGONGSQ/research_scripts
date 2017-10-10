@@ -155,31 +155,12 @@ for (i in 1:nc){
   ivdtc[[i]] <- c(coef_values[i])
 }
 
-
-
-# ivdts[[1]] <- c("uno");
-# ivdtc[[1]] <- c(coef_values[1]);
-# ivdts[[2]] <- c("uno");
-# ivdtc[[2]] <- c(coef_values[2]);
-# ivdts[[3]] <- c("uno");
-# ivdtc[[3]] <- c(coef_values[3]);
-# ivdts[[4]] <- c("uno");
-# ivdtc[[4]] <- c(coef_values[4]);
-# ivdts[[5]] <- c("uno");
-# ivdtc[[5]] <- c(coef_values[5]);
-# ivdts[[6]] <- c("uno");
-# ivdtc[[6]] <- c(coef_values[6]);
-# ivdts[[7]] <- c("uno");
-# ivdtc[[7]] <- c(coef_values[7]);
-# ivdts[[8]] <- c("uno");
-# ivdtc[[8]] <- c(coef_values[8]);
-# # print("This is the ivdtc")
 # print(ivdtc)
 
    
 ivgts <- list();
 
-# ivgts[[1]] <- c("uno");    # Only one "sero" for each output good should be entered
+# ivgts[[1]] <- c("uno");    
 # ivgts[[2]] <- c("uno");
 # ivgts[[3]] <- c("uno");
 # ivgts[[4]] <- c("uno");
@@ -187,7 +168,7 @@ ivgts <- list();
 # ivgts[[6]] <- c("uno");
 
 for (i in 1:nc){
-    ivgts[[i]] <- c("uno")
+    ivgts[[i]] <- c("uno") # Only one "sero" for each output good should be entered
 }
 
 # The Gamma values for all alternatives are restricted to zero.  

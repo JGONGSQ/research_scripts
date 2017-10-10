@@ -17,22 +17,42 @@ coef_filepath = args[7]
 
 coef_data <<- read.table(coef_filepath, header=T, sep=",");
 print(">>>> Coef Data <<<<")
-alternative_variables_2 <- list_creator(strsplit(toString(coef_data[1,"variables"]), ","))
-alternative_variables_3 <- list_creator(strsplit(toString(coef_data[2,"variables"]), ","))
-alternative_variables_4 <- list_creator(strsplit(toString(coef_data[3,"variables"]), ","))
-alternative_variables_5 <- list_creator(strsplit(toString(coef_data[4,"variables"]), ","))
-alternative_variables_6 <- list_creator(strsplit(toString(coef_data[5,"variables"]), ","))
-alternative_variables_7 <- list_creator(strsplit(toString(coef_data[6,"variables"]), ","))
-alternative_variables_8 <- list_creator(strsplit(toString(coef_data[7,"variables"]), ","))
+alternative_variables <- list();
+alternative_values <- list();
+
+alternative_variables[[2]] <- list_creator(strsplit(toString(coef_data[1,"variables"]), ","))
+alternative_variables[[3]] <- list_creator(strsplit(toString(coef_data[2,"variables"]), ","))
+alternative_variables[[4]] <- list_creator(strsplit(toString(coef_data[3,"variables"]), ","))
+alternative_variables[[5]] <- list_creator(strsplit(toString(coef_data[4,"variables"]), ","))
+alternative_variables[[6]] <- list_creator(strsplit(toString(coef_data[5,"variables"]), ","))
+alternative_variables[[7]] <- list_creator(strsplit(toString(coef_data[6,"variables"]), ","))
+alternative_variables[[8]] <- list_creator(strsplit(toString(coef_data[7,"variables"]), ","))
 
 
-alternative_values_2 <- float_list_creator(strsplit(toString(coef_data[1,"values"]), ","))
-alternative_values_3 <- float_list_creator(strsplit(toString(coef_data[2,"values"]), ","))
-alternative_values_4 <- float_list_creator(strsplit(toString(coef_data[3,"values"]), ","))
-alternative_values_5 <- float_list_creator(strsplit(toString(coef_data[4,"values"]), ","))
-alternative_values_6 <- float_list_creator(strsplit(toString(coef_data[5,"values"]), ","))
-alternative_values_7 <- float_list_creator(strsplit(toString(coef_data[6,"values"]), ","))
-alternative_values_8 <- float_list_creator(strsplit(toString(coef_data[7,"values"]), ","))
+# alternative_variables_2 <- list_creator(strsplit(toString(coef_data[1,"variables"]), ","))
+# alternative_variables_3 <- list_creator(strsplit(toString(coef_data[2,"variables"]), ","))
+# alternative_variables_4 <- list_creator(strsplit(toString(coef_data[3,"variables"]), ","))
+# alternative_variables_5 <- list_creator(strsplit(toString(coef_data[4,"variables"]), ","))
+# alternative_variables_6 <- list_creator(strsplit(toString(coef_data[5,"variables"]), ","))
+# alternative_variables_7 <- list_creator(strsplit(toString(coef_data[6,"variables"]), ","))
+# alternative_variables_8 <- list_creator(strsplit(toString(coef_data[7,"variables"]), ","))
+
+alternative_values[[2]] <- float_list_creator(strsplit(toString(coef_data[1,"values"]), ","))
+alternative_values[[3]] <- float_list_creator(strsplit(toString(coef_data[2,"values"]), ","))
+alternative_values[[4]] <- float_list_creator(strsplit(toString(coef_data[3,"values"]), ","))
+alternative_values[[5]] <- float_list_creator(strsplit(toString(coef_data[4,"values"]), ","))
+alternative_values[[6]] <- float_list_creator(strsplit(toString(coef_data[5,"values"]), ","))
+alternative_values[[7]] <- float_list_creator(strsplit(toString(coef_data[6,"values"]), ","))
+alternative_values[[8]] <- float_list_creator(strsplit(toString(coef_data[7,"values"]), ","))
+
+
+# alternative_values_2 <- float_list_creator(strsplit(toString(coef_data[1,"values"]), ","))
+# alternative_values_3 <- float_list_creator(strsplit(toString(coef_data[2,"values"]), ","))
+# alternative_values_4 <- float_list_creator(strsplit(toString(coef_data[3,"values"]), ","))
+# alternative_values_5 <- float_list_creator(strsplit(toString(coef_data[4,"values"]), ","))
+# alternative_values_6 <- float_list_creator(strsplit(toString(coef_data[5,"values"]), ","))
+# alternative_values_7 <- float_list_creator(strsplit(toString(coef_data[6,"values"]), ","))
+# alternative_values_8 <- float_list_creator(strsplit(toString(coef_data[7,"values"]), ","))
 coef_values <- float_list_creator(strsplit(toString(coef_data[8,"values"]), ","))
 print(coef_values)
 Data <<- read.table(data_filepath, header=T, sep=",");
@@ -84,26 +104,34 @@ fp <- fp_list; #, ivuno, ivuno, ivuno, ivuno, ivuno, ivuno, ivuno, ivuno, ivuno,
 ivmt <- list();
 ivmtc <- list();
 
-ivmt[[1]] <- c("");     # Do not modify this line because the first alternative is considered as base     
-ivmtc[[1]] <- c(0.0);   # Do not modify this line because the first alternative is considered as base
-# ivmt[[2]] <- c("uno","hhsize");
-# ivmtc[[2]] <- c(0.319,-0.03);
-# ivmt[[3]] <- c("uno","hhsize");
-# ivmtc[[3]] <- c(-0.748,-0.025);
-ivmt[[2]] <- alternative_variables_2;
-ivmtc[[2]] <- alternative_values_2;
-ivmt[[3]] <- alternative_variables_3;
-ivmtc[[3]] <- alternative_values_3;
-ivmt[[4]] <- alternative_variables_4;
-ivmtc[[4]] <- alternative_values_4;
-ivmt[[5]] <- alternative_variables_5;
-ivmtc[[5]] <- alternative_values_5;
-ivmt[[6]] <- alternative_variables_6;
-ivmtc[[6]] <- alternative_values_6;
-ivmt[[7]] <- alternative_variables_7;
-ivmtc[[7]] <- alternative_values_7;
-ivmt[[8]] <- alternative_variables_8;
-ivmtc[[8]] <- alternative_values_8;
+# ivmt[[1]] <- c("");     # Do not modify this line because the first alternative is considered as base     
+# ivmtc[[1]] <- c(0.0);   # Do not modify this line because the first alternative is considered as base
+# ivmt[[2]] <- alternative_variables_2;
+# ivmtc[[2]] <- alternative_values_2;
+# ivmt[[3]] <- alternative_variables_3;
+# ivmtc[[3]] <- alternative_values_3;
+# ivmt[[4]] <- alternative_variables_4;
+# ivmtc[[4]] <- alternative_values_4;
+# ivmt[[5]] <- alternative_variables_5;
+# ivmtc[[5]] <- alternative_values_5;
+# ivmt[[6]] <- alternative_variables_6;
+# ivmtc[[6]] <- alternative_values_6;
+# ivmt[[7]] <- alternative_variables_7;
+# ivmtc[[7]] <- alternative_values_7;
+# ivmt[[8]] <- alternative_variables_8;
+# ivmtc[[8]] <- alternative_values_8;
+
+
+for (i in 1:nc){
+  if (i == 1){
+    ivmt[[i]] <- c(""); # Base alternative
+    ivmtc[[i]] <- c(0.0);
+  }
+  else {
+    ivmt[[i]] <- alternative_variables[[i]];
+    ivmtc[[i]] <- alternative_values[[i]];
+  }
+}
 
 
 # Important Note: For the satiation parameters (alphas and gammas) do not provide the final values of alphas and gammas. 
@@ -127,22 +155,31 @@ ivdtc <- c(-1000.0);
 ivgts <- list();
 ivgtc <- list();
 
-ivgts[[1]] <- c("uno");
-ivgtc[[1]] <- c(coef_values[1]);
-ivgts[[2]] <- c("uno");
-ivgtc[[2]] <- c(coef_values[2]);
-ivgts[[3]] <- c("uno");
-ivgtc[[3]] <- c(coef_values[3]);
-ivgts[[4]] <- c("uno");
-ivgtc[[4]] <- c(coef_values[4]);
-ivgts[[5]] <- c("uno");
-ivgtc[[5]] <- c(coef_values[5]);
-ivgts[[6]] <- c("uno");
-ivgtc[[6]] <- c(coef_values[6]);
-ivgts[[7]] <- c("uno");
-ivgtc[[7]] <- c(coef_values[7]);
-ivgts[[8]] <- c("uno");
-ivgtc[[8]] <- c(coef_values[8]);
+# ivgts[[1]] <- c("uno");
+# ivgtc[[1]] <- c(coef_values[1]);
+# ivgts[[2]] <- c("uno");
+# ivgtc[[2]] <- c(coef_values[2]);
+# ivgts[[3]] <- c("uno");
+# ivgtc[[3]] <- c(coef_values[3]);
+# ivgts[[4]] <- c("uno");
+# ivgtc[[4]] <- c(coef_values[4]);
+# ivgts[[5]] <- c("uno");
+# ivgtc[[5]] <- c(coef_values[5]);
+# ivgts[[6]] <- c("uno");
+# ivgtc[[6]] <- c(coef_values[6]);
+# ivgts[[7]] <- c("uno");
+# ivgtc[[7]] <- c(coef_values[7]);
+# ivgts[[8]] <- c("uno");
+# ivgtc[[8]] <- c(coef_values[8]);
+
+
+for (i in 1:nc){
+  ivgts[[i]] <- c("uno")
+}
+
+for (i in 1:nc){
+  ivgtc[[i]] <- c(coef_values[i])
+}
 
 
 ########################################################################################################
