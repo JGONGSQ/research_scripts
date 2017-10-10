@@ -136,7 +136,7 @@ if __name__ == '__main__':
 
         # Generate list of estimations
         list_of_estimations = generate_list_of_estimations(
-            utility_variables, 
+            utility_variables,
             case_config_list,
             len(utility_variables)-i,
             non_converge_list
