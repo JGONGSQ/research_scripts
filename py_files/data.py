@@ -3,9 +3,8 @@
 import csv
 import os
 import numpy as np
-
-from mdcev.settings import *
 from settings import *
+from mdcev.settings import *
 from geopy.geocoders import Nominatim
 from geopy.distance import vincenty, great_circle
 

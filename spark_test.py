@@ -16,6 +16,9 @@
 #
 # print(datetime.now() - start_time)
 
+import findspark
+findspark.init()
+
 from pyspark import SparkContext
 from pyspark import SparkConf
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType, BooleanType

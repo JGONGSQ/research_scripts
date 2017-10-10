@@ -17,9 +17,9 @@ import subprocess
 class ModelRun(object):
 
     # R script
-    r_estimation = 'r_files/runner_mdcev_nooutside.r'
-    r_alpha_forecast = 'r_files/forecast/run_mdcev_alpha_forecast.r'
-    r_gamma_forecast = 'r_files/forecast/run_mdcev_gamma_forecast.r'
+    r_estimation = 'mdcev/runner_mdcev_nooutside.r'
+    r_alpha_forecast = 'mdcev/forecast/run_mdcev_alpha_forecast.r'
+    r_gamma_forecast = 'mdcev/forecast/run_mdcev_gamma_forecast.r'
 
     # CSV data file
     original_source_file = '../Data/ivs/2012/IVS_2012.csv'
@@ -33,7 +33,7 @@ class ModelRun(object):
     distance_destination_list = DISTANCE_DESTINATION_LIST
 
     utility_parameters = ['GENDER', 'MARITAL', 'AGEGROUP', 'PARTYPE', 'NUMVISIT',
-                          'TRIP_PURPOSE', 'CUSTOMS', 'COUNTRY']
+                          'TRIP_PURPOSE', 'CUSTOMS', 'COUNTRY', 'OTHPURP1']
 
     # , 'GROUPTYPE' , 'RANDOMSTOP'
 
@@ -48,7 +48,9 @@ class ModelRun(object):
     nt = ['GENDER_MALE']
     qld = ['GENDER_MALE']
     sa = ['GENDER_MALE']
+    wa = ['GENDER_MALE']
     tas = ['GENDER_MALE']
+    act = ['GENDER_MALE']
     constant = []
 
     alternatives_utility_variables = [
@@ -59,9 +61,13 @@ class ModelRun(object):
         # Alternative 4
         sa + constant,
         # Alternative 5
-        tas + constant,
+        wa + constant,
         # Alternative 6
+        tas + constant,
+        # Alternative 7
         nt + constant,
+        # Alternative 8
+        act + constant,
     ]
 
     utility_variables = get_utility_variables(alternatives_utility_variables)
@@ -110,7 +116,7 @@ class ModelRun(object):
                 ['Rscript --vanilla {r_script} {input_file} '
                  '{number_of_alternatives} {case_config} {utility_parameters} {state_list} {results_file} '
                  '{alternative_2_variables} {alternative_3_variables} {alternative_4_variables} '
-                 '{alternative_5_variables} {alternative_6_variables}'.format(
+                 '{alternative_5_variables} {alternative_6_variables} {alternative_7_variables} {alternative_8_variables}'.format(
                     r_script=self.r_estimation,
                     input_file=self.model_data_file,
                     number_of_alternatives=self.alternative_list.__len__(),
@@ -122,7 +128,9 @@ class ModelRun(object):
                     alternative_3_variables=convert_list_to_str(self.alternatives_utility_variables[1]),
                     alternative_4_variables=convert_list_to_str(self.alternatives_utility_variables[2]),
                     alternative_5_variables=convert_list_to_str(self.alternatives_utility_variables[3]),
-                    alternative_6_variables=convert_list_to_str(self.alternatives_utility_variables[4]),)
+                    alternative_6_variables=convert_list_to_str(self.alternatives_utility_variables[4]),
+                    alternative_7_variables=convert_list_to_str(self.alternatives_utility_variables[5]),
+                    alternative_8_variables=convert_list_to_str(self.alternatives_utility_variables[6]),)
                 ]
                 , shell=True)
         return

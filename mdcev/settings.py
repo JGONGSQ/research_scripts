@@ -3,8 +3,8 @@
 INPUT_DIR_PATH = '../Data/input_files'
 
 COMPULSORY_FIELDS = ['id', 'uno', 'sero', 'NUMSTOP', 'PATH']
-STATE_LISTS = ['NSW', 'VIC', 'QLD', 'SA', 'TAS', 'NT']
-STATE_CODES = ['1', '2', '3', '4', '6', '8']
+STATE_LISTS = ['NSW', 'VIC', 'QLD', 'SA', 'WA', 'TAS', 'NT', 'ACT']
+STATE_CODES = ['1', '2', '3', '4', '5', '6', '7', '8']
 DISTANCE_DESTINATION_LIST = ['DISTANCE_TO_NSW', 'DISTANCE_TO_VIC', 'DISTANCE_TO_QLD', 'DISTANCE_TO_SA', 'DISTANCE_TO_TAS', 'DISTANCE_TO_NT']
 
 

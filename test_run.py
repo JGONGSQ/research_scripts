@@ -28,6 +28,10 @@ UTILITY_VARIABLES_ALTERNATIVES = [
     # Alternative 5
     local_variable,
     # Alternative 6
+    local_variable,
+    # Alternative 7
+    local_variable,
+    # Alternative 8
     local_variable
 ]
 
@@ -37,7 +41,7 @@ def cal_estimation(case_config, input_file, results_file, utility_parameter):
         ['Rscript --vanilla {r_script_file} {input_file} '
          '{number_of_alternatives} {case_config} {utility_parameter} {city_list} {results_file} '
          '{alternative_2_variables} {alternative_3_variables} {alternative_4_variables} '
-         '{alternative_5_variables} {alternative_6_variables}'.format(
+         '{alternative_5_variables} {alternative_6_variables} {alternative_7_variables} {alternative_8_variables}'.format(
             r_script_file=RUNNER_MDCEV,
             input_file=input_file,
             number_of_alternatives=STATE_LISTS.__len__(),
@@ -50,6 +54,8 @@ def cal_estimation(case_config, input_file, results_file, utility_parameter):
             alternative_4_variables=convert_list_to_str(utility_parameter),
             alternative_5_variables=convert_list_to_str(utility_parameter),
             alternative_6_variables=convert_list_to_str(utility_parameter),
+            alternative_7_variables=convert_list_to_str(utility_parameter),
+            alternative_8_variables=convert_list_to_str(utility_parameter),
         )
         ]
         , shell=True
