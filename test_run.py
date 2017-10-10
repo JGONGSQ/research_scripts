@@ -8,6 +8,7 @@ import itertools
 
 from py_files.data import convert_list_to_str, convert_tuple_to_list, get_utility_variables, get_utility_parameters_list, is_file_converge
 from py_files.settings import *
+from mdcev.settings import *
 
 import os
 import re
@@ -98,7 +99,7 @@ def generate_list_of_estimations(utility_variables, case_config_list, number_of_
 
 
 def run_estimation_with_multiprocessing(list_of_estimations):
-    pool = Pool(processes=6)
+    pool = Pool(processes=1)
 
     for estimation in list_of_estimations:
         pool.apply_async(cal_estimation, (estimation[0], estimation[1], estimation[2], estimation[3]))

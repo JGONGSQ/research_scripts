@@ -23,3 +23,5 @@ TRIP_PURPOSE_CODE = [['1'], ['2'], ['3', '4'], ['5'], ['6'], [str(x) for x in ra
 
 CUSTOMS_LIST = ['CUSTOMS_ENTRY_NSW', 'CUSTOMS_ENTRY_VIC', 'CUSTOMS_ENTRY_QLD', 'CUSTOMS_ENTRY_SA', 'CUSTOMS_ENTRY_TAS', 'CUSTOMS_ENTRY_NT', 'CUSTOMS_ENTRY_OTHER']
 CUSTOMS_CODE = [['1'], ['2'], ['3', '7', '8', '11'], ['5'], ['9'], ['6'], ['4', '10', '98']]
+
+RUNNER_MDCEV = 'mdcev/runner_mdcev_nooutside.r'

@@ -42,15 +42,23 @@ class ModelRun(object):
 
     ### NOT CONVERGE ###
 
+    local_variable = ['GENDER_MALE', 'GENDER_FEMALE', 'MARITAL_SINGLE', 'MARITAL_COUPLE', 'AGEGROUP_15_29',
+                      'AGEGROUP_30_39', 'AGEGROUP_40_49', 'AGEGROUP_50_59', 'AGEGROUP_60_69', 'AGEGROUP_70_MORE',
+                      'PARTYPE_UNACCOMPANIED', 'PARTYPE_ADULT_COUPLE', 'PARTYPE_FAMILY_GROUP',
+                      'PARTYPE_FREIEND_RELATIVES', 'PARTYPE_BUSINESS_ASSOCIATES', 'PARTYPE_SCHOOL_TOUR',
+                      'TRIP_PURPOSE_HOLIDAY', 'TRIP_PURPOSE_VISITING_FR', 'TRIP_PURPOSE_BUSINESS',
+                      'TRIP_PURPOSE_EMPLOYMENT', 'TRIP_PURPOSE_EDUCATION', 'TRIP_PURPOSE_OTHER', 'CUSTOMS_ENTRY_NSW',
+                      'CUSTOMS_ENTRY_VIC', 'CUSTOMS_ENTRY_QLD', 'CUSTOMS_ENTRY_SA', 'CUSTOMS_ENTRY_NT',
+                      'CUSTOMS_ENTRY_OTHER', 'OTHPURP1']
 
     # Alternatives
-    vic = ['GENDER_MALE']
-    nt = ['GENDER_MALE']
-    qld = ['GENDER_MALE']
-    sa = ['GENDER_MALE']
-    wa = ['GENDER_MALE']
-    tas = ['GENDER_MALE']
-    act = ['GENDER_MALE']
+    vic = local_variable
+    nt = local_variable
+    qld = local_variable
+    sa = local_variable
+    wa = local_variable
+    tas = local_variable
+    act = local_variable
     constant = []
 
     alternatives_utility_variables = [
