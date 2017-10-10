@@ -227,10 +227,4 @@ if __name__ == '__main__':
     print(datetime.now() - start_time)
 
 
-# key1 = '6'
-# key2 = '7'
-#
-# list1 = ['1', '2', '3', '4']
-# if any(item in [key1, key2] for item in list1):
-#     print("tesat atse ")
 
