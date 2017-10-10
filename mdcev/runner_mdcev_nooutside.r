@@ -30,13 +30,24 @@ alternative_6 = args[11]
 alternative_7 = args[12]
 alternative_8 = args[13]
 
-alternative_variable_2 = list_creator(strsplit(alternative_2, ",") )
-alternative_variable_3 = list_creator(strsplit(alternative_3, ",") )
-alternative_variable_4 = list_creator(strsplit(alternative_4, ",") )
-alternative_variable_5 = list_creator(strsplit(alternative_5, ",") )
-alternative_variable_6 = list_creator(strsplit(alternative_6, ",") )
-alternative_variable_7 = list_creator(strsplit(alternative_7, ",") )
-alternative_variable_8 = list_creator(strsplit(alternative_8, ",") )
+alternative_variables <- list();
+
+alternative_variables[[2]] = list_creator(strsplit(alternative_2, ",") )
+alternative_variables[[3]] = list_creator(strsplit(alternative_3, ",") )
+alternative_variables[[4]] = list_creator(strsplit(alternative_4, ",") )
+alternative_variables[[5]] = list_creator(strsplit(alternative_5, ",") )
+alternative_variables[[6]] = list_creator(strsplit(alternative_6, ",") )
+alternative_variables[[7]] = list_creator(strsplit(alternative_7, ",") )
+alternative_variables[[8]] = list_creator(strsplit(alternative_8, ",") )
+
+
+# alternative_variable_2 = list_creator(strsplit(alternative_2, ",") )
+# alternative_variable_3 = list_creator(strsplit(alternative_3, ",") )
+# alternative_variable_4 = list_creator(strsplit(alternative_4, ",") )
+# alternative_variable_5 = list_creator(strsplit(alternative_5, ",") )
+# alternative_variable_6 = list_creator(strsplit(alternative_6, ",") )
+# alternative_variable_7 = list_creator(strsplit(alternative_7, ",") )
+# alternative_variable_8 = list_creator(strsplit(alternative_8, ",") )
 
 print("###### This is the utility variables")
 variable_list = list_creator(strsplit(utility_variables, ",") )
@@ -81,34 +92,31 @@ fp <- fp_list
 # (number of rows = number of alternatives);
 # Number of columns = Number of variables including alternative specific constants; consider first alternative as base
 ivmt <- list();
-ivmt[[1]] <- c("");   # Base alternative
-ivmt[[2]] <- c("uno", alternative_variable_2);
-ivmt[[3]] <- c("uno", alternative_variable_3);
-ivmt[[4]] <- c("uno", alternative_variable_4);
-ivmt[[5]] <- c("uno", alternative_variable_5);
-ivmt[[6]] <- c("uno", alternative_variable_6);
-ivmt[[7]] <- c("uno", alternative_variable_7);
-ivmt[[8]] <- c("uno", alternative_variable_8);
+# ivmt[[1]] <- c("");   # Base alternative
+# ivmt[[2]] <- c("uno", alternative_variable_2);
+# ivmt[[3]] <- c("uno", alternative_variable_3);
+# ivmt[[4]] <- c("uno", alternative_variable_4);
+# ivmt[[5]] <- c("uno", alternative_variable_5);
+# ivmt[[6]] <- c("uno", alternative_variable_6);
+# ivmt[[7]] <- c("uno", alternative_variable_7);
+# ivmt[[8]] <- c("uno", alternative_variable_8);
 
-print(ivmt[[2]])
-print(ivmt[[3]])
-print(ivmt[[4]])
-print(ivmt[[5]])
-print(ivmt[[6]])
-print(ivmt[[7]])
-print(ivmt[[8]])
+for (i in 1:nc){
+ if (i == 1){
+   ivmt[[i]] <- c("") # Base alternative
+ }
+ else {
+   ivmt[[i]] <- c("uno", alternative_variables[[i]])
+ }
+}
 
-
-#for (i in 1:nc){
-#  if (i == 1){
-#    ivmt[[i]] <- c("") # Base alternative
-#  }
-#  else {
-#    ivmt[[i]] <- c("uno", variable_list)
-#  }
-#}
-
-
+# print(ivmt[[2]])
+# print(ivmt[[3]])
+# print(ivmt[[4]])
+# print(ivmt[[5]])
+# print(ivmt[[6]])
+# print(ivmt[[7]])
+# print(ivmt[[8]])
 
 # In the following specification, ivdts[[1]], ivdts[[2]], ivdts[[3]] contain input data specifications (on right hand side) for satiation parameters (Alphas) 
 # for alternatives 1, 2, and 3;
