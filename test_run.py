@@ -87,9 +87,10 @@ def generate_list_of_estimations(utility_variables, case_config_list, number_of_
             if non_converge_flag is False:
                 variable_in_names = ''
                 for i, item in enumerate(combination):
-                    variable_in_names += str(item)
-                    if i != len(combination) - 1:
-                        variable_in_names += '-'
+                    variable_in_names += str(item[0])
+                    # if i != len(combination) - 1:
+                    #     variable_in_names += '-'
+                variable_in_names += str(datetime.now()).replace(' ', '*')
 
                 input_file = '../Data/ivs/filted_data.csv'
                 output_file = RESULTS_PATH + '/result' + '~{}'.format(case_config) + '~{}'.format(variable_in_names) + '.txt'
