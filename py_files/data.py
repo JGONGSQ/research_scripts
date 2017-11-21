@@ -848,7 +848,7 @@ def read_state_combinations(input_file, output_file, compulsory_fields, state_li
                         output_row = [0] * output_fields_list.__len__()
                         compulsory_data = map(row.__getitem__, map(input_field_list.index, compulsory_fields))
                         compulsory_data[0] = index_number
-                        compulsory_data[3] = order_data
+                        # compulsory_data[3] = order_data
                         print('This is the state data line', state_data, sum(state_data))
                         # getting the utility parameters data according to the utility parameters
                         utility_variable_data = get_utility_parameters_value(input_field_list, utility_parameters, row)

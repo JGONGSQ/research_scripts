@@ -8,8 +8,8 @@ INPUT_DIR_PATH = '../Data/input_files'
 TEST_INPUT_FILE_PATH = '../r_resources/Model_Estimation/az_hhld_vfc_cleaned_final.csv'
 
 # NEW ADDED DATA FILE
-# TEST_INPUT_DATA_PATH = '../Data/NVS2007unit.csv'
-TEST_INPUT_DATA_PATH = '../Data/NVS2006modified.csv'
+TEST_INPUT_DATA_PATH = '../Data/NVS2007unit.csv'
+# TEST_INPUT_DATA_PATH = '../Data/NVS2006modified.csv'
 TEST_OUTPUT_DATA_PATH = '../Data/test_output_file.csv'
 REGN_CODE_DICT_PATH = '../Data/regn_code_dict.csv'
 REGN_CODE_DICT_PATH_V1 = '../Data/regn_code_dict_v1.csv'
@@ -84,7 +84,9 @@ DISTANCE_DESTINATION_LIST = ['DISTANCE_TO_NSW', 'DISTANCE_TO_VIC', 'DISTANCE_TO_
 
 CONSTANT_LIST = ['POPULATION_NSW', 'POPULATION_VIC', 'POPULATION_QLD', 'POPULATION_SA', 'POPULATION_TAS', 'POPULATION_NT']
 # Population are in the unit of millions, such that 7.54 million people in NSW.
-CONSTANT_VALUE = [0, -1.75, -2.85, -5.86, -7.02, -7.3]
+CONSTANT_VALUE = [0, -1.68, -2.7, -5.34, -6.44, -6.71]
+# CONSTANT_VALUE = [6.93, 5.25, 4.23, 1.59, 0.49, 0.22]
+# CONSTANT_BACKUP_VALUE = [6.93, 5.25, 4.23, 1.59, 0.49, 0.22]
 # CONSTANT_BACKUP_VALUE = [7.54, 5.79, 4.69, 1.68, 0.52, 0.24]
 
 REGION_DICT = {
@@ -331,5 +333,6 @@ NT_RANKING = {
     "Kakadu": "7",
     "MacDonnell": "8",
     "Daly": "9",
-    "Transit NT": "10"
+    "Transit NT": "10",
+    "North West": "11"
 }

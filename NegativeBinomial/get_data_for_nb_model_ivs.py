@@ -10,7 +10,6 @@ from datetime import datetime
 
 class ReadData(object):
 
-
     def write_data_to_csv(self, filename, data):
         # open the file need to be write
         with open(filename, 'w') as csvfile:
@@ -54,6 +53,18 @@ class ReadData(object):
         elif variable == 'CH15TO24':
             variable_codes = CH15TO24_CODE
 
+        elif variable == 'PARTYPE':
+            variable_codes = PARTYPE_CODE
+
+        elif variable == 'GROUPTYPE':
+            variable_codes = GROUPTYPE_CODE
+
+        elif variable == 'TRIP_PURPOSE':
+            variable_codes = TRIP_PURPOSE_CODE
+
+        elif variable == 'CUSTOMS':
+            variable_codes = CUSTOMS_CODE
+
         return variable_codes
 
     def get_the_variable_list(self, variable):
@@ -85,6 +96,18 @@ class ReadData(object):
 
         elif variable == 'CH15TO24':
             variable_list = CH15TO24_LIST
+
+        elif variable == 'PARTYPE':
+            variable_list = PARTYPE_LIST
+
+        elif variable == 'GROUPTYPE':
+            variable_list = GROUPTYPE_LIST
+
+        elif variable == 'TRIP_PURPOSE':
+            variable_list = TRIP_PURPOSE_LIST
+
+        elif variable == 'CUSTOMS':
+            variable_list = CUSTOMS_LIST
 
         return variable_list
 
@@ -133,7 +156,7 @@ class ReadData(object):
         data = list()
         input_field_list = None
         # index_number = 1
-        compulsory_fields = ['id', 'uno', 'sero', 'NUMSTOP', 'NITESUM']
+        compulsory_fields = ['id', 'uno', 'sero', 'NUMSTOP', 'AUSNITES']
         output_fields_list = compulsory_fields + utility_parameters
 
         data.append(output_fields_list)
@@ -168,16 +191,13 @@ class ReadData(object):
         return is_successful
 
 
-
-
-
 if __name__ == '__main__':
     print("### Starts processing the data for NB model ###")
 
-    input_file = '../../Data/NVS2007unit.csv'
-    output_file = '../../Data/NB_ModelData2007.csv'
-    utility_parameters = ['ORIGIN', 'HOMESLA', 'HOUSEHOLD', 'UNDER15', 'OVER15', 'EMPLOYMENT', 'HOUSINC', 'GENDER',
-                          'MARITAL', 'LIFECYCLE', 'AGEGROUP', 'CH15TO24', 'NITESUM']
+    input_file = '../../Data/ivs/2012/IVS_2012.csv'
+    output_file = '../../Data/ivs/2012/NB_Model_IVS_2012.csv'
+    utility_parameters = ['GENDER', 'MARITAL', 'AGEGROUP', 'PARTYPE', 'GROUPTYPE', 'NUMSTOP', 'NUMVISIT',
+                          'TRIP_PURPOSE', 'CUSTOMS', 'COUNTRY', 'OTHPURP1']
 
     read_data = ReadData()
     read_data.get_line(input_file, output_file, utility_parameters)
