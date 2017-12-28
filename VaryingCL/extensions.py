@@ -16,7 +16,7 @@ class Data(object):
     state_list = STATE_LIST
     state_alternatives = STATE_ALTERNATIVES
     alternative_category = ALTERNATIVE_CATEGORY
-    output_title = compulsory_fields + alternative_category + utility_variables + ['Distance']
+    output_title = compulsory_fields + alternative_category + VISITED_FROM + utility_variables + ['Distance']
     counter = 0
 
     def __init__(self, source_file, output_file, forecast_file, data=None):
@@ -98,6 +98,9 @@ class Data(object):
         if variable == 'HOMEREGN':
             code = ORIGIN_CODE
 
+        elif variable == 'ORIGIN':
+            code = ORIGIN_CODE
+
         elif variable == 'PARENT':
             code = PARENT_CODE
 
@@ -126,6 +129,9 @@ class Data(object):
         if variable == 'HOMEREGN':
             list = ORIGIN_LIST
 
+        elif variable == 'ORIGIN':
+            list = ORIGIN_LIST
+
         elif variable == 'PARENT':
             list = PARENT_LIST
 
@@ -152,6 +158,9 @@ class Data(object):
     def _get_variable_category(self, variable):
         category = None
         if variable == 'HOMEREGN':
+            category = ORIGIN_CATEGORY
+
+        elif variable == 'ORIGIN':
             category = ORIGIN_CATEGORY
 
         elif variable == 'PARENT':
@@ -202,8 +211,9 @@ class Data(object):
 
         return data
 
-    def _get_utility_variable_data(self, title_row, row, variable, variable_code):
-        variable_data = [0] * variable_code.__len__()
+    def _get_utility_variable_data(self, title_row, row, variable, variable_code, variable_list):
+        # variable_data = [0] * variable_code.__len__()
+        variable_data = None
         value = row.__getitem__(title_row.index(variable))
 
         if variable == 'HOMEREGN':
@@ -211,7 +221,7 @@ class Data(object):
 
         print("### This is the value in the line:", value)
         if value:
-            variable_data.__setitem__(self._find_index_in_list(list=variable_code, value=value), 1)
+            variable_data = [variable_list[self._find_index_in_list(list=variable_code, value=value)]]
 
         return variable_data
 
@@ -222,13 +232,15 @@ class Data(object):
         # For each vaiable in the utility variable list
         for variable in self.utility_variables:
             variable_code = self._get_variable_codes(variable)
+            variable_list = self._get_variable_list(variable)
             if variable_code:
                 # variable_data = self._get_variable_data(variable_code, variable, utility_data)
                 variable_data = self._get_utility_variable_data(
                     title_row=title_row,
                     row=row,
                     variable=variable,
-                    variable_code=variable_code
+                    variable_code=variable_code,
+                    variable_list=variable_list
                 )
 
                 converted_data += variable_data
@@ -255,6 +267,7 @@ class Data(object):
 
     def _get_useful_data(self, title_row, row, utility_data, regn_dict):
         data = list()
+        choiceid = 0
 
         origin_data = utility_data.__getitem__(self.utility_variables.index('HOMEREGN'))
 
@@ -263,8 +276,10 @@ class Data(object):
         tourist_id = row.__getitem__(title_row.index('TOURIST_ID'))
         # print(utility_data)
         converted_utility_data = self._convert_utility_data(title_row, row, utility_data)
-        print(converted_utility_data)
+        print("Converted Data", converted_utility_data)
         # raise Exception
+
+
 
         # then process each of them into a list
         if number_of_trips > 1:
@@ -277,6 +292,8 @@ class Data(object):
             # for i in range(number_of_trips):
             for i, alternative in enumerate(alternatives):
                 self.counter += 1
+                choiceid += 1
+
                 if i == 0:
                     last_visited = origin_data
                 else:
@@ -292,11 +309,13 @@ class Data(object):
                     if i == 0 or last_visited != sort_locations[j]:
 
                         distance = self.cal_distance_v2(regn_dict[last_visited], regn_dict[sort_locations[j]])
+                        print("### This is last visited State code", last_visited)
+                        last_visited_state = ORIGIN_STATE_LIST[ORIGIN_STATE_CODES.index(last_visited[0])]
 
                         if distance == 0:
                             distance = 50
 
-                        row = [tourist_id, self.counter, choice, choice_flag] + converted_utility_data + [distance]
+                        row = [tourist_id, choiceid, self.counter, STATE_LIST[STATE_ALTERNATIVES.index(choice)], choice_flag] + [last_visited_state] + converted_utility_data + [distance]
 
                         data.append(row)
                         print(row)
@@ -316,19 +335,21 @@ class Data(object):
 
         return self.data
 
-    def conditional(self, number_of_data=3000):
+    def vcl(self, number_of_data=3000):
         self.read(self.source_file)
         title_row = None
         data = list()
         regn_dict = self._get_regn_dict(REGN_CODE_DICT_PATH_V2)
 
-        data.append(self._get_utility_parameters_list(self.output_title))
+        # data.append(self._get_utility_parameters_list(self.output_title))
+        data.append(self.output_title)
 
         for i, row in enumerate(self.data):
             # print("### Start of the line ###")
             if i == 0:
                 title_row = row
             elif i > number_of_data:
+                print("### Reach the number of data required")
                 break
             else:
                 utility_data_index = self._get_index_of_variables(title_row, self.utility_variables)
