@@ -18,6 +18,7 @@ class Data(object):
     alternative_category = ALTERNATIVE_CATEGORY
     output_title = compulsory_fields + alternative_category + VISITED_FROM + utility_variables + ['Distance']
     counter = 0
+    user_id = 0
 
     def __init__(self, source_file, output_file, forecast_file, data=None):
         self.source_file = source_file
@@ -279,11 +280,9 @@ class Data(object):
         print("Converted Data", converted_utility_data)
         # raise Exception
 
-
-
         # then process each of them into a list
         if number_of_trips > 1:
-
+            self.user_id += 1
             # print number_of_trips, alternatives
             sort_alternatives = self._bubble_sort_the_alternatives(alternatives)
             sort_locations = self._bubble_sort_the_alternatives(locations)
@@ -299,15 +298,16 @@ class Data(object):
                 else:
                     last_visited = locations[i - 1]
 
+                k = 0
                 for j, choice in enumerate(sort_alternatives):
 
                     if alternative == choice:
-                        choice_flag = "1"
+                        choice_flag = "yes"
                     else:
-                        choice_flag = "0"
+                        choice_flag = "no"
 
                     if i == 0 or last_visited != sort_locations[j]:
-
+                        k += 1
                         distance = self.cal_distance_v2(regn_dict[last_visited], regn_dict[sort_locations[j]])
                         print("### This is last visited State code", last_visited)
                         last_visited_state = ORIGIN_STATE_LIST[ORIGIN_STATE_CODES.index(last_visited[0])]
@@ -315,7 +315,7 @@ class Data(object):
                         if distance == 0:
                             distance = 50
 
-                        row = [tourist_id, choiceid, self.counter, STATE_LIST[STATE_ALTERNATIVES.index(choice)], choice_flag] + [last_visited_state] + converted_utility_data + [distance]
+                        row = [self.user_id, choiceid, self.counter, k, STATE_LIST[STATE_ALTERNATIVES.index(choice)], choice_flag] + [last_visited_state] + converted_utility_data + [distance]
 
                         data.append(row)
                         print(row)
@@ -335,7 +335,7 @@ class Data(object):
 
         return self.data
 
-    def vcl(self, number_of_data=3000):
+    def vcl(self, number_of_data=50000):
         self.read(self.source_file)
         title_row = None
         data = list()

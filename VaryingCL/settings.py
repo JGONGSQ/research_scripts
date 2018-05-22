@@ -18,7 +18,7 @@ UTILITY_VARIABLES = [
 COMPULSORY_FIELDS = ['TOURIST_ID']
 VISITED_FROM = ["LAST_VISITED"]
 
-ALTERNATIVE_CATEGORY = ['choiceid', 'chid', 'mode', 'choice']
+ALTERNATIVE_CATEGORY = ['choiceid', 'chid', 'numbers', 'mode', 'choice']
 
 STATE_LIST = ['NSW', 'VIC', 'QLD', 'SA', 'TAS', 'NT']
 STATE_CODES = ['1', '2', '3', '4', '6', '8']
@@ -51,6 +51,9 @@ MARITAL_CODE = [['1'], ['2'], ['9']]
 EMPLOYMENT_LIST = ['WORKING', 'NOT_WORKING', 'RETIRED', 'STUDYING', 'DONT_KNOW']
 EMPLOYMENT_CATEGORY = ['1', '2', '3', '4', '5']
 EMPLOYMENT_CODE = [['1', '2', '5'], ['3'], ['4'], ['6'], ['7', '8', '9']]
+# EMPLOYMENT_LIST = ['WORKING', 'NOT_WORKING', 'RETIRED', 'STUDYING', 'DONT_KNOW_7', 'DONT_KNOW_8', 'DONT_KNOW_9']
+# EMPLOYMENT_CATEGORY = ['1', '2', '3', '4', '5', '6', '7', '8']
+# EMPLOYMENT_CODE = [['1', '2', '5'], ['3'], ['4'], ['6'], ['7'], ['8'], ['9']]
 
 HOUSINC_LIST = ['LOW', 'MEDIUM', 'HIGH', 'DONT_KONW']
 HOUSINC_CATEGORY = ['1', '2', '3', '4']

@@ -24,18 +24,20 @@ nbm <- glm.nb(AUSNITES ~ GENDER + MARITAL + AGEGROUP + NUMSTOP +
 
 
 summary(nbm)
-
+# simulate the results
 simulateResults <- rnegbin(fitted(nbm), theta=nbm$theta)
 simulateResults_with_offset <- simulateResults + 1
-# simulate the results
-#predictResult <- predict.glm(nbm, newdata = data, type = "response")
+# predicte result
+# predictResult <- predict.glm(nbm, newdata = data, type = "response")
 # predictResult <- predict(nbm, newdata = data)
+
 # write the results to the csv file
-# outputFile = "/Users/daddyspro/Desktop/test_forecast.csv"
-# write.csv(summary.glm(nbm)$coefficients, outputFile)
+outputFile = "/Users/daddyspro/Desktop/master_project/Data/ivs/2012/nb_ivs_coefficients.csv"
+write.csv(summary.glm(nbm)$coefficients, outputFile)
 
 # initial the data with data frame
 durationInput <- data.frame(Duration = data$AUSNITES)
+#durationOutput <- data.frame(Duration = predictResult)
 # durationOutput <- data.frame(Duration = simulateResults)
 durationOutput <- data.frame(Duration = simulateResults_with_offset)
 
@@ -47,5 +49,6 @@ durationOutput$type <- 'Simulated'
 durationValues <- rbind(durationInput, durationOutput)
 
 # plot the compared results
-ggplot(durationValues, aes(Duration, fill = type), binwidth = 1) + geom_histogram(alpha = 0.5, position = 'identity', binwidth = 1)
+ggplot(durationValues, aes(Duration, fill = type), binwidth = 2) + geom_histogram(alpha = 0.5, position = 'identity', binwidth = 2) + xlim(0, 365)
+
 
