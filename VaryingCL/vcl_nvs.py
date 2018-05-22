@@ -1,6 +1,6 @@
 #!/usr/bin/python
-from settings import *
-from extensions import Data
+from settings_nvs import *
+from extensions_nvs import Data
 
 import sys
 
@@ -16,8 +16,8 @@ from datetime import datetime
 class VCLogit(object):
 
     # csv data files
-    original_source_file = SOURCE_INPUT_FILE
-    output_file = OUTPUT_FILE
+    original_source_file = NVS_SOURCE_INPUT_FILE
+    output_file = NVS_OUTPUT_FILE
     forecast_file = FORECAST_FILE
 
     def __init__(self):
@@ -29,6 +29,7 @@ class VCLogit(object):
         conditional_data = self.data.vcl()
         self.data.write(conditional_data)
         return
+
 
 if __name__ == '__main__':
     vclogit = VCLogit()

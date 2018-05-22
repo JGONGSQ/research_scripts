@@ -1,8 +1,9 @@
 # File paths
-SOURCE_INPUT_FILE = '../../Data/NVS2007unit.csv'
-OUTPUT_FILE = '../../Data/results/vcl_mnl.csv'
+NVS_SOURCE_INPUT_FILE = '../../Data/NVS2007unit.csv'
+NVS_OUTPUT_FILE = '../../Data/results/vcl_mnl.csv'
 FORECAST_FILE = '../../Data/results/vcl_forecast.csv'
 REGN_CODE_DICT_PATH_V2 = '../../Data/regn_code_dict_v2.csv'
+
 
 # UTILITY_VARIABLES = [
 #     'HOMESLA', 'HOMEREGN', 'GENDER',
@@ -10,9 +11,11 @@ REGN_CODE_DICT_PATH_V2 = '../../Data/regn_code_dict_v2.csv'
 #     'OVER15', 'ORIGIN'
 # ]
 
+# NVS
 UTILITY_VARIABLES = [
     'HOMEREGN', 'ORIGIN', 'GENDER', 'HOUSEHOLD', 'EMPLOYMENT', 'AGEGROUP', 'HOUSINC', 'LIFECYCLE', 'OVER15'
 ]
+
 
 
 COMPULSORY_FIELDS = ['TOURIST_ID']

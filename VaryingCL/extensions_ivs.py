@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 # imports from local package
-from settings import *
+from settings_ivs import *
 
 # python imports
 import csv
